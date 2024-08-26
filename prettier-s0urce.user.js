@@ -2469,6 +2469,10 @@ const halfColor = (hexColor) => {
                             style: { color: "var(--color-lightgrey)", fontFamily: "var(--font-family-2)", fontWeight: "500", fontSize: "2rem", marginTop: "20px" }
                         }),
                         new Component("span", {
+                            innerText: "Expanded by d0t 😍.",
+                            style: { color: "var(--color-lightgrey)", fontFamily: "var(--font-family-2)", fontWeight: "500", fontSize: "2rem", marginTop: "20px" }
+                        }),
+                        new Component("span", {
                             innerText: "Running DTI Version " + DTI_VERSION,
                             style: { color: "var(--color-lightgrey)", fontFamily: "var(--font-family-2)", fontWeight: "500", fontSize: "2rem", marginTop: "20px" }
                         }),
