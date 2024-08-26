@@ -23,6 +23,8 @@ const themes = {
     "Night Owl": ":root{--color-terminal:#825f00;--color-darkgreen:#825f002f;--color-midgreen:#825f0080} .window:has(.window-title > img[src='icons/terminal.svg']){border-color: #825f00} .window:has(.window-title > img[src='icons/terminal.svg']) .wrapper{border: 1px solid var(--color-terminal); background-color: transparent} #section-code{background: linear-gradient(180deg, #000000 3%, #825f0026 123%)} #themes{border: 1px solid #825f00} .target-bar{outline: 1px solid #825f00 !important} .target-bar-progress{filter: brightness(0) saturate(100%) invert(27%) sepia(88%) saturate(1363%) hue-rotate(32deg) brightness(99%) contrast(101%);} pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#d6deeb}.hljs-keyword{color:#c792ea;font-style:italic}.hljs-built_in{color:#addb67;font-style:italic}.hljs-type{color:#82aaff}.hljs-literal{color:#ff5874}.hljs-number{color:#f78c6c}.hljs-regexp{color:#5ca7e4}.hljs-string{color:#ecc48d}.hljs-subst{color:#d3423e}.hljs-symbol{color:#82aaff}.hljs-class{color:#ffcb8b}.hljs-function{color:#82aaff}.hljs-title{color:#dcdcaa;font-style:italic}.hljs-params{color:#7fdbca}.hljs-comment{color:#637777;font-style:italic}.hljs-doctag{color:#7fdbca}.hljs-meta,.hljs-meta .hljs-keyword{color:#82aaff}.hljs-meta .hljs-string{color:#ecc48d}.hljs-section{color:#82b1ff}.hljs-attr,.hljs-name,.hljs-tag{color:#7fdbca}.hljs-attribute{color:#80cbc4}.hljs-variable{color:#addb67}.hljs-bullet{color:#d9f5dd}.hljs-code{color:#80cbc4}.hljs-emphasis{color:#c792ea;font-style:italic}.hljs-strong{color:#addb67;font-weight:700}.hljs-formula{color:#c792ea}.hljs-link{color:#ff869a}.hljs-quote{color:#697098;font-style:italic}.hljs-selector-tag{color:#ff6363}.hljs-selector-id{color:#fad430}.hljs-selector-class{color:#addb67;font-style:italic}.hljs-selector-attr,.hljs-selector-pseudo{color:#c792ea;font-style:italic}.hljs-template-tag{color:#c792ea}.hljs-template-variable{color:#addb67}.hljs-addition{color:#addb67ff;font-style:italic}.hljs-deletion{color:#ef535090;font-style:italic}",
 }
 
+const DTI_VERSION = "1.7.3" //! rename to DTI_VERSION
+
 class Component {
 	prepend;
 	element;
@@ -95,7 +97,6 @@ class Popup {
     #getPosition = (pointer, dimensions) => {
         const finalPosition = {...pointer};
         const windowDimensions = { height: document.body.clientHeight, width: document.body.clientWidth };
-
         if (pointer.clientY > windowDimensions.height - (dimensions.height + 20))
             finalPosition.clientY -= (dimensions.height + 10);
         else
@@ -194,8 +195,9 @@ const capitalize = text => text[0].toUpperCase() + text.slice(1).toLowerCase();
 
 const defaultColors = {
     windowBorder: "#91aabd3b",
-    windowTabLight: "#242429",
-    windowTabDark: "#383943",
+    // uses d0t's revolutionary new colors, you can choose between these and the original ones when you click the reset button in settings
+    windowTabLight: "#1f1e23",
+    windowTabDark: "#131317",
 }
 
 const player = {
@@ -300,11 +302,46 @@ const stats = {
 	psu_term: [
     	1.2, 1.4, 1.6, 1.7, 1.9, 2, 2.2
     ],
-    // Last updated as of 7/4/2024
+    cpu_dPM: [
+        [1.0, 1.1, 1.2, 1.29, 1.39, 1.49, 1.59, 1.68, 1.78, 1.88, 1.97, 2.07, 2.17, 2.26, 2.36, 2.46, 2.55, 2.65, 2.74, 2.84, 2.93, 3.03, 3.12, 3.22, 3.31, 3.41, 3.5, 3.59, 3.69, 3.78, 3.87, 3.97, 4.06, 4.15, 4.25, 4.34, 4.43, 4.52, 4.61, 4.7, 4.79, 4.89, 4.98, 5.07, 5.16, 5.25, 5.34, 5.43, 5.52, 5.61, 5.7, 5.79, 5.88, 5.97, 6.06, 6.14, 6.23, 6.32, 6.41, 6.5, 6.59, 6.67, 6.76, 6.85, 6.93, 7.02, 7.11, 7.2, 7.29, 7.37, 7.46, 7.55, 7.63, 7.72, 7.8, 7.89, 7.98, 8.07, 8.15, 8.24, 8.32, 8.41, 8.49, 8.58, 8.66, 8.75, 8.83, 8.92, 9.0, 9.08, 9.17, 9.25, 9.34, 9.42, 9.5, 9.59, 9.67, 9.75, 9.83, 9.92, 10.0], 
+        [1.11, 2.53, 2.86, 3.09, 3.27, 3.42, 3.55, 3.67, 3.78, 3.87, 3.97, 4.05, 4.13, 4.21, 4.29, 4.36, 4.42, 4.49, 4.55, 4.62, 4.68, 4.73, 4.79, 4.84, 4.9, 4.95, 5.0, 5.05, 5.1, 5.15, 5.19, 5.24, 5.28, 5.33, 5.37, 5.42, 5.46, 5.5, 5.55, 5.59, 5.63, 5.67, 5.71, 5.75, 5.79, 5.83, 5.87, 5.91, 5.95, 5.99, 6.03, 6.07, 6.11, 6.15, 6.19, 6.23, 6.27, 6.3, 6.34, 6.38, 6.42, 6.46, 6.5, 6.54, 6.58, 6.62, 6.67, 6.71, 6.75, 6.79, 6.83, 6.88, 6.92, 6.97, 7.01, 7.06, 7.1, 7.15, 7.2, 7.25, 7.3, 7.35, 7.4, 7.45, 7.51, 7.56, 7.62, 7.69, 7.75, 7.81, 7.89, 7.96, 8.04, 8.12, 8.21, 8.32, 8.43, 8.57, 8.74, 8.98, 9.79],
+        [1.1, 2.69, 3.08, 3.35, 3.55, 3.73, 3.88, 4.01, 4.13, 4.23, 4.33, 4.43, 4.51, 4.6, 4.67, 4.75, 4.82, 4.88, 4.95, 5.01, 5.07, 5.13, 5.19, 5.24, 5.3, 5.35, 5.4, 5.45, 5.5, 5.54, 5.59, 5.64, 5.68, 5.73, 5.77, 5.81, 5.86, 5.9, 5.94, 5.98, 6.02, 6.06, 6.1, 6.14, 6.18, 6.22, 6.26, 6.3, 6.34, 6.38, 6.42, 6.46, 6.49, 6.53, 6.57, 6.61, 6.65, 6.68, 6.72, 6.76, 6.8, 6.84, 6.87, 6.91, 6.95, 6.99, 7.03, 7.07, 7.11, 7.14, 7.18, 7.22, 7.26, 7.31, 7.35, 7.39, 7.43, 7.48, 7.52, 7.56, 7.61, 7.66, 7.71, 7.75, 7.8, 7.86, 7.91, 7.97, 8.03, 8.09, 8.16, 8.23, 8.3, 8.38, 8.46, 8.56, 8.67, 8.8, 8.95, 9.18, 9.89], 
+        [1.13, 2.56, 2.91, 3.17, 3.38, 3.56, 3.72, 3.86, 3.99, 4.12, 4.23, 4.34, 4.44, 4.53, 4.62, 4.71, 4.79, 4.88, 4.95, 5.03, 5.1, 5.17, 5.24, 5.3, 5.37, 5.43, 5.49, 5.54, 5.6, 5.66, 5.71, 5.76, 5.82, 5.87, 5.91, 5.96, 6.01, 6.06, 6.1, 6.15, 6.19, 6.24, 6.28, 6.32, 6.36, 6.4, 6.45, 6.49, 6.53, 6.57, 6.61, 6.64, 6.68, 6.72, 6.76, 6.8, 6.84, 6.88, 6.92, 6.96, 7.0, 7.04, 7.08, 7.12, 7.16, 7.2, 7.24, 7.28, 7.32, 7.37, 7.41, 7.45, 7.5, 7.54, 7.59, 7.64, 7.68, 7.73, 7.78, 7.83, 7.88, 7.93, 7.98, 8.03, 8.09, 8.14, 8.2, 8.26, 8.32, 8.38, 8.44, 8.51, 8.58, 8.65, 8.73, 8.82, 8.91, 9.02, 9.15, 9.31, 9.86],
+        [1.23, 2.65, 3.01, 3.25, 3.45, 3.61, 3.75, 3.88, 4.0, 4.11, 4.21, 4.31, 4.4, 4.48, 4.56, 4.64, 4.72, 4.79, 4.86, 4.93, 4.99, 5.05, 5.11, 5.17, 5.23, 5.29, 5.35, 5.4, 5.46, 5.51, 5.57, 5.62, 5.67, 5.72, 5.77, 5.82, 5.87, 5.92, 5.96, 6.01, 6.06, 6.11, 6.15, 6.2, 6.25, 6.29, 6.34, 6.38, 6.43, 6.47, 6.52, 6.56, 6.6, 6.65, 6.69, 6.74, 6.78, 6.82, 6.87, 6.91, 6.95, 6.99, 7.03, 7.08, 7.12, 7.16, 7.2, 7.24, 7.28, 7.33, 7.37, 7.41, 7.45, 7.5, 7.54, 7.58, 7.63, 7.67, 7.72, 7.76, 7.81, 7.86, 7.9, 7.95, 8.0, 8.06, 8.11, 8.16, 8.22, 8.28, 8.34, 8.4, 8.47, 8.54, 8.62, 8.7, 8.8, 8.91, 9.04, 9.23, 9.86],
+        [1.24, 2.48, 2.76, 2.96, 3.12, 3.25, 3.37, 3.47, 3.57, 3.65, 3.74, 3.82, 3.89, 3.96, 4.03, 4.1, 4.16, 4.22, 4.28, 4.34, 4.4, 4.45, 4.51, 4.56, 4.62, 4.67, 4.72, 4.77, 4.82, 4.87, 4.92, 4.96, 5.01, 5.05, 5.1, 5.15, 5.19, 5.24, 5.29, 5.33, 5.38, 5.42, 5.47, 5.51, 5.56, 5.6, 5.65, 5.69, 5.74, 5.78, 5.83, 5.87, 5.91, 5.96, 6.0, 6.05, 6.09, 6.13, 6.18, 6.22, 6.26, 6.31, 6.35, 6.4, 6.44, 6.49, 6.53, 6.57, 6.62, 6.66, 6.71, 6.76, 6.8, 6.85, 6.89, 6.94, 6.99, 7.04, 7.09, 7.14, 7.19, 7.24, 7.29, 7.35, 7.4, 7.46, 7.52, 7.58, 7.64, 7.71, 7.78, 7.85, 7.93, 8.02, 8.11, 8.2, 8.31, 8.44, 8.6, 8.83, 9.69], 
+        [1.24, 2.52, 2.8, 3.0, 3.16, 3.29, 3.41, 3.51, 3.6, 3.69, 3.77, 3.84, 3.91, 3.98, 4.05, 4.11, 4.16, 4.22, 4.28, 4.33, 4.38, 4.43, 4.48, 4.53, 4.58, 4.63, 4.67, 4.72, 4.76, 4.81, 4.85, 4.89, 4.93, 4.98, 5.02, 5.06, 5.1, 5.14, 5.18, 5.22, 5.26, 5.3, 5.33, 5.37, 5.41, 5.45, 5.49, 5.52, 5.56, 5.6, 5.64, 5.68, 5.71, 5.75, 5.79, 5.83, 5.86, 5.9, 5.94, 5.98, 6.02, 6.06, 6.1, 6.13, 6.17, 6.21, 6.25, 6.29, 6.33, 6.38, 6.42, 6.46, 6.5, 6.55, 6.59, 6.63, 6.68, 6.73, 6.77, 6.82, 6.87, 6.92, 6.98, 7.03, 7.08, 7.14, 7.2, 7.26, 7.32, 7.39, 7.46, 7.54, 7.62, 7.71, 7.81, 7.91, 8.04, 8.18, 8.36, 8.62, 9.62]
+    ],
+    // Mythic GPU distribution fixed as of 8/21/2024 
+    gpu_dPM: [
+        [1.252e-05, 1.256e-05, 1.26e-05, 1.264e-05, 1.268e-05, 1.272e-05, 1.276e-05, 1.28e-05, 1.284e-05, 1.288e-05, 1.292e-05, 1.296e-05, 1.3e-05, 1.304e-05, 1.308e-05, 1.312e-05, 1.316e-05, 1.32e-05, 1.324e-05, 1.328e-05, 1.332e-05, 1.336e-05, 1.34e-05, 1.344e-05, 1.348e-05, 1.352e-05, 1.356e-05, 1.36e-05, 1.364e-05, 1.368e-05, 1.372e-05, 1.376e-05, 1.38e-05, 1.384e-05, 1.388e-05, 1.392e-05, 1.396e-05, 1.4e-05, 1.404e-05, 1.408e-05, 1.412e-05, 1.416e-05, 1.42e-05, 1.424e-05, 1.428e-05, 1.432e-05, 1.436e-05, 1.44e-05, 1.444e-05, 1.448e-05, 1.452e-05, 1.456e-05, 1.46e-05, 1.464e-05, 1.468e-05, 1.472e-05, 1.476e-05, 1.48e-05, 1.484e-05, 1.488e-05, 1.492e-05, 1.496e-05, 1.5e-05, 1.504e-05, 1.508e-05, 1.512e-05, 1.516e-05, 1.52e-05, 1.524e-05, 1.528e-05, 1.532e-05, 1.536e-05, 1.54e-05, 1.544e-05, 1.548e-05, 1.552e-05, 1.556e-05, 1.56e-05, 1.564e-05, 1.568e-05, 1.572e-05, 1.576e-05, 1.58e-05, 1.584e-05, 1.588e-05, 1.592e-05, 1.596e-05, 1.6e-05, 1.604e-05, 1.608e-05, 1.612e-05, 1.616e-05, 1.62e-05, 1.624e-05, 1.628e-05, 1.632e-05, 1.636e-05, 1.64e-05, 1.644e-05, 1.648e-05, 1.652e-05], 
+        [1.394e-05, 1.407e-05, 1.42e-05, 1.433e-05, 1.446e-05, 1.459e-05, 1.472e-05, 1.485e-05, 1.498e-05, 1.511e-05, 1.524e-05, 1.537e-05, 1.55e-05, 1.563e-05, 1.575e-05, 1.588e-05, 1.602e-05, 1.614e-05, 1.627e-05, 1.641e-05, 1.654e-05, 1.667e-05, 1.68e-05, 1.693e-05, 1.705e-05, 1.718e-05, 1.731e-05, 1.744e-05, 1.757e-05, 1.771e-05, 1.783e-05, 1.797e-05, 1.81e-05, 1.823e-05, 1.836e-05, 1.849e-05, 1.862e-05, 1.875e-05, 1.888e-05, 1.9e-05, 1.913e-05, 1.926e-05, 1.939e-05, 1.952e-05, 1.965e-05, 1.978e-05, 1.991e-05, 2.004e-05, 2.017e-05, 2.03e-05, 2.043e-05, 2.057e-05, 2.07e-05, 2.083e-05, 2.096e-05, 2.109e-05, 2.122e-05, 2.135e-05, 2.147e-05, 2.161e-05, 2.173e-05, 2.186e-05, 2.199e-05, 2.212e-05, 2.225e-05, 2.238e-05, 2.251e-05, 2.264e-05, 2.277e-05, 2.29e-05, 2.303e-05, 2.316e-05, 2.329e-05, 2.342e-05, 2.355e-05, 2.368e-05, 2.381e-05, 2.394e-05, 2.407e-05, 2.42e-05, 2.433e-05, 2.447e-05, 2.46e-05, 2.473e-05, 2.486e-05, 2.499e-05, 2.511e-05, 2.524e-05, 2.537e-05, 2.55e-05, 2.563e-05, 2.576e-05, 2.589e-05, 2.602e-05, 2.615e-05, 2.628e-05, 2.641e-05, 2.654e-05, 2.668e-05, 2.681e-05, 2.694e-05], 
+        [1.936e-05, 1.953e-05, 1.97e-05, 1.987e-05, 2.004e-05, 2.021e-05, 2.038e-05, 2.054e-05, 2.072e-05, 2.088e-05, 2.105e-05, 2.122e-05, 2.14e-05, 2.157e-05, 2.174e-05, 2.191e-05, 2.208e-05, 2.225e-05, 2.242e-05, 2.26e-05, 2.276e-05, 2.293e-05, 2.311e-05, 2.328e-05, 2.344e-05, 2.362e-05, 2.379e-05, 2.396e-05, 2.413e-05, 2.43e-05, 2.447e-05, 2.464e-05, 2.481e-05, 2.498e-05, 2.514e-05, 2.531e-05, 2.548e-05, 2.566e-05, 2.583e-05, 2.599e-05, 2.617e-05, 2.633e-05, 2.65e-05, 2.667e-05, 2.684e-05, 2.701e-05, 2.718e-05, 2.735e-05, 2.752e-05, 2.768e-05, 2.785e-05, 2.802e-05, 2.819e-05, 2.836e-05, 2.853e-05, 2.87e-05, 2.887e-05, 2.904e-05, 2.921e-05, 2.939e-05, 2.955e-05, 2.972e-05, 2.989e-05, 3.006e-05, 3.023e-05, 3.04e-05, 3.057e-05, 3.074e-05, 3.091e-05, 3.108e-05, 3.125e-05, 3.142e-05, 3.159e-05, 3.176e-05, 3.193e-05, 3.21e-05, 3.227e-05, 3.244e-05, 3.261e-05, 3.278e-05, 3.295e-05, 3.312e-05, 3.329e-05, 3.346e-05, 3.363e-05, 3.38e-05, 3.397e-05, 3.414e-05, 3.431e-05, 3.448e-05, 3.466e-05, 3.483e-05, 3.499e-05, 3.517e-05, 3.534e-05, 3.551e-05, 3.568e-05, 3.585e-05, 3.602e-05, 3.619e-05, 3.636e-05], 
+        [2.587e-05, 2.608e-05, 2.628e-05, 2.65e-05, 2.67e-05, 2.691e-05, 2.711e-05, 2.732e-05, 2.753e-05, 2.773e-05, 2.794e-05, 2.814e-05, 2.835e-05, 2.856e-05, 2.877e-05, 2.897e-05, 2.918e-05, 2.938e-05, 2.959e-05, 2.979e-05, 3e-05, 3.02e-05, 3.041e-05, 3.062e-05, 3.083e-05, 3.103e-05, 3.124e-05, 3.144e-05, 3.165e-05, 3.185e-05, 3.206e-05, 3.227e-05, 3.248e-05, 3.269e-05, 3.289e-05, 3.31e-05, 3.331e-05, 3.351e-05, 3.372e-05, 3.393e-05, 3.414e-05, 3.435e-05, 3.456e-05, 3.476e-05, 3.497e-05, 3.518e-05, 3.538e-05, 3.559e-05, 3.58e-05, 3.6e-05, 3.621e-05, 3.642e-05, 3.663e-05, 3.683e-05, 3.704e-05, 3.725e-05, 3.745e-05, 3.766e-05, 3.787e-05, 3.807e-05, 3.828e-05, 3.849e-05, 3.869e-05, 3.89e-05, 3.91e-05, 3.931e-05, 3.952e-05, 3.973e-05, 3.993e-05, 4.014e-05, 4.035e-05, 4.055e-05, 4.076e-05, 4.096e-05, 4.117e-05, 4.138e-05, 4.159e-05, 4.18e-05, 4.201e-05, 4.221e-05, 4.242e-05, 4.263e-05, 4.283e-05, 4.304e-05, 4.325e-05, 4.346e-05, 4.366e-05, 4.387e-05, 4.408e-05, 4.428e-05, 4.449e-05, 4.47e-05, 4.491e-05, 4.511e-05, 4.532e-05, 4.553e-05, 4.574e-05, 4.594e-05, 4.615e-05, 4.636e-05, 4.657e-05], 
+        [4.119e-05, 4.135e-05, 4.153e-05, 4.17e-05, 4.186e-05, 4.203e-05, 4.22e-05, 4.237e-05, 4.254e-05, 4.271e-05, 4.287e-05, 4.304e-05, 4.321e-05, 4.338e-05, 4.355e-05, 4.371e-05, 4.388e-05, 4.405e-05, 4.422e-05, 4.439e-05, 4.455e-05, 4.472e-05, 4.489e-05, 4.506e-05, 4.522e-05, 4.539e-05, 4.556e-05, 4.573e-05, 4.589e-05, 4.606e-05, 4.623e-05, 4.64e-05, 4.656e-05, 4.673e-05, 4.69e-05, 4.707e-05, 4.724e-05, 4.74e-05, 4.757e-05, 4.774e-05, 4.791e-05, 4.807e-05, 4.824e-05, 4.841e-05, 4.858e-05, 4.875e-05, 4.892e-05, 4.909e-05, 4.925e-05, 4.942e-05, 4.959e-05, 4.976e-05, 4.993e-05, 5.01e-05, 5.027e-05, 5.043e-05, 5.06e-05, 5.077e-05, 5.094e-05, 5.111e-05, 5.128e-05, 5.144e-05, 5.161e-05, 5.178e-05, 5.195e-05, 5.211e-05, 5.228e-05, 5.245e-05, 5.262e-05, 5.279e-05, 5.296e-05, 5.313e-05, 5.329e-05, 5.346e-05, 5.363e-05, 5.379e-05, 5.396e-05, 5.413e-05, 5.43e-05, 5.446e-05, 5.463e-05, 5.48e-05, 5.497e-05, 5.513e-05, 5.53e-05, 5.547e-05, 5.564e-05, 5.581e-05, 5.598e-05, 5.614e-05, 5.631e-05, 5.647e-05, 5.664e-05, 5.681e-05, 5.697e-05, 5.714e-05, 5.731e-05, 5.748e-05, 5.765e-05, 5.782e-05, 5.799e-05], 
+        [5.580e-05, 5.603e-05, 5.625e-05, 5.648e-05, 5.671e-05, 5.693e-05, 5.716e-05, 5.738e-05, 5.761e-05, 5.784e-05, 5.806e-05, 5.829e-05, 5.852e-05, 5.874e-05, 5.897e-05, 5.919e-05, 5.942e-05, 5.965e-05, 5.987e-05, 6.010e-05, 6.033e-05, 6.055e-05, 6.078e-05, 6.100e-05, 6.123e-05, 6.146e-05, 6.168e-05, 6.191e-05, 6.214e-05, 6.236e-05, 6.259e-05, 6.281e-05, 6.304e-05, 6.327e-05, 6.349e-05, 6.372e-05, 6.395e-05, 6.417e-05, 6.440e-05, 6.462e-05, 6.485e-05, 6.508e-05, 6.530e-05, 6.553e-05, 6.576e-05, 6.598e-05, 6.621e-05, 6.643e-05, 6.666e-05, 6.689e-05, 6.711e-05, 6.734e-05, 6.757e-05, 6.779e-05, 6.802e-05, 6.824e-05, 6.847e-05, 6.870e-05, 6.892e-05, 6.915e-05, 6.938e-05, 6.960e-05, 6.983e-05, 7.005e-05, 7.028e-05, 7.051e-05, 7.073e-05, 7.096e-05, 7.119e-05, 7.141e-05, 7.164e-05, 7.186e-05, 7.209e-05, 7.232e-05, 7.254e-05, 7.277e-05, 7.300e-05, 7.322e-05, 7.345e-05, 7.367e-05, 7.390e-05, 7.413e-05, 7.435e-05, 7.458e-05, 7.481e-05, 7.503e-05, 7.526e-05, 7.548e-05, 7.571e-05, 7.594e-05, 7.616e-05, 7.639e-05, 7.662e-05, 7.684e-05, 7.707e-05, 7.729e-05, 7.752e-05, 7.775e-05, 7.797e-05, 7.820e-05],
+        [8.162e-05, 8.179e-05, 8.196e-05, 8.213e-05, 8.23e-05, 8.247e-05, 8.264e-05, 8.281e-05, 8.298e-05, 8.315e-05, 8.332e-05, 8.349e-05, 8.366e-05, 8.383e-05, 8.4e-05, 8.418e-05, 8.434e-05, 8.451e-05, 8.468e-05, 8.485e-05, 8.502e-05, 8.519e-05, 8.537e-05, 8.553e-05, 8.57e-05, 8.587e-05, 8.604e-05, 8.621e-05, 8.638e-05, 8.655e-05, 8.671e-05, 8.689e-05, 8.706e-05, 8.723e-05, 8.74e-05, 8.757e-05, 8.774e-05, 8.791e-05, 8.808e-05, 8.824e-05, 8.841e-05, 8.858e-05, 8.875e-05, 8.892e-05, 8.909e-05, 8.926e-05, 8.943e-05, 8.96e-05, 8.977e-05, 8.994e-05, 9.011e-05, 9.028e-05, 9.045e-05, 9.062e-05, 9.079e-05, 9.096e-05, 9.113e-05, 9.13e-05, 9.147e-05, 9.164e-05, 9.181e-05, 9.198e-05, 9.215e-05, 9.232e-05, 9.249e-05, 9.267e-05, 9.284e-05, 9.301e-05, 9.318e-05, 9.335e-05, 9.352e-05, 9.369e-05, 9.385e-05, 9.403e-05, 9.42e-05, 9.436e-05, 9.454e-05, 9.47e-05, 9.487e-05, 9.504e-05, 9.521e-05, 9.539e-05, 9.556e-05, 9.573e-05, 9.59e-05, 9.607e-05, 9.624e-05, 9.641e-05, 9.658e-05, 9.675e-05, 9.692e-05, 9.709e-05, 9.726e-05, 9.744e-05, 9.76e-05, 9.777e-05, 9.794e-05, 9.812e-05, 9.829e-05, 9.845e-05, 9.862e-05]
+    ],
+    psu_dPM: [
+        1.0, 1.09, 1.18, 1.27, 1.36, 1.45, 1.54, 1.63, 1.72, 1.81, 1.9, 1.99, 2.08, 2.17, 2.26, 2.36, 2.45, 2.54, 2.63, 2.72, 2.81, 2.9, 2.99, 3.08, 3.17, 3.25, 3.34, 3.43, 3.52, 3.61, 3.7, 3.79, 3.88, 3.97, 4.06, 4.15, 4.24, 4.33, 4.42, 4.51, 4.6, 4.69, 4.78, 4.87, 4.96, 5.05, 5.14, 5.23, 5.32, 5.41, 5.5, 5.59, 5.68, 5.77, 5.86, 5.95, 6.04, 6.13, 6.22, 6.31, 6.4, 6.49, 6.58, 6.67, 6.76, 6.85, 6.94, 7.03, 7.12, 7.21, 7.3, 7.39, 7.48, 7.57, 7.66, 7.75, 7.84, 7.93, 8.02, 8.11, 8.2, 8.29, 8.38, 8.47, 8.56, 8.65, 8.74, 8.83, 8.92, 9.01, 9.1, 9.19, 9.28, 9.37, 9.46, 9.55, 9.64, 9.73, 9.82, 9.91, 10.0
+    ],
+    fire_dPM: [
+        [1.0, 1.09, 1.18, 1.27, 1.36, 1.45, 1.54, 1.63, 1.72, 1.81, 1.9, 1.99, 2.08, 2.17, 2.26, 2.35, 2.44, 2.53, 2.62, 2.71, 2.8, 2.89, 2.98, 3.07, 3.16, 3.25, 3.34, 3.43, 3.52, 3.61, 3.7, 3.79, 3.88, 3.96, 4.05, 4.14, 4.24, 4.33, 4.42, 4.51, 4.6, 4.69, 4.78, 4.87, 4.96, 5.05, 5.14, 5.23, 5.32, 5.4, 5.49, 5.58, 5.68, 5.76, 5.86, 5.95, 6.04, 6.13, 6.21, 6.3, 6.39, 6.48, 6.57, 6.66, 6.75, 6.84, 6.93, 7.02, 7.11, 7.2, 7.29, 7.38, 7.47, 7.56, 7.65, 7.74, 7.83, 7.92, 8.01, 8.1, 8.2, 8.29, 8.38, 8.47, 8.56, 8.64, 8.73, 8.82, 8.92, 9.01, 9.1, 9.19, 9.28, 9.37, 9.46, 9.55, 9.64, 9.73, 9.82, 9.91, 10.0], 
+        [1.01, 1.62, 1.84, 1.99, 2.12, 2.24, 2.34, 2.44, 2.53, 2.62, 2.7, 2.77, 2.85, 2.92, 2.99, 3.05, 3.12, 3.18, 3.24, 3.3, 3.36, 3.41, 3.47, 3.52, 3.58, 3.63, 3.68, 3.73, 3.78, 3.83, 3.88, 3.93, 3.98, 4.03, 4.08, 4.14, 4.19, 4.24, 4.29, 4.36, 4.41, 4.47, 4.52, 4.57, 4.63, 4.68, 4.73, 4.79, 4.84, 4.9, 4.95, 5.01, 5.06, 5.12, 5.17, 5.23, 5.28, 5.34, 5.4, 5.45, 5.51, 5.57, 5.63, 5.68, 5.74, 5.8, 5.86, 5.92, 5.98, 6.04, 6.1, 6.16, 6.22, 6.28, 6.34, 6.4, 6.46, 6.53, 6.59, 6.66, 6.73, 6.8, 6.87, 6.95, 7.05, 7.13, 7.21, 7.3, 7.39, 7.48, 7.58, 7.68, 7.8, 7.91, 8.04, 8.18, 8.33, 8.51, 8.72, 9.01, 9.88], 
+        [1.08, 1.97, 2.2, 2.37, 2.52, 2.64, 2.76, 2.86, 2.96, 3.05, 3.13, 3.21, 3.28, 3.36, 3.43, 3.49, 3.56, 3.62, 3.68, 3.74, 3.8, 3.85, 3.91, 3.96, 4.01, 4.06, 4.11, 4.16, 4.21, 4.25, 4.3, 4.35, 4.39, 4.43, 4.48, 4.52, 4.56, 4.6, 4.64, 4.69, 4.73, 4.77, 4.81, 4.85, 4.89, 4.93, 4.97, 5.01, 5.04, 5.08, 5.12, 5.16, 5.2, 5.24, 5.28, 5.32, 5.36, 5.4, 5.44, 5.48, 5.52, 5.57, 5.61, 5.65, 5.69, 5.74, 5.78, 5.83, 5.87, 5.92, 5.97, 6.02, 6.07, 6.12, 6.17, 6.22, 6.28, 6.33, 6.39, 6.45, 6.51, 6.57, 6.63, 6.69, 6.76, 6.83, 6.9, 6.97, 7.04, 7.12, 7.21, 7.3, 7.39, 7.49, 7.6, 7.73, 7.86, 8.03, 8.24, 8.53, 9.64], 
+        [1.18, 2.19, 2.4, 2.55, 2.68, 2.78, 2.88, 2.96, 3.04, 3.11, 3.18, 3.25, 3.31, 3.37, 3.42, 3.48, 3.53, 3.58, 3.63, 3.68, 3.73, 3.77, 3.82, 3.86, 3.9, 3.95, 3.99, 4.03, 4.07, 4.11, 4.15, 4.18, 4.22, 4.26, 4.3, 4.33, 4.37, 4.41, 4.44, 4.48, 4.52, 4.55, 4.59, 4.63, 4.67, 4.7, 4.74, 4.77, 4.81, 4.85, 4.89, 4.92, 4.96, 5.0, 5.04, 5.08, 5.12, 5.16, 5.19, 5.23, 5.28, 5.32, 5.36, 5.4, 5.45, 5.49, 5.53, 5.58, 5.62, 5.67, 5.72, 5.77, 5.82, 5.87, 5.92, 5.97, 6.02, 6.08, 6.14, 6.19, 6.25, 6.31, 6.37, 6.44, 6.5, 6.57, 6.64, 6.72, 6.79, 6.88, 6.96, 7.05, 7.15, 7.25, 7.37, 7.49, 7.64, 7.82, 8.02, 8.31, 9.64], 
+        [1, 1.45, 1.6, 1.71, 1.8, 1.87, 1.93, 2.0, 2.05, 2.11, 2.16, 2.21, 2.26, 2.31, 2.36, 2.41, 2.46, 2.51, 2.57, 2.62, 2.67, 2.73, 2.78, 2.84, 2.9, 2.96, 3.02, 3.08, 3.14, 3.2, 3.26, 3.32, 3.37, 3.43, 3.48, 3.53, 3.59, 3.64, 3.7, 3.75, 3.81, 3.86, 3.92, 3.98, 4.03, 4.09, 4.15, 4.21, 4.27, 4.33, 4.39, 4.45, 4.52, 4.58, 4.65, 4.72, 4.79, 4.86, 4.94, 5.01, 5.09, 5.16, 5.24, 5.32, 5.4, 5.48, 5.55, 5.62, 5.69, 5.76, 5.83, 5.9, 5.97, 6.04, 6.11, 6.19, 6.26, 6.33, 6.41, 6.49, 6.57, 6.65, 6.74, 6.82, 6.91, 7.0, 7.1, 7.19, 7.29, 7.39, 7.49, 7.6, 7.7, 7.8, 7.9, 8.01, 8.14, 8.28, 8.45, 8.69, 9.57], 
+        [1.08, 2.01, 2.23, 2.39, 2.51, 2.61, 2.71, 2.79, 2.86, 2.94, 3.01, 3.08, 3.15, 3.23, 3.31, 3.4, 3.48, 3.55, 3.63, 3.7, 3.77, 3.84, 3.9, 3.97, 4.03, 4.09, 4.15, 4.21, 4.27, 4.32, 4.37, 4.42, 4.46, 4.5, 4.55, 4.59, 4.63, 4.67, 4.71, 4.75, 4.78, 4.82, 4.86, 4.9, 4.94, 4.98, 5.02, 5.06, 5.1, 5.14, 5.18, 5.22, 5.26, 5.3, 5.34, 5.38, 5.42, 5.46, 5.5, 5.54, 5.59, 5.63, 5.67, 5.71, 5.75, 5.79, 5.83, 5.88, 5.92, 5.96, 6.01, 6.05, 6.1, 6.14, 6.19, 6.23, 6.28, 6.33, 6.38, 6.42, 6.48, 6.53, 6.58, 6.63, 6.69, 6.75, 6.81, 6.87, 6.93, 7.0, 7.07, 7.14, 7.22, 7.31, 7.4, 7.51, 7.63, 7.77, 7.94, 8.2, 9.19], 
+        [1.06, 2.32, 2.6, 2.8, 2.96, 3.09, 3.21, 3.31, 3.4, 3.49, 3.57, 3.65, 3.72, 3.79, 3.85, 3.91, 3.97, 4.03, 4.09, 4.14, 4.19, 4.24, 4.29, 4.34, 4.39, 4.43, 4.48, 4.52, 4.57, 4.61, 4.66, 4.7, 4.74, 4.78, 4.82, 4.86, 4.9, 4.94, 4.98, 5.02, 5.06, 5.1, 5.14, 5.18, 5.22, 5.26, 5.29, 5.33, 5.37, 5.41, 5.45, 5.49, 5.52, 5.56, 5.6, 5.64, 5.68, 5.72, 5.76, 5.8, 5.84, 5.88, 5.92, 5.96, 6.0, 6.04, 6.08, 6.12, 6.16, 6.2, 6.25, 6.29, 6.34, 6.38, 6.43, 6.47, 6.52, 6.57, 6.62, 6.67, 6.72, 6.78, 6.83, 6.89, 6.95, 7.01, 7.08, 7.14, 7.21, 7.29, 7.37, 7.45, 7.54, 7.64, 7.75, 7.87, 8.01, 8.18, 8.39, 8.69, 9.91]
+    ],
+    // Last updated as of 7/19/2024
     filament_price: [
-        0.01, 0.03, 0.1, 0.3, 1.5, 4.5, 67.5
+        0.01, 0.03, 0.1, 0.3, 1.5, 4.5, 45
     ],
 };
+
+const halfColor = (hexColor) => {
+    return "#" + hexColor.match(/[^#]{2}/g).map(e => ('00' + (Math.floor(parseInt(e, 16) / 2).toString(16))).slice(-2)).join("")
+}
 
 (function() {
     'use strict';
@@ -341,13 +378,11 @@ const stats = {
             style: { margin: "10px 0" },
             classList: ["line", "svelte-182ewru"]
         })
-
         wrapper.append(message.element);
         wrapper.append(separator.element);
         await sleep(100);
         wrapper.scrollTop = wrapper.scrollHeight;
     }
-
     const manageMessagesToDelete = (message) => {
         const deleteSample = [
             "Hack successful",
@@ -793,7 +828,9 @@ const stats = {
                     const background = item.style.background;
                     const rarity = raritiesVariables[background] || raritiesVariables[background + ")"];    
                     const type = (item.querySelector("img")?.src?.match(/[^\/]+\.webp/) || [])[0]?.slice(0, -7);
-                    return a + (player.tradePricing[rarity][type] || player.tradePricing[rarity]["other"]);
+                    const lvl = item.outerText.split("lvl ")[1] * 1 || 1;
+                    const playerTradePricing = (player.tradePricing[rarity][type] || player.tradePricing[rarity]["other"])
+                    return a + playerTradePricing + (lvl-1) * 3 * playerTradePricing;
                 }, 0)
                 const currentBTC = Number(document.querySelector(".topbar-value > div").textContent.slice(0, -4));
                 if (currentBTC < price)
@@ -883,41 +920,38 @@ const stats = {
 
     const netBTCperHour = (idle, barter, crypto) => {
         const npcsPerHour = 27.69;
+        // Based on 1 Hour of Grinding returns
         idle *= 3600;
+        // Maximum bartering benefit is selling uncommons, assuming it is used:
         barter /= 100;
         barter = ((1+barter)*0.00864000-0.00864000) * npcsPerHour;
+        // Hack bonus, similar to bartering
         crypto /= 100;
         crypto = ((1+crypto)*0.00180000-0.00180000) * npcsPerHour;
-
         return idle + barter + crypto;
     }
 
-    const dPS = (dTI,level,rarity,type) => {
-        let basePrice = stats.filament_price[rarity];
+    const dPS = (dPM,level,rarity) => {
+        var basePrice = stats.filament_price[rarity];
         const value = (level-1)*3*basePrice + basePrice;
-        if (type != "cpu" && type != "router") basePrice /= 2
-        if (rarity < 5) {
-            if (dTI < 7) return (value).toFixed(4);
-            else if (dTI < 8) return "~" + (value + (dTI-7)*basePrice/3).toFixed(4);
-            else if (dTI < 9) return "~" + (value + (dTI-8)*basePrice/3*2 + basePrice/3).toFixed(4);
-            else if (dTI < 9.9) return "~" + (value + (dTI-9)*basePrice + basePrice).toFixed(4);
-        } else if (rarity < 6) {
-            if (dTI < 5) return (value).toFixed(4);
-            else if (dTI < 6) return "~" + (value + (dTI-5)*basePrice/3).toFixed(4);
-            else if (dTI < 7) return "~" + (value + (dTI-6)*basePrice/3*2 + basePrice/3).toFixed(4);
-            else if (dTI < 8) return "~" + (value + (dTI-7)*basePrice + basePrice).toFixed(4);
-            else if (dTI < 9) return "~" + (value + (dTI-7)*basePrice*5/3 + basePrice*2).toFixed(4);
-            else if (dTI < 9.7) return "~" + (value + (dTI-7)*basePrice*10/3 + basePrice*11/3).toFixed(4);
-        } else {
-            if (dTI < 5) return (value).toFixed(4);
-            else if (dTI < 6) return "~" + (value + (dTI-5)*basePrice/3).toFixed(4);
-            else if (dTI < 7) return "~" + (value + (dTI-6)*basePrice/2 + basePrice/3).toFixed(4);
-            else if (dTI < 8) return "~" + (value + (dTI-7)*basePrice + basePrice*5/6).toFixed(4);
-            else if (dTI < 9) return "~" + (value + (dTI-8)*basePrice*2 + basePrice*11/6).toFixed(4);
-            else if (dTI < 9.5) return "~" + (value + (dTI-8)*basePrice*5 + basePrice*23/6).toFixed(4);
-
+        console.log(dPM,rarity)
+        switch (rarity) {
+            case 5:
+                if (dPM > 50) return (value).toFixed(2) + "~" + (value*2).toFixed(2);
+                else if (dPM > 1) return (value + basePrice*3 - 1.928 * (dPM - 1) ** (1/2)).toFixed(2) + "~" + (value * 2 + basePrice + basePrice * 2 * 4 - 3 * (dPM - 1) ** (2/3)).toFixed(2);
+                else if (dPM > 0) return (value * 2 + basePrice * 8).toFixed(2) + "+"
+            case 6:
+                if (dPM == 100) return (value).toFixed(4);
+                else if (dPM > 50) return (value + basePrice*0.5 + 0.5 - 1.7 * (dPM - 50) ** (2/3)).toFixed(2) + "~" + (basePrice*1.5).toFixed(2);
+                else if (dPM > 1) return (value + basePrice*3 - 16 * (dPM - 1) ** (1/2)).toFixed(2) + "~" + (value/45*68 + basePrice/45*68 * 4 - 20.3 * (dPM - 1) ** (2/3)).toFixed(2);
+                else if (dPM > 0) return (value/45*68 + basePrice/45*68 * 4 - 20.3 * (dPM - 1) ** (2/3)).toFixed(2);
+            default:
+                if (dPM > 30) return (value).toFixed(4) + "~" + (value*2).toFixed(4);
+                else if (dPM > 1) return (value + basePrice - 4.3 * basePrice / 30 * (dPM - 1) ** (1/2)).toFixed(4) + "~" + (value*2 + basePrice*2 - 4.3 * basePrice / 30 * (dPM - 1) ** (2/3)).toFixed(4);
+                else if (dPM > 0) return (value*2 + basePrice*2 - 4.3 * basePrice / 30 * (dPM - 1) ** (2/3)).toFixed(4) + "+";
+                // If there's no estimated price for it, chances are it's worth a lot
+                else return "Invaluable";
         }
-        return "Invaluable";
     }
 
     const dGI = (idle,barter,crypto,level,rarity) => {
@@ -988,16 +1022,35 @@ const stats = {
         const actual = port.hp/(raw*(1+pen-port.rd) + trueDam)
         const qualityRange = worst - best;
         const qualityActually = worst - actual;
-        let cpuRank = 1+((qualityActually/qualityRange)*9);
+        var cpuRank = 1+((qualityActually/qualityRange)*9);
         if (cpuRank < 1) cpuRank = 1;
-
         return cpuRank;
     }
 
-    const getItemGrade = (type, level, index, effects) => {
+    const percentile = (query, dist) => {
+        //console.log(query, dist)
+        var p = 100;
+        for (var i = 0; i < dist.length; i++) {
+            if (query <= dist[i+1]) break;
+            else p--; 
+        }
+        return p;
+    }
+
+    const dPM = (grade,rarity,type) => {
+        switch(type) {
+            case "cpu": return percentile(grade, stats.cpu_dPM[rarity])
+            case "gpu": return percentile(grade, stats.gpu_dPM[rarity])
+            case "psu": return percentile(grade, stats.psu_dPM)
+            case "router": return percentile(grade, stats.fire_dPM[rarity])
+        }
+    }
+
+    const getItemGrade = (type, level, index, effects, dPM_flag=false) => {
         switch(type) {
             case "cpu":
-                const hack = effects["Hack Damage"];
+                const hack = !dPM_flag ? effects["Hack Damage"] : effects["Hack Damage"] - stats.cputerm[index]*(level-1);
+                if (dPM_flag) level = 1
                 const trueDam = effects["True Damage"] || 0;
                 const pen = effects["Hack Armor Penetration"] || 0;
                 const chance = effects["Hack Critical Damage Chance"] || 0;
@@ -1010,10 +1063,16 @@ const stats = {
                 const crip = effects["Better Barter"] || 0
                 return dGI(idle, bart, crip, level, index).toFixed(4);
             case "psu":
-                const boost = effects["Crypto Mining Power"]
+                const boost = !dPM_flag
+                    ? effects["Crypto Mining Power"]
+                    : effects["Crypto Mining Power"] - stats.psu_term[index]*(level-1);
+                if (dPM_flag) level = 1
                 return dPI(boost, level, index).toFixed(4)
             case "router":
-                const hp = effects["Firewall Health"];
+                if (dPM_flag) level = 1
+                const hp = !dPM_flag
+                    ? effects["Firewall Health"]
+                    : effects["Firewall Health"] - stats.fireterm[index]*(level-1);
                 const rd = effects["Firewall Damage Reduction"] || 0;
                 const rg = effects["Firewall Regeneration"] || 0;
                 const ad = effects["Firewall Advanced Encryption"] || 0;
@@ -1025,6 +1084,7 @@ const stats = {
         }
     }
 
+    const rarities = ["common", "uncommon", "rare", "epic", "legendary", "mythic", "ethereal"];
     const itemHoverObserver = new MutationObserver(function(mutations) {
 		const description = mutations.find(e => {
 			return e.addedNodes.length == 1 && e.addedNodes[0].id == "desc"
@@ -1048,8 +1108,9 @@ const stats = {
 
         const index = rarities.indexOf(rarity.toLowerCase());
         const grade = getItemGrade(type, level, index, effects);
-        if (grade == -1)
-            return
+        if (grade == -1) return
+
+        const standardGrade = type != 'gpu' ? getItemGrade(type, level, index, effects, true) : effects["Idle Crypto Mining"]-stats.gpu_term[index]*(level-1);
 
         const unitiesByType = {
             "cpu": "dCI",
@@ -1066,17 +1127,24 @@ const stats = {
         })
         description.querySelector(".level")?.parentNode.insertBefore(gradeComponent.element, description.querySelector(".effect"));
         description.style.width = "300px";
+    
+        const percentile = dPM(standardGrade,index,type);
+        if (percentile == 3 || (percentile > 20 && percentile % 10 == 3)) description.querySelector(".rarity").innerText = percentile+"rd Percentile"; 
+        else if (percentile == 2 || (percentile > 20 && percentile % 10 == 2)) description.querySelector(".rarity").innerText = percentile+"nd Percentile";
+        else if (percentile == 1 || (percentile > 20 && percentile % 10 == 1)) description.querySelector(".rarity").innerText = percentile+"st Percentile";
+        else description.querySelector(".rarity").innerText = percentile+"th Percentile";
 
-        const price = dPS(grade,level,index,type);
-        const priceStandard = new Component("div", {
+        const price = dPS(percentile,level,index,type)
+        description.querySelector(".level")?.parentNode.insertBefore(gradeComponent.element, description.querySelector(".effect"));
+        description.style.width = "300px";
+        var priceStandard = new Component("div", {
             id: "price",
-            classList: ["attribute", "svelte-181npts", "estimated-price"],
+            classList: ["attribute", "svelte-181npts"],
             innerHTML: `<img class="icon icon-in-text" src="icons/btc.svg" alt="Bitcoin Icon">${price}`,
             style: { paddingBlock: "4px", paddingInline: "9px", borderRadius: "2px", background: "linear-gradient(112deg, #edca3d 4%, #ffdf81 34%, #edca3d 66%, #ffdf81 100%)" }
         })
         description.querySelector(".level")?.parentNode.insertBefore(priceStandard.element, description.querySelector(".effect"));
         description.style.width = "300px";
-
     });
 
     let manageLoot = async () => {
@@ -1126,7 +1194,7 @@ const stats = {
     const getItemPrice = async (item) => {
         await item.dispatchEvent(new MouseEvent("mouseover"));
         await sleep(100);
-        const price = Number(document.querySelector(".estimated-price")?.textContent.trim().replace("~", "") || 0)
+        const price = Number(document.querySelector(".estimated-price")?.textContent.trim().split("~")[0].replace("+","") || 0)
         await item.dispatchEvent(new MouseEvent("mouseleave"));
         return price;
     }
@@ -1454,6 +1522,37 @@ const stats = {
             newWindow.addedNodes[0].style.display = "none";
             newWindow.addedNodes[0].classList.add("openInSilent");
         }
+
+        const isProfile = newWindow.addedNodes[0].querySelector(".window-title").innerText == "Target"
+        if (isProfile) {
+                try {
+                while (1) {
+                    var added = false
+                    for (var i = 0; i < playerData.length; i++) {
+                        try {
+                            if (i == 0) newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(4)").style.color = "white"
+                            if (playerData[i].username == newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(2) > div").innerText) {
+                                //console.log(newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(4)"))
+                                newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(4)").innerHTML = playerData[i].btc.toFixed(4) + ' \n<img class="icon icon-in-text" src="icons/btc.svg" alt="Bitcoin Icon">'
+                                added = true
+                            }
+                        }
+                        catch {
+                            newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(3)").style.color = "white"
+                            newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(3)").innerHTML = '0.0000 \n<img class="icon icon-in-text" src="icons/btc.svg" alt="Bitcoin Icon">'    
+                            added = true
+                        }    
+                    }
+                    if (!added) {
+                        try {newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(4)").innerHTML = '0.0000 \n<img class="icon icon-in-text" src="icons/btc.svg" alt="Bitcoin Icon">'}
+                        catch {newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(3)").innerHTML = '0.0000 \n<img class="icon icon-in-text" src="icons/btc.svg" alt="Bitcoin Icon">'}
+                    }
+                    if (!newWindow) break
+                    else await sleep(100)
+                }
+            } catch {return}
+        }
+
         const isItem = newWindow.addedNodes[0].querySelector(".window-title > img[src='icons/loot.svg']")
         if (isItem)
             await manageLoot();
@@ -1874,6 +1973,7 @@ const stats = {
                     })
                 ]
             })
+
             const tabColorSetting = new Component("div", {
                 classList: ["el", "svelte-176ijne"],
                 style: { display: "flex", flexDirection: "column", gap: "10px", justifyContent: "center", alignItems: "center" },
@@ -1927,6 +2027,12 @@ const stats = {
                         style: { height: "35px", width: "85px" },
                         onclick: () => {
                             player.configuration.windowColors = defaultColors;
+
+                            if (!confirm("Do you want to use d0t's new tab colors? Press no to keep the default ones.")) {
+                                player.configuration.windowColors.windowTabLight = "#242429";
+                                player.configuration.windowColors.windowTabDark = "#383943";
+                            }
+
                             save("prettier-windowColors", player.configuration.windowColors);
                             document.querySelector(".tab-color-picker").value = defaultColors.windowTabLight;
                             document.querySelector(".tab-color-input").value = defaultColors.windowTabLight;
@@ -2085,7 +2191,7 @@ const stats = {
                                     innerHTML: `<img class="icon icon-in-text" src="${iconSrc}" alt="${iconAlt}">${buttonText}`,
                                     onclick: () => {
                                         selectedPunishCommand = punishCommand;
-                                         updateOutputBox();
+                                        updateOutputBox();
                                     },
                                 }) ],
                             }) ],
@@ -2241,12 +2347,19 @@ const stats = {
         message.innerHTML = message.innerHTML
             .replace("System started.<br>", "")
             .replace("s0urceOS 2023", "✨ Prettier s0urce ✨")
+            .replace(">.", ">. <br><span style='font-size: 0.8rem; color: var(--color-lightgrey);'>Expanded by <span style='color: chartreuse; text-shadow: 0 0 3px chartreuse'>d0t</span> 😍.</span>")
             .replace(">.", ">. <br><span style='font-size: 0.8rem; color: var(--color-lightgrey);'>Made with ❤️ by <span style='color: pink; text-shadow: 0 0 3px pink'>Xen0o2</span>.</span>");
 
-        sendLog(`
+        
+        sendLog(/*html*/`
+            <a href="https://www.buymeacoffee.com/doteki">Like d0t's work? Buy him a <span style='color: chartreuse; text-shadow: 0 0 3px chartreuse'>dCoffee</span> 😉</a>
+        `)
+        sendLog(/*html*/`
             <div style="color: #52e7f7; text-shadow: 0 0 2px #0fa, 0 0 3px #52e7f7; letter-spacing: 0.3px; font-weight: lighter">
                 <img class="icon" src="https://www.svgrepo.com/show/523341/cpu.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
-                Running d0t's Indexes (dTI)
+                <img class="icon" src="https://www.svgrepo.com/show/532313/firewall.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+                <img class="icon" src="https://www.svgrepo.com/show/533150/power-bank.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+                Running d0t's Indexes (dTI) v${DTI_VERSION}
             </div>
         `)
     }
@@ -2354,7 +2467,15 @@ const stats = {
                         new Component("span", {
                             innerText: "Made with ❤️ by Xen0o2",
                             style: { color: "var(--color-lightgrey)", fontFamily: "var(--font-family-2)", fontWeight: "500", fontSize: "2rem", marginTop: "20px" }
-                        })
+                        }),
+                        new Component("span", {
+                            innerText: "Running DTI Version " + DTI_VERSION,
+                            style: { color: "var(--color-lightgrey)", fontFamily: "var(--font-family-2)", fontWeight: "500", fontSize: "2rem", marginTop: "20px" }
+                        }),
+                        new Component("img", {
+                            src: "https://media.tenor.com/aaEMtGfZFbkAAAAi/rat-spinning.gif",
+                            alt: "spinning rat"
+                        }),
                     ]
                 })
 
@@ -2368,12 +2489,41 @@ const stats = {
 
     const createObserver = () => {
         const logWindow = document.querySelector(".window-title > img[src='icons/log.svg']")?.closest(".window.svelte-1hjm43z")?.querySelector(".window-content > #wrapper");
-        if (logWindow)
-            logObserver.observe(logWindow, {attributes: false, childList: true, characterData: false, subtree: true});
+        if (logWindow) {
+            logObserver.observe(logWindow, {
+                attributes: false,
+                childList: true,
+                characterData: false,
+                subtree: true
+            });
+        }
         windowOpenObserver.observe(document, {attributes: false, childList: true, characterData: false, subtree: true});
         windowCloseObserver.observe(document, {attributes: false, childList: true, characterData: false, subtree: true});
         itemHoverObserver.observe(document.querySelector("main"), {attributes: false, childList: true, characterData: false, subtree: true});
+    
+        // Observe logWindow and ignore messages from muted players
+        const logObserverCallback = (mutationsList) => {
+            mutationsList.forEach(mutation => {
+                if (mutation.addedNodes.length > 0) {
+                    mutation.addedNodes.forEach(node => {
+                        if (node.nodeType === 1) {
+                            const playerNameElement = node.querySelector('.message-name');
+                            const playerName = playerNameElement?.textContent.trim();
+                            if (isPlayerMuted(playerName)) {
+                                node.style.display = 'none'; // Hide the message from muted player
+                            }
+                        }
+                    });
+                }
+            });
+        };
+    
+        if (logWindow) {
+            const logObserver = new MutationObserver(logObserverCallback);
+            logObserver.observe(logWindow, { childList: true, subtree: true });
+        }
     }
+    
 
     const updateThemeStyle = () => {
         const styleElement = document.getElementById('customStyles');
@@ -2406,6 +2556,29 @@ const stats = {
         if (!localStorage.getItem("prettier-currentTheme"))
             localStorage.setItem("prettier-currentTheme", Object.keys(themes)[0])
     }
+
+    const addMutedPlayer = async (username) => {
+        let mutedPlayers = JSON.parse(localStorage.getItem('mutedPlayers') || '[]');
+        if (!mutedPlayers.includes(username)) {
+            mutedPlayers.push(username);
+            localStorage.setItem('mutedPlayers', JSON.stringify(mutedPlayers));
+            document.querySelector("body > div > main > div.window.svelte-1hjm43z.window-selected > div.window-content.svelte-1hjm43z > div > div:nth-child(2) > form > div > div > div.textarea.svelte-81yxrq").innerText = "/mute " + username.replace(":","")
+            document.querySelector("body > div > main > div.window.svelte-1hjm43z.window-selected > div.window-content.svelte-1hjm43z > div > div:nth-child(2) > form > a > button").click()
+        }
+    }
+    
+    const removeMutedPlayer = async (username) => {
+        let mutedPlayers = JSON.parse(localStorage.getItem('mutedPlayers') || '[]');
+        mutedPlayers = mutedPlayers.filter(player => player !== username);
+        localStorage.setItem('mutedPlayers', JSON.stringify(mutedPlayers));
+        document.querySelector("body > div > main > div.window.svelte-1hjm43z.window-selected > div.window-content.svelte-1hjm43z > div > div:nth-child(2) > form > div > div > div.textarea.svelte-81yxrq").innerText = "/unmute " + username.replace(":","")
+        document.querySelector("body > div > main > div.window.svelte-1hjm43z.window-selected > div.window-content.svelte-1hjm43z > div > div:nth-child(2) > form > a > button").click()
+    }
+    
+    const isPlayerMuted = (username) => {
+        const mutedPlayers = JSON.parse(localStorage.getItem('mutedPlayers') || '[]');
+        return mutedPlayers.includes(username);
+    }    
 
     const loadScripts = async () => {
         const scripts = [
@@ -2591,20 +2764,30 @@ const stats = {
     }
 
     const manageRightClickOnPlayer = (player, pointer) => {
-        new Popup(pointer)
-        .addAction("Send message", async () => {
-            player.click();
-            await sleep(100);
-            document.querySelector("button.blue")?.click();
-            document.querySelector(".window-title > img[src='icons/target.svg']")?.parentNode.querySelector(".window-close")?.click();
-        })
-        .addAction("Trade", async () => {
-            player.click();
-            await sleep(100);
-            document.querySelector("button.yellow")?.click();
-            document.querySelector(".window-title > img[src='icons/target.svg']")?.parentNode.querySelector(".window-close")?.click();
-        })
-        .create();
+        const username = player.textContent.trim();
+        const isMuted = isPlayerMuted(username);
+    
+        const popup = new Popup(pointer)
+            .addAction("Send message", async () => {
+                player.click();
+                await sleep(100);
+                document.querySelector("button.blue")?.click();
+                document.querySelector(".window-title > img[src='icons/target.svg']")?.parentNode.querySelector(".window-close")?.click();
+            })
+            .addAction("Trade", async () => {
+                player.click();
+                await sleep(100);
+                document.querySelector("button.yellow")?.click();
+                document.querySelector(".window-title > img[src='icons/target.svg']")?.parentNode.querySelector(".window-close")?.click();
+            });
+    
+        if (isMuted) {
+            popup.addAction("Unmute", async () => removeMutedPlayer(username));
+        } else {
+            popup.addAction("Mute", async () => addMutedPlayer(username));
+        }
+    
+        popup.create();
     }
 
     const manageRightClick = (target, pointer) => {
@@ -2795,15 +2978,15 @@ const stats = {
             .over {transform: scale(1.1, 1.1); border: 2px solid var(--color-terminal);}
             .insert-indicator {height: 3px;background-color: var(--color-terminal);width: 320px;margin-left:15px;border-radius:10px;}
             ${player.configuration.windowColors.windowTabDark != defaultColors.windowTabDark && `
-                .svelte-pu3iit {background: ${player.configuration.windowColors.windowTabDark} !important;}
-                .svelte-81yxrq {background: ${player.configuration.windowColors.windowTabDark} !important;}
-                .svelte-16rukbq {background: ${player.configuration.windowColors.windowTabDark} !important;}
+                .message.svelte-pu3iit {background: ${player.configuration.windowColors.windowTabDark} !important;}
+                .svelte-81yxrq {background: ${halfColor(player.configuration.windowColors.windowTabDark)} !important;}
                 .svelte-1ff1jo {background: ${player.configuration.windowColors.windowTabDark} !important;}
+                .search-tag.svelte-1ff1jo {background: ${player.configuration.windowColors.windowTabLight} !important;}
                 .svelte-1p12gtw:not(.npc):not(.timer) {background-color: unset !important;}
-                .section.svelte-1ti1fiv {background: linear-gradient(188deg, ${player.configuration.windowColors.windowTabLight} 60%, ${player.configuration.windowColors.windowTabDark} 100%) !important;}
+                .section.svelte-1ti1fiv {background: linear-gradient(188deg, ${player.configuration.windowColors.windowTabDark} 60%, ${halfColor(player.configuration.windowColors.windowTabDark)} 100%) !important;}
                 .window:not(:has(.window-title > img[src='icons/terminal.svg'])) {
                     border-color: ${player.configuration.windowColors.windowTabLight} !important;
-                    background: linear-gradient(200deg, #1f1e23 0%, ${player.configuration.windowColors.windowTabLight} 100%) !important;
+                    background: linear-gradient(200deg, #000000 0%, ${halfColor(player.configuration.windowColors.windowTabLight)} 100%) !important;
                 }
                 .window-title:not(:has(img[src='icons/terminal.svg'])) {border-top-left-radius: 2px !important; border-top-right-radius: 2px !important; background: linear-gradient(200deg, ${player.configuration.windowColors.windowTabLight} 0%, ${player.configuration.windowColors.windowTabDark} 100%) !important;}
                 `
@@ -2837,7 +3020,96 @@ const stats = {
         tryCheckStaffStatus(document.querySelector("main"));
         loadUserInputManager();
         editInventoryWindow();
-        await sleep(1000);
+        await sleep(Math.random()*2000+500);
         loadingScreen("delete");
     })();
 })();
+
+// Page Break
+
+// Backup original WebSocket send method
+var originalSend = WebSocket.prototype.send;
+
+// Log settings
+var inboundLog = true;
+var outboundLog = true;
+
+// Helper function to traverse and modify an object
+function traverse(obj, fn) {
+    let keys = Object.keys(obj);
+    for (let i = 0; i < keys.length; i++) {
+        let part = obj[keys[i]];
+        if (part && typeof part === "object") traverse(part, fn);
+        fn(part);
+    }
+}
+
+// Override WebSocket send method
+WebSocket.prototype.send = function(data) {
+    try {
+        let index = data.indexOf('[');
+        let payload = JSON.parse(data.substring(index));
+        if (!payload || typeof payload !== "object") throw "skip";
+        traverse(payload, function(item) {
+            if (item && item.username) item.username = item.username.split(' ')[0];
+        });
+        data = data.substring(0, index) + JSON.stringify(payload);
+    } catch (e) {
+        // Ignoring errors silently
+    }
+    if (outboundLog) console.warn(data);
+    return originalSend.call(this, data);
+}
+
+const playerData = []
+
+// Listen for WebSocket messages
+function listen(fn = console.log) {
+    let property = Object.getOwnPropertyDescriptor(MessageEvent.prototype, "data");
+    const originalGet = property.get;
+
+    function wrappedGetter() {
+        let socket = this.currentTarget instanceof WebSocket;
+        if (!socket) return originalGet.call(this);
+
+        let msg = originalGet.call(this);
+        Object.defineProperty(this, "data", { value: msg, writable: true });
+        fn({ data: msg, socket: this.currentTarget, event: this });
+        return this.data;
+    }
+
+    property.get = wrappedGetter;
+    Object.defineProperty(MessageEvent.prototype, "data", property);
+}
+
+listen(({ data, socket, event }) => {
+    window.SOCK = socket;
+    let index = data.indexOf('[');
+    try {
+        var payload = JSON.parse(data.substring(index));
+    } catch (e) {
+        return data;
+    }
+
+  if (typeof payload !== "object") return console.log(data);
+
+    traverse(payload, function(item) {
+        if (item && item.btc) {
+            playerData.push(item)
+            //item.username += ` (₿${parseFloat(item.btc).toFixed(2)})`;
+        }
+    });
+
+    if (payload[1]?.event === "gotGlobalRoomLogs") {
+        payload[1].arguments[0] = payload[1].arguments[0].map(log => {
+            let logObject = JSON.parse(log);
+            let sender = logObject.sender;
+            if (sender.btc) sender.username += ` (₿${parseFloat(sender.btc).toFixed(2)})`;
+            return JSON.stringify(logObject);
+        });
+    }
+
+    data = data.substring(0, index) + JSON.stringify(payload);
+    event.data = data;
+    if (inboundLog) console.log(data);
+});
