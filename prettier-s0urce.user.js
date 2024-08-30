@@ -2119,10 +2119,15 @@ const halfColor = (hexColor) => {
             const getTargetID = () => elementWithID.innerText.replace("ID: ", "");
             const getTargetUsername = () => elementWithUsername.innerText;
 
-            elementWithID.onclick = () => {
-                navigator.clipboard.writeText(getTargetID())
-                    .then( () => sendLog(`<img class="icon" src="icons/check.svg"/> Succesfully copied target ID to clipboard`) )
-                    .catch( () => sendLog(`<img class="icon" src="icons/close.svg"/> Could not copy target ID to clipboard`) )
+            elementWithUsername.onclick = () => {
+                const buttonsContainer = targetWindow.querySelector(".section-content > div:nth-child(2)");
+                const sendDmButton = buttonsContainer.querySelector("div > a > button > img[src='icons/friends.svg']");
+                const usernameOrIdText = sendDmButton ? "username" : "ID";
+
+                navigator.clipboard.writeText( sendDmButton ? getTargetUsername() : getTargetID())
+                    .then( () => sendLog(`<img class="icon" src="icons/check.svg"/> Successfully copied target ${usernameOrIdText} to clipboard`) )
+                    .catch( () => sendLog(`<img class="icon" src="icons/close.svg"/> Could not copy target ${usernameOrIdText} to clipboard`) )
+                    .then( () => new Audio("/sound/log.m4a").play() )
             }
 
             if (!evilStaffFeaturesActivated || !reportButton) break ifTargetWindow;
