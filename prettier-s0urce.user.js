@@ -2213,7 +2213,7 @@ const halfColor = (hexColor) => {
                         years: [ 365, "days" ],
                         decades: [ 10, "years" ],
                         centuries: [ 100, "years" ],
-                        millenia: [ 1000, "years" ],
+                        millennia: [ 1000, "years" ],
                     };
                     function calculateDurationInMinutes(duration, durationFormat) {
                         const durationFormatInfo = durationFormats[durationFormat];
