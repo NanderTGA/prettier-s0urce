@@ -1523,36 +1523,6 @@ const halfColor = (hexColor) => {
             newWindow.addedNodes[0].classList.add("openInSilent");
         }
 
-        const isProfile = newWindow.addedNodes[0].querySelector(".window-title").innerText == "Target"
-        if (isProfile) {
-                try {
-                while (1) {
-                    var added = false
-                    for (var i = 0; i < playerData.length; i++) {
-                        try {
-                            if (i == 0) newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(4)").style.color = "white"
-                            if (playerData[i].username == newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(2) > div").innerText) {
-                                //console.log(newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(4)"))
-                                newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(4)").innerHTML = playerData[i].btc.toFixed(4) + ' \n<img class="icon icon-in-text" src="icons/btc.svg" alt="Bitcoin Icon">'
-                                added = true
-                            }
-                        }
-                        catch {
-                            newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(3)").style.color = "white"
-                            newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(3)").innerHTML = '0.0000 \n<img class="icon icon-in-text" src="icons/btc.svg" alt="Bitcoin Icon">'    
-                            added = true
-                        }    
-                    }
-                    if (!added) {
-                        try {newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(4)").innerHTML = '0.0000 \n<img class="icon icon-in-text" src="icons/btc.svg" alt="Bitcoin Icon">'}
-                        catch {newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(3)").innerHTML = '0.0000 \n<img class="icon icon-in-text" src="icons/btc.svg" alt="Bitcoin Icon">'}
-                    }
-                    if (!newWindow) break
-                    else await sleep(100)
-                }
-            } catch {return}
-        }
-
         const isItem = newWindow.addedNodes[0].querySelector(".window-title > img[src='icons/loot.svg']")
         if (isItem)
             await manageLoot();
@@ -2134,6 +2104,27 @@ const halfColor = (hexColor) => {
                     .then( () => sendLog(`<img class="icon" src="icons/check.svg"/> Successfully copied target ${usernameOrIdText} to clipboard`) )
                     .catch( () => sendLog(`<img class="icon" src="icons/close.svg"/> Could not copy target ${usernameOrIdText} to clipboard`) )
                     .then( () => new Audio("/sound/log.m4a").play() );
+            }
+
+            await sleep(500);
+            const shelfTitle = targetWindow.querySelector("img[src='icons/shelf.svg']")?.parentNode;
+            if (shelfTitle) {
+                const btcInShelfTitle = new Component("span", {
+                    style: {
+                        position: "absolute",
+                        right: "15px",
+                    },
+                    children: [
+                        { element: document.createTextNode(playerBTC[getUsernameOrId().usernameOrId].toFixed(8) + " ") },
+                        new Component("img", {
+                            classList: [ "icon", "icon-in-text" ],
+                            src: "icons/btc.svg",
+                            alt: "Bitcoin Icon",
+                        }),
+                    ]
+                })
+
+                shelfTitle.appendChild(btcInShelfTitle.element)
             }
 
             if (!evilStaffFeaturesActivated || !reportButton) break ifTargetWindow;
@@ -3076,7 +3067,7 @@ WebSocket.prototype.send = function(data) {
     return originalSend.call(this, data);
 }
 
-const playerData = []
+const playerBTC = Object.create(null);
 
 // Listen for WebSocket messages
 function listen(fn = console.log) {
@@ -3106,20 +3097,21 @@ listen(({ data, socket, event }) => {
         return data;
     }
 
-  if (typeof payload !== "object") return console.log(data);
+    if (typeof payload !== "object") return console.log(data);
+
+    const setPlayerBTC = player => void (playerBTC[player.authenticated ? player.username : player.id] = player.btc);
 
     traverse(payload, function(item) {
-        if (item && item.btc) {
-            playerData.push(item)
-            //item.username += ` (₿${parseFloat(item.btc).toFixed(2)})`;
+        if (item?.username && item.btc) {
+            setPlayerBTC(item);
         }
     });
 
     if (payload[1]?.event === "gotGlobalRoomLogs") {
         payload[1].arguments[0] = payload[1].arguments[0].map(log => {
-            let logObject = JSON.parse(log);
-            let sender = logObject.sender;
-            if (sender.btc) sender.username += ` (₿${parseFloat(sender.btc).toFixed(2)})`;
+            const logObject = JSON.parse(log);
+            const { sender } = logObject;
+            setPlayerBTC(sender);
             return JSON.stringify(logObject);
         });
     }
