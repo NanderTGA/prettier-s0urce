@@ -2119,15 +2119,21 @@ const halfColor = (hexColor) => {
             const getTargetID = () => elementWithID.innerText.replace("ID: ", "");
             const getTargetUsername = () => elementWithUsername.innerText;
 
-            elementWithUsername.onclick = () => {
+            const getUsernameOrId = () => {
                 const buttonsContainer = targetWindow.querySelector(".section-content > div:nth-child(2)");
                 const sendDmButton = buttonsContainer.querySelector("div > a > button > img[src='icons/friends.svg']");
                 const usernameOrIdText = sendDmButton ? "username" : "ID";
+                const usernameOrId = sendDmButton ? getTargetUsername() : getTargetID();
+                return { usernameOrId, usernameOrIdText };
+            };
 
-                navigator.clipboard.writeText( sendDmButton ? getTargetUsername() : getTargetID())
+            elementWithUsername.onclick = () => {
+                const { usernameOrId, usernameOrIdText } = getUsernameOrId();
+
+                navigator.clipboard.writeText(usernameOrId)
                     .then( () => sendLog(`<img class="icon" src="icons/check.svg"/> Successfully copied target ${usernameOrIdText} to clipboard`) )
                     .catch( () => sendLog(`<img class="icon" src="icons/close.svg"/> Could not copy target ${usernameOrIdText} to clipboard`) )
-                    .then( () => new Audio("/sound/log.m4a").play() )
+                    .then( () => new Audio("/sound/log.m4a").play() );
             }
 
             if (!evilStaffFeaturesActivated || !reportButton) break ifTargetWindow;
