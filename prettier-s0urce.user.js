@@ -213,7 +213,8 @@ const player = {
         codeSyntaxing: !!localStorage.getItem("prettier-codeSyntaxing"),
         windowColors: localStorage.getItem("prettier-windowColors") ?
             JSON.parse(localStorage.getItem("prettier-windowColors")) :
-            defaultColors
+            defaultColors,
+        windowSnapping: localStorage.getItem("prettier-windowSnapping") === "true",
     },
     input: {
         isShiftDown: false,
@@ -2072,10 +2073,59 @@ const halfColor = (hexColor) => {
                 ]
             })
 
+            const { windowSnapping } = player.configuration;
+            const windowSnappingText = new Component("span", {
+                style: {
+                    color: windowSnapping ? "var(--color-green)" : "var(--color-red)",
+                    fontWeight: 600,
+                },
+                innerText: windowSnapping ? "On" : "Off",
+            });
+            const windowSnappingSetting = new Component("div", {
+                classList: [ "el", "el-toggler", "svelte-176ijne" ],
+                children: [
+                    new Component("div", {
+                        children: [
+                            { element: document.createTextNode("Window snapping: ") },
+                            windowSnappingText,
+                        ],
+                    }),
+                    new Component("a", {
+                        style: {
+                            width: "auto",
+                            display: "inline-block",
+                            margin: "0px",
+                            flex: "0 1 auto",
+                        },
+                        children: [
+                            new Component("button", {
+                                classList: [ "grey", "svelte-ec9kqa" ],
+                                style: {
+                                    height: "auto",
+                                    padding: "6px 14px",
+                                    fontFamily: "var(--font-family-1)",
+                                    fontSize: "16px",
+                                    boxShadow: "0 10px 15px var(--color-shadow)",
+                                },
+                                innerText: "Toggle",
+                                onclick: () => {
+                                    player.configuration.windowSnapping = !player.configuration.windowSnapping;
+                                    const { windowSnapping } = player.configuration;
+                                    localStorage.setItem("prettier-windowSnapping", String(windowSnapping));
+                                    windowSnappingText.element.style.color = windowSnapping ? "var(--color-green)" : "var(--color-red)";
+                                    windowSnappingText.element.innerText = windowSnapping ? "On" : "Off";
+                                },
+                            }),
+                        ],
+                    }),
+                ],
+            });
+
             wrapper.insertBefore(backgroundSetting.element, wrapper.querySelector("div:nth-child(2)"));
             wrapper.insertBefore(tabColorSetting.element, wrapper.querySelector("div:nth-child(2)"));
             wrapper.insertBefore(iconColorSetting.element, wrapper.querySelector("div:nth-child(2)"));
             wrapper.insertBefore(itemManager.element, wrapper.querySelector("div:nth-child(1)"));
+            wrapper.insertBefore(windowSnappingSetting.element, wrapper.querySelector("div:nth-child(9)"));
             // wrapper.insertBefore(autolootSetting.element, wrapper.querySelector("div:nth-child(2)"));
         }
 
@@ -2849,6 +2899,7 @@ const halfColor = (hexColor) => {
 
         if (windowDragged.querySelector(".window-title > img[src='icons/settings.svg']"))
             windowDragged.querySelector(".window-content").style.width = "600px";
+        if (!player.configuration.windowSnapping) return;
     
         const getPxValue = (style) => Number(style.match(/\d+/)[0]);
         const top = getPxValue(windowDragged.style.top);
