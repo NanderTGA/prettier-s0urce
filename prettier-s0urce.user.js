@@ -1541,7 +1541,7 @@ const halfColor = (hexColor) => {
             const upgrader = isFilamentWindow.querySelectorAll("h3")[1];
             if (!upgrader)
                 return;
-            const isAnyGreen = Array.from(isFilamentWindow.querySelectorAll("button.green:not(.cantClick)")).slice(1).length
+	    let isAnyGreen = Array.from(isFilamentWindow.querySelectorAll("button.green:not(.cantClick)")).slice(1).length
             const container = new Component("a", {
                 style: { width: "311px", display: "inline-block", margin: "0", marginTop: "10px", flex: "0 1 auto" },
                 children: [
@@ -1557,6 +1557,8 @@ const halfColor = (hexColor) => {
                         button?.click();
                         await sleep(100);
                     }
+                    isAnyGreen = Array.from(isFilamentWindow.querySelectorAll("button.green:not(.cantClick)")).filter(e => e.innerText !== "Trade all").slice(1).length
+                    Array.from(isFilamentWindow.querySelectorAll("button.green")).filter(e => e.innerText === "Trade all")[0].classList = [`green svelte-ec9kqa ${isAnyGreen ? "can" : "cantClick"}`];
                 }
             })
 
