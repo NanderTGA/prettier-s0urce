@@ -3316,10 +3316,7 @@
 
 	const loadTargets = async () => {
 		await windowManager.openWindow("target_list", true);
-		targets.npcs = [
-			...Array.from(document.querySelectorAll(".npc .username")).map(e => e.textContent.trim().replace(/ /g, "_")),
-			...Array.from(document.querySelectorAll(".npc-premium .username")).map(e => e.textContent.trim().replace(/ /g, "_"))
-		];
+		targets.npcs = Array.from(document.querySelectorAll(".npc, .npc-premium")).map(e => e.querySelector(".timer") ? null : e.querySelector(".username").textContent.trim().replace(/ /g, "_")).filter(e => e !== null)
 		targets.players = Array.from(document.querySelectorAll("#list .wrapper:not(.npc):not(.npc-premium) .username:not(.username-noauth)")).slice(0, -1).map(e => e.textContent.trim())
 		targets.anons = Array.from(new Set(Array.from(document.querySelectorAll(".username-noauth")).map(e => e.textContent.trim())))
 		windowManager.closeWindow("target_list", true);
