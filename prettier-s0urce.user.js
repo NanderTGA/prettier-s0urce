@@ -2654,15 +2654,6 @@ const halfColor = (hexColor) => {
                     .finally(() => resolve());
             })
         }
-
-        const styleSheet = document.createElement('style');
-        styleSheet.textContent = `
-            #punish:hover {
-                cursor: pointer;
-                background-color: var(--color-grey);
-            }
-        `;
-        document.head.appendChild(styleSheet);
     }
 
     const openWindow = async (windowName, openInSilent = false) => {
@@ -3048,6 +3039,7 @@ const halfColor = (hexColor) => {
                 .window-title:not(:has(img[src='icons/terminal.svg'])) {border-top-left-radius: 2px !important; border-top-right-radius: 2px !important; background: linear-gradient(200deg, ${player.configuration.windowColors.windowTabLight} 0%, ${player.configuration.windowColors.windowTabDark} 100%) !important;}
                 `
             }
+            #punish:hover { cursor: pointer; background-color: var(--color-grey); }
         `;
         const already = document.getElementById("globalCustomStyles")
         if (already)
