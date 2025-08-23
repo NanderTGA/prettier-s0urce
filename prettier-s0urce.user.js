@@ -5,7 +5,7 @@
 // @description  Get a prettier s0urce.io environment!
 // @author       Xen0o2
 // @match        https://s0urce.io/
-// @icon         https://www.google.com/s2/favicons?sz=64&domain=s0urce.io
+// @icon         https://s0urce.io/icons/s0urce.svg
 // @grant        none
 // @downloadURL  https://raw.githubusercontent.com/Xen0o2/prettier-s0urce/main/prettier-s0urce.user.js
 // @updateURL    https://raw.githubusercontent.com/Xen0o2/prettier-s0urce/main/prettier-s0urce.user.js
