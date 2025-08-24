@@ -2529,7 +2529,7 @@ const halfColor = (hexColor) => {
                             style: { color: "var(--color-lightgrey)", fontFamily: "var(--font-family-2)", fontWeight: "500", fontSize: "2rem", marginTop: "20px" }
                         }),
                         new Component("img", {
-                            src: "https://media.tenor.com/aaEMtGfZFbkAAAAi/rat-spinning.gif",
+                            src: "https://media.tenor.com/-sHwq3NmFJUAAAAi/rat.gif",
                             alt: "spinning rat"
                         }),
                     ]
