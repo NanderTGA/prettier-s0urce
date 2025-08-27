@@ -157,7 +157,8 @@ const windowNames = [
     "Inventory",
     "Item Seller",
     "Computer",
-    "Settings"
+    "Settings",
+    "s0urce Browser"
 ]
 
 const rarities = ["common", "uncommon", "rare", "epic", "legendary", "mythic", "ethereal"];
@@ -191,6 +192,9 @@ const lootButtons = {
 const staffRoles = [ "JMOD", "MOD", "ADMIN" ];
 let evilStaffFeaturesActivated = false;
 
+/** @type {string[]} */
+let currentTargetWindowLinks = [];
+
 const capitalize = text => text[0].toUpperCase() + text.slice(1).toLowerCase();
 
 const defaultColors = {
@@ -215,6 +219,7 @@ const player = {
             JSON.parse(localStorage.getItem("prettier-windowColors")) :
             defaultColors,
         windowSnapping: localStorage.getItem("prettier-windowSnapping") === "true",
+        domainsToLinkify: localStorage.getItem("prettier-domainsToLinkify")?.split(" ") || [ "padlet.com", "youtube.com", "wiki.s0urce.io", "github.com", "discord.gg" ],
     },
     input: {
         isShiftDown: false,
@@ -1508,6 +1513,19 @@ const halfColor = (hexColor) => {
         div.append(sortButton.element);
     }
 
+    window.openBrowserLink = async function (link) {
+        await openWindow("s0urce Browser");
+        const browserWindow = document.querySelector(".window-title > img[src='icons/browser.svg']").parentNode.parentNode;
+        const inputField = browserWindow.querySelector("#wrapper > input");
+
+        inputField.value = link;
+        inputField.dispatchEvent(new Event('input', { bubbles: true }));
+        const goButton = browserWindow.querySelector("form > a > button");
+        goButton.click();
+        await sleep(1000)
+        goButton.click();
+    }
+
     const windowOpenObserver = new MutationObserver(async function(mutations) {
         const newWindow = mutations.find(e => {
             return e.target == document.querySelector("main") &&
@@ -2131,6 +2149,40 @@ const halfColor = (hexColor) => {
 
         const targetWindow = newWindow.addedNodes[0].querySelector(".window-title > img[src='icons/target.svg']")?.parentNode?.parentNode;
         ifTargetWindow: if (targetWindow) {
+            const descriptionElement = document.querySelector("#description");
+            currentTargetWindowLinks = [];
+            
+            const foundLinksButtons = descriptionElement.innerText
+                .split(" ")
+                .filter( word => {
+                    if (word.startsWith("http://") || word.startsWith("https://")) return true;
+                    for (const domain of player.configuration.domainsToLinkify) {
+                        if (word.startsWith(domain)) return true;
+                    }
+                })
+                .map( (link, index) => {
+                    if (!link.startsWith("http:") && !link.startsWith("https:")) link = "//" + link
+                    currentTargetWindowLinks.push(link)
+
+                    const button = new Component("button", {
+                        //innerText: "U" + index,
+                        onclick: () => void openBrowserLink(currentTargetWindowLinks[index]),
+                        children: [ // <img class="icon" src="https://www.svgrepo.com/download/67990/legal-hammer-symbol.svg" alt="Punish" style="filter: invert(60%);">
+                            new Component("img", {
+                                src: "https://www.svgrepo.com/download/423732/link-external.svg",
+                                alt: "External link",
+                                style: {
+                                    width: "20px",
+                                    filter: "invert()",
+                                }
+                            })
+                        ]
+                    })
+                    return button.element
+                })
+            
+            for (const button of foundLinksButtons) descriptionElement.appendChild(button);
+
             // useful to check whether it's an actual player
             const reportButton = targetWindow.querySelector("#report");
 
