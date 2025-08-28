@@ -1,14 +1,15 @@
 // ==UserScript==
-// @name         prettier-s0urce
-// @namespace    http://tampermonkey.net/
-// @version      2024-08-23
-// @description  Get a prettier s0urce.io environment!
-// @author       Xen0o2
+// @name         prettier-n0urce
+// @version      2025-08-28
+// @description  Nander's merge of prettier-s0urce and d0urce, aiming to provide you the best experience of both worlds.
+// @author       Xen0o2, d0t3ki, NanderTGA
 // @match        https://s0urce.io/
 // @icon         https://s0urce.io/icons/s0urce.svg
 // @grant        none
-// @downloadURL  https://raw.githubusercontent.com/Xen0o2/prettier-s0urce/main/prettier-s0urce.user.js
-// @updateURL    https://raw.githubusercontent.com/Xen0o2/prettier-s0urce/main/prettier-s0urce.user.js
+// @downloadURL  https://raw.githubusercontent.com/NanderTGA/prettier-s0urce/main/prettier-s0urce.user.js
+// @updateURL    https://raw.githubusercontent.com/NanderTGA/prettier-s0urce/main/prettier-s0urce.user.js
+// @homepageURL  https://github.com/NanderTGA/prettier-s0urce
+// @supportURL   https://discord.gg/6nmuJaJ
 // ==/UserScript==
 
 const themes = {
