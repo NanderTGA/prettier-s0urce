@@ -3159,7 +3159,7 @@ WebSocket.prototype.send = function(data) {
     } catch (e) {
         // Ignoring errors silently
     }
-    if (outboundLog) console.warn(data);
+    if (outboundLog) console.info(data);
     return originalSend.call(this, data);
 }
 
@@ -3214,5 +3214,5 @@ listen(({ data, socket, event }) => {
 
     data = data.substring(0, index) + JSON.stringify(payload);
     event.data = data;
-    if (inboundLog) console.log(data);
+    if (inboundLog) console.debug(data);
 });
