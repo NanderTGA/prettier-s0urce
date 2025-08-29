@@ -103,24 +103,12 @@ To merge from d0t's prettier repostiroy, I first pull those commits into `d0urce
 
 ## TODO
 
-### Analysis commit "new command system" (first one)
+- setup eslint
+- add an editorconfig file
+- commit "new command system" line 1758 removed inventory index numbers
+  - re-add using an option/setting (disabled by default ig)
 
-fixes the inconsistent indentation, I should probably setup eslint to prevent that in the future
+### Notes
 
-openWindow("Item Seller") -> windowManager.openWindow("item_seller")
-closeWindow("Item Seller") -> windowManager.closeWindow("item_seller")
-
-// if (!evilStaffFeaturesActivated || !reportButton) break ifTargetWindow;
-I guess xeno commented that out because he was improving the css
-
-sendErrorLog() added
-
-make sure dti doesn't break
-
-line 1758: removal of inventory index numbers
-
-### Other 2 commits
-
-first one: only updates the version number, might want to update the version number myself after merging that
-
-second one: simplifies some code, should be fine
+- Do not merge d0urce v1.8.0, I wrote my own profile links feature instead (kinda wip, need to add a MutationObserver to the target list)
+- Do not merge "fix: tampermonkey issue" eithe, it removes window snapping, but I already moved that to an option disabled by default

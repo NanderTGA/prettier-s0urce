@@ -294,6 +294,7 @@
 			"leaderboard": { className: "Leaderboard", iconName: "leaderboard" },
 			"country_wars": { className: "Country-Wars", iconName: "countryWars" },
 			"task_manager": { className: "Task-Manager", iconName: "taskManager" },
+			"browser": { className: "s0urce-Browser", iconName: "browser" },
 			"upgrader": { className: "Upgrader", iconName: "upgrader" },
 			"spotify": { className: "Spotify", iconName: "spotify" },
 			"vpn": { className: "VPN", iconName: "vpn" },
@@ -1854,7 +1855,7 @@
 	}
 
 	window.openBrowserLink = async function (link) {
-		await openWindow("s0urce Browser");
+		await windowManager.openWindow("browser");
 		const browserWindow = document.querySelector(".window-title > img[src='icons/browser.svg']").parentNode.parentNode;
 		const inputField = browserWindow.querySelector("#wrapper > input");
 
