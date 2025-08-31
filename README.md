@@ -104,7 +104,6 @@ To merge from d0t's prettier repostiroy, I first pull those commits into `d0urce
 ## TODO
 
 - setup eslint
-- add an editorconfig file
 - commit "new command system" line 1758 removed inventory index numbers
   - re-add using an option/setting (disabled by default ig)
 
