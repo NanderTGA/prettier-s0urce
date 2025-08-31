@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         prettier-n0urce
-// @version      2025-08-28
+// @version      2025-08-31
 // @description  Nander's merge of prettier-s0urce and d0urce, aiming to provide you the best experience of both worlds.
 // @author       Xen0o2, d0t3ki, NanderTGA
 // @match        https://s0urce.io/
@@ -140,7 +140,7 @@
 				}
 				this.removeErrorPlaceholders();
 				const rest = first.slice(argsValue?.length);
-				this.getAutocompleteElement().style.left = `calc(50% + ${(command.name.length + 1) * 15 + (this.getArgs().join("").length + this.#currentArgsIndex) * 15}px)`
+				this.getAutocompleteElement().style.left = `calc(25% + 10px + ${(command.name.length + 1) * 15 + (this.getArgs().join("").length + this.#currentArgsIndex) * 15}px)`
 				this.setAutocompletePlaceholder(rest);
 			} else {
 				const currentValue = this.getValue();
@@ -148,7 +148,7 @@
 				const first = this.getPossibleWords()[0];
 				if (!first) return this.setAutocompletePlaceholder("");
 				const rest = first.slice(currentValue.length);
-				this.getAutocompleteElement().style.left = `calc(50% + ${currentValue.length * 15}px)`
+				this.getAutocompleteElement().style.left = `calc(25% + 10px + ${currentValue.length * 15}px)`
 				this.setAutocompletePlaceholder(rest);
 			}
 		}
@@ -194,9 +194,9 @@
 					style: {
 						position: "absolute", display: "inline-flex",
 						top: "50%", zIndex: "10000",
-						translate: "-421px -50%",
+						translate: "1px -50%",
 						fontSize: "25px", fontFamily: "var(--font-family-2)", color: "var(--color-red)",
-						left: `calc(50% + ${(beforeError.length + (index > 0)) * 15}px)`
+						left: `calc(25% + 10px + ${(beforeError.length + (index > 0)) * 15}px)`
 					},
 					innerText: inError
 				})
@@ -237,7 +237,7 @@
 						style: {
 							position: "absolute", display: "inline-flex",
 							top: "50%", zIndex: "10000",
-							translate: "-421px -50%",
+							translate: "0 -50%",
 							fontSize: "25px", fontFamily: "var(--font-family-2)", color: "var(--color-lightgrey)"
 						}
 					})
