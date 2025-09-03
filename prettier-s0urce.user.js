@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         prettier-n0urce
-// @version      2025-09-03
+// @version      2025-09-04
 // @description  Nander's merge of prettier-s0urce and d0urce, aiming to provide you the best experience of both worlds.
 // @author       Xen0o2, d0t3ki, NanderTGA
 // @match        https://s0urce.io/
@@ -34,6 +34,32 @@
 		npcs: [],
 		players: [],
 		anons: []
+	}
+
+	const fetchBtcValue = () => originalFetch("https://data-api.coindesk.com/spot/v1/latest/tick?market=coinbase&instruments=BTC-USD&apply_mapping=false&groups=VALUE")
+		.then( response => response.json() )
+		.then( apiResponse => {
+			/** @type {number} */
+			const btcValue = apiResponse.Data["BTC-USD"].PRICE;
+			localStorage.setItem("prettier-lastKnownBtcValue", btcValue);
+			return btcValue;
+		})
+		.catch( () => Number(localStorage.getItem("prettier-lastKnownBtcValue")) );
+
+	// This code NEEDS to run before anything async happens to avoid the chances of the first API call receiving an error, so I'm putting it all the way up here
+	const originalFetch = window.fetch;
+	window.fetch = function (...args) {
+		if (args[0] !== "https://api.coindesk.com/v1/bpi/currentprice/BTC.json") return originalFetch.call(this, args);
+
+		return fetchBtcValue().then( btcValue => ({
+			json: () => ({
+				bpi: {
+					USD: {
+						rate_float: btcValue,
+					},
+				},
+			})
+		}) );
 	}
 
 	class Command {
