@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         prettier-n0urce
-// @version      2025-08-31
+// @version      2025-09-03
 // @description  Nander's merge of prettier-s0urce and d0urce, aiming to provide you the best experience of both worlds.
 // @author       Xen0o2, d0t3ki, NanderTGA
 // @match        https://s0urce.io/
@@ -3484,7 +3484,7 @@
 
 			withoutCooldown.click();
 			await sleep(200);
-			const targetWindow = document.querySelector(".window-title > img[src='icons/target.svg']").parentNode.parentNode;
+			const targetWindow = document.querySelector(".window-title > img[src='icons/target.svg']")?.parentNode?.parentNode;
 			const hackButton = targetWindow?.querySelector("button.red");
 			if (!targetWindow || !hackButton) return;
 			hackButton.click();
@@ -3520,6 +3520,7 @@
 		requiredWindows: [],
 		run: async (args) => {
 			const hacker = args[0];
+			if (player.hacksInProgress.length < 1) return sendErrorLog("There is nobody to counter right now")
 			const isHackingYou = player.hacksInProgress.find(e => e.hacker == hacker);
 			if (!isHackingYou) return sendErrorLog("This player is not hacking you");
 			isHackingYou.counterButton.click();
@@ -3584,17 +3585,24 @@
 				required: true
 			}
 		],
-		requiredWindows: ["agents"],
 		run: async (args) => {
 			const action = args[0];
-			const agents = windowManager.getWindow("agents");
+			const agents = await windowManager.openWindow("agents", true);
+			if (!agents) return sendErrorLog("Please open the agents window first");
+
 			const buttons = Array.from(agents.querySelectorAll("button.green"));
 			if (action === "shred") {
 				const shredButton = buttons.find(e => e.textContent.toLowerCase().includes("shred"));
 				shredButton?.click();
+				await sleep(200);
 			}
+
 			const grabButtons = buttons.filter(e => e.textContent.toLowerCase().includes("grab"));
-			grabButtons.forEach(button => button.click());
+			for (const button of grabButtons) {
+				button.click();
+				await sleep(200);
+			}
+			windowManager.closeWindow("agents", true)
 		}
 	})
 
