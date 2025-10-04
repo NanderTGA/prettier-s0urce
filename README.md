@@ -85,7 +85,7 @@ Very big thank you to Nelumbo for finding this very useful bug!
     - Want to load d0t's prettier instead? Paste this instead in the last step: `fetch("https://raw.githubusercontent.com/d0t3k1/d0t-s0urce-prettier/main/d0urce-prettier.user.js").then(response => response.text()).then(eval)`
 5. You should now notice prettier launching. MISSION POSSIBLE!
 
-## My Local Setup
+## My Local Setup & General Practices
 
 Branches:
 
@@ -99,15 +99,35 @@ Remotes:
 - `d0urce`: [d0t's prettier repository](https://github.com/d0t3k1/d0t-s0urce-prettier)
 
 To merge from Xen0o2's prettier repository, I merge from the `upstream` remote into the `main` branch.
-To merge from d0t's prettier repostiroy, I first pull those commits into `d0urce-main`, then merge from that branch into `main`.
+To merge from d0t's prettier repository, I first pull those commits into `d0urce-main`, then merge from that branch into `main`.
+
+### Reverting Commits
+
+I encounter obsolete commits every once in a while because I wrote a competing feature or they manually merge something from a different fork.
+The way I deal with them is pretty straightforward.
+You might be thinking oh hey maybe he's cherry picking commits to only merge specific stuff, but no, I'm not. Turns out those can cause issues down the line.
+So I just merge without skipping commits (git doesn't really let you skip commits in case you didn't realize).
+
+### Vendoring Assets
+
+I've noticed multiple times that assets loaded from external websites tend to break over time and it's a bit annoying having to deal with that.
+Some examples of links breaking are the spinning rat gif and the hammer symbol used in the evil staff features.
+To add insult to injury, this decreases the general stability of prettier-s0urce too!
+This especially is a problem because it can go unmaintained for long periods of time;
+Take the other repositories in the fork network as an example, this is the only maintained one left right now.
+
+To prevent any more headaches due to links breaking and to increase stability, I aim to vendor all external assets used in this repository and change the links to point to their vendored versions here.
 
 ## TODO
 
 - setup eslint
-- commit "new command system" line 1758 removed inventory index numbers
-  - re-add using an option/setting (disabled by default ig)
+- commit "new command system" line 1758 ~~removed inventory index numbers~~
+  - ~~re-add using an option/setting (disabled by default ig)~~
+	- No idea what this actually did, since the inventory index numbers are still there; should look into it sometime
+- Add an option to change the spinning rat gif to something else or turn it off
+- Dot added some css/setting that changes some colors used inside windows/tabs/whatever-they're-called, and it doesn't work in this fork how I intended it I think, idk I need to look into it sometime.
 
 ### Notes
 
 - Do not merge d0urce v1.8.0, I wrote my own profile links feature instead (kinda wip, need to add a MutationObserver to the target list)
-- Do not merge "fix: tampermonkey issue" eithe, it removes window snapping, but I already moved that to an option disabled by default
+- Do not merge "fix: tampermonkey issue" either, it removes window snapping, but I already moved that to an option disabled by default
