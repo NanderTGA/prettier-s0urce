@@ -66,7 +66,10 @@ If you think this is cool you might want to check out [this way cooler bookmarkl
 
 So here are the instructions:
 
-1. Drag one (or multiple) of these links onto your bookmarks: <a href="javascript:fetch%28%22https%3A//raw.githubusercontent.com/NanderTGA/prettier-s0urce/main/prettier-s0urce.user.js%22%29.then%28response%20%3D%3E%20response.text%28%29%29.then%28eval%29">prettier-n0urce (NanderTGA)</a> or <a href="javascript:fetch%28%22https%3A//raw.githubusercontent.com/Xen0o2/prettier-s0urce/main/prettier-s0urce.user.js%22%29.then%28response%20%3D%3E%20response.text%28%29%29.then%28eval%29">prettier-s0urce (Xen0o2)</a> or <a href="javascript:fetch%28%22https%3A//raw.githubusercontent.com/d0t3k1/d0t-s0urce-prettier/main/d0urce-prettier.user.js%22%29.then%28response%20%3D%3E%20response.text%28%29%29.then%28eval%29">prettier-d0urce (d0t)</a>
+1. Add one (or multiple) of the following URLs to your bookmarks:
+    - prettier-n0urce (NanderTGA): `javascript:fetch%28%22https%3A//raw.githubusercontent.com/NanderTGA/prettier-s0urce/main/prettier-s0urce.user.js%22%29.then%28response%20%3D%3E%20response.text%28%29%29.then%28eval%29`
+    - prettier-s0urce (Xen0o2): `javascript:fetch%28%22https%3A//raw.githubusercontent.com/Xen0o2/prettier-s0urce/main/prettier-s0urce.user.js%22%29.then%28response%20%3D%3E%20response.text%28%29%29.then%28eval%29`
+    - prettier-d0urce (d0t): `javascript:fetch%28%22https%3A//raw.githubusercontent.com/d0t3k1/d0t-s0urce-prettier/main/d0urce-prettier.user.js%22%29.then%28response%20%3D%3E%20response.text%28%29%29.then%28eval%29`
 2. Whenever you want to run prettier, click on one of these bookmarks. It doesn't matter whether you do this before or after clicking play. Make sure you're on the s0urce tab when clicking the bookmark though, otherwise nothing will happen. When you click the bookmark, you should notice prettier launching.
 
 ### When all else fails... THE MISSION POSSIBLE WAY
