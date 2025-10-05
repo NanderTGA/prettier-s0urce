@@ -743,6 +743,8 @@
 		sendLog(`<div style="color: var(--color-red);">${message}</div>`)
 	}
 
+	const getAssetLink = (filename) => `https://raw.githubusercontent.com/NanderTGA/prettier-s0urce/refs/heads/main/assets/${filename}`;
+
 
 	const manageMessagesToDelete = (message) => {
 		const deleteSample = [
@@ -777,7 +779,7 @@
 			player.staffRole = staffRole;
 			sendLog(`
 				<div style="color: #9cf7ff; text-shadow: 0 0 2px #0fa, 0 0 3px #9cf7ff; letter-spacing: 0.3px; font-weight: lighter">
-					<img class="icon" src="https://www.svgrepo.com/download/67990/legal-hammer-symbol.svg" style="filter: drop-shadow(50px 0px 100px #9cf7ff) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+					<img class="icon" src="${getAssetLink("legal-hammer.svg")}" style="filter: drop-shadow(50px 0px 100px #9cf7ff) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
 					Bro really is ${staffRole === "ADMIN" ? "an" : "a"} <span class="badge" style="background: var(--color-${staffRole}); font-family: var(--font-family-1);">${staffRole}</span> 💀
 				</div>
 				<span style='font-size: 0.8rem; color: var(--color-lightgrey);'>Activating evil staff features 😈</span>
@@ -838,7 +840,7 @@
 											style: { textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden", width: "85%" }
 										}),
 										new Component("img", {
-											src: "https://upload.wikimedia.org/wikipedia/commons/9/96/Chevron-icon-drop-down-menu-WHITE.png",
+											src: getAssetLink("dropdown.png"),
 											style: { height: "10px", opacity: "0.8" }
 										}),
 									]
@@ -1820,7 +1822,7 @@
 			style: { padding: "10px", fontSize: "16px", width: "35px" },
 			children: [
 				new Component("img", {
-					src: "https://www.svgrepo.com/show/2287/sort.svg",
+					src: getAssetLink("sort.svg"),
 					style: { filter: "invert(1)" },
 					classList: ["icon"]
 				})
@@ -2535,9 +2537,9 @@
 					const button = new Component("button", {
 						//innerText: "U" + index,
 						onclick: () => void openBrowserLink(currentTargetWindowLinks[index]),
-						children: [ // <img class="icon" src="https://www.svgrepo.com/download/67990/legal-hammer-symbol.svg" alt="Punish" style="filter: invert(60%);">
+						children: [ // <img class="icon" src="${getAssetLink("legal-hammer.svg")}" alt="Punish" style="filter: invert(60%);">
 							new Component("img", {
-								src: "https://www.svgrepo.com/download/423732/link-external.svg",
+								src: getAssetLink("link-external.svg"),
 								alt: "External link",
 								style: {
 									width: "20px",
@@ -2611,7 +2613,7 @@
 				children: [
 					new Component("img", {
 						classList: ["icon"],
-						src: "https://www.svgrepo.com/download/67990/legal-hammer-symbol.svg",
+						src: getAssetLink("legal-hammer.svg"),
 						alt: "Punish",
 						style: {
 							filter: "invert(60%)"
@@ -2673,7 +2675,7 @@
 					}
 
 					createPunishOption("Mute", "mute", "green", "emojis/zipper-mouth-face.svg", "Zipper Mouth Face");
-					createPunishOption("Ban", "ban", "yellow", "https://www.svgrepo.com/download/67990/legal-hammer-symbol.svg", "Legal Hammer");
+					createPunishOption("Ban", "ban", "yellow", getAssetLink("legal-hammer.svg"), "Legal Hammer");
 					createPunishOption("IP Ban", "ip-ban", "red", "emojis/pile-of-poo.svg", "Pile Of Poo");
 
 					const durationFormats = {
@@ -2827,9 +2829,9 @@
 
 		sendLog(/* html */`
 			<div style="color: #52e7f7; text-shadow: 0 0 2px #0fa, 0 0 3px #52e7f7; letter-spacing: 0.3px; font-weight: lighter">
-				<img class="icon" src="https://www.svgrepo.com/show/523341/cpu.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
-				<img class="icon" src="https://www.svgrepo.com/show/532313/firewall.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
-				<img class="icon" src="https://www.svgrepo.com/show/533150/power-bank.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+				<img class="icon" src="${getAssetLink("cpu.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+				<img class="icon" src="${getAssetLink("firewall.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+				<img class="icon" src="${getAssetLink("psu.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
 				Running d0t's Indexes (dTI) v${DTI_VERSION}
 			</div>
 		`)
@@ -2948,8 +2950,8 @@
 							style: { color: "var(--color-lightgrey)", fontFamily: "var(--font-family-2)", fontWeight: "500", fontSize: "2rem", marginTop: "20px" }
 						}),
 						new Component("img", {
-							src: "https://media.tenor.com/-sHwq3NmFJUAAAAi/rat.gif",
-							alt: "spinning rat"
+							src: getAssetLink("spinning-rat.gif"),
+							alt: "Spinning rat"
 						}),
 					]
 				})

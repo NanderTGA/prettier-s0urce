@@ -116,7 +116,9 @@ To add insult to injury, this decreases the general stability of prettier-s0urce
 This especially is a problem because it can go unmaintained for long periods of time;
 Take the other repositories in the fork network as an example, this is the only maintained one left right now.
 
-To prevent any more headaches due to links breaking and to increase stability, I aim to vendor all external assets used in this repository and change the links to point to their vendored versions here.
+To prevent any more headaches due to links breaking and to increase stability,
+I aim to vendor all external assets used in this repository and change the links to point to their vendored versions here.
+This does not apply to s0urce assets or reputable CDNs (notable mention: twemoji's readme promoted loading it using MaxCDN, but a while ago that company disappeared off the internet and a bunch of twemoji cdn links broke as a result).
 
 ## TODO
 
