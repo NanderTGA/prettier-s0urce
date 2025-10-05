@@ -125,7 +125,7 @@ This does not apply to s0urce assets or reputable CDNs (notable mention: twemoji
 - setup eslint
 - commit "new command system" line 1758 ~~removed inventory index numbers~~
   - ~~re-add using an option/setting (disabled by default ig)~~
-	- No idea what this actually did, since the inventory index numbers are still there; should look into it sometime
+  - No idea what this actually did, since the inventory index numbers are still there; should look into it sometime
 - Add an option to change the spinning rat gif to something else or turn it off
 - Dot added some css/setting that changes some colors used inside windows/tabs/whatever-they're-called, and it doesn't work in this fork how I intended it I think, idk I need to look into it sometime.
 
