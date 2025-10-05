@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         prettier-n0urce
-// @version      2025-10-04
+// @version      2025-10-05
 // @description  Nander's merge of prettier-s0urce and d0urce, aiming to provide you the best experience of both worlds.
 // @author       Xen0o2, d0t3ki, NanderTGA
 // @match        https://s0urce.io/
