@@ -2531,13 +2531,12 @@
 					}
 				})
 				.map( (link, index) => {
-					if (!link.startsWith("http:") && !link.startsWith("https:")) link = "//" + link
+					if (!link.startsWith("http:") && !link.startsWith("https:")) link = `${location.protocol}//${link}`
 					currentTargetWindowLinks.push(link)
 
 					const button = new Component("button", {
-						//innerText: "U" + index,
 						onclick: () => void openBrowserLink(currentTargetWindowLinks[index]),
-						children: [ // <img class="icon" src="${getAssetLink("legal-hammer.svg")}" alt="Punish" style="filter: invert(60%);">
+						children: [
 							new Component("img", {
 								src: getAssetLink("link-external.svg"),
 								alt: "External link",
