@@ -2562,9 +2562,9 @@
 
 			const getUsernameOrId = () => {
 				const buttonsContainer = targetWindow.querySelector(".section-content > div:nth-child(2)");
-				const sendDmButton = buttonsContainer.querySelector("div > a > button > img[src='icons/friends.svg']");
-				const usernameOrIdText = sendDmButton ? "username" : "ID";
-				const usernameOrId = sendDmButton ? getTargetUsername() : getTargetID();
+				const tradeButton = buttonsContainer.querySelector("div > a > button > img[src='icons/trade.svg']");
+				const usernameOrIdText = tradeButton ? "username" : "ID";
+				const usernameOrId = tradeButton ? getTargetUsername() : getTargetID();
 				return { usernameOrId, usernameOrIdText };
 			};
 
@@ -2750,8 +2750,7 @@
 					buttonsContainer.appendChild(outputContainer.element);
 
 					function updateOutputBox() {
-						const sendDmButton = buttonsContainer.querySelector("div > a > button > img[src='icons/friends.svg']");
-						const usernameOrId = sendDmButton ? getTargetUsername() : getTargetID();
+						const { usernameOrId } = getUsernameOrId(targetWindow);
 						const durationInMinutes = calculateDurationInMinutes(durationInput.element.value, durationFormat.element.value);
 						outputCommandBox.element.value = `/${selectedPunishCommand} ${usernameOrId} ${durationInMinutes}`;
 					}
