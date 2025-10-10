@@ -3050,8 +3050,8 @@
 			const elementWithID = targetWindow.querySelector(`#top-wrapper > div > div:nth-child(2) > div:nth-child(${reportButton ? 4 : 3})`);
 
 			elementWithUsername.onclick = () => {
-				const { usernameOrId, usernameOrIdText } = getTargetUsernameOrId(targetWindow);
-				copyTextToClipboard(usernameOrId, `target ${usernameOrIdText}`);
+				const username = getTargetUsername(targetWindow);
+				copyTextToClipboard(username, `target username`);
 			}
 
 			elementWithID.onclick = () => {
