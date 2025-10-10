@@ -131,6 +131,9 @@ This does not apply to s0urce assets or reputable CDNs (notable mention: twemoji
   - No idea what this actually did, since the inventory index numbers are still there; should look into it sometime
 - Add an option to change the spinning rat gif to something else or turn it off
 - Dot added some css/setting that changes some colors used inside windows/tabs/whatever-they're-called, and it doesn't work in this fork how I intended it I think, idk I need to look into it sometime.
+- When clicking the ID, copy it (like the username)
+- The command bar hack command seems to break on higher latency networks, I guess it's trying to click a hack or port button that's not there yet
+- Tweak URL linkifying so d0t's description triggers it too
 
 ### Notes
 

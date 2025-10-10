@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         prettier-n0urce
-// @version      2025-10-05
+// @version      2025-10-10
 // @description  Nander's merge of prettier-s0urce and d0urce, aiming to provide you the best experience of both worlds.
 // @author       Xen0o2, d0t3ki, NanderTGA
 // @match        https://s0urce.io/
@@ -511,6 +511,213 @@
 		}
 	}
 
+	/**
+	 * Utility black-box class that watches for changes in the target window.
+	 * Maybe it's using one MutationObserver, maybe a bazillion of them.
+	 * The truth is it doesn't matter, and I'll change it along the way to fit our needs.
+	 * That's why I wrote this class with a bunch private fields in the first place.
+	 *
+	 * If you're planning to work on this, please remember to heavily battle-test your code because chances are there's yet another edge case you haven't encountered yet.
+	 * You'll thank me later.
+	 *
+	 * This class handles all the mutations in the target window we are interested in, which are the following:
+	 * - Adds/remove the evil staff features punish button when the report button is added or removed.
+	 * - Updates the evil staff features command output box if it's active.
+	 * - Checks again for links in the profile description.
+	 * - Updates the BTC counter when the user changes.
+	 */
+	class TargetWindowObserver {
+		/**
+		 * @private
+		 * @type {MutationObserver}
+		 */
+		userInfoChildListObserver;
+
+		/**
+		 * @private
+		 * @type {MutationObserver}
+		 */
+		userIdObserver;
+
+		/**
+		 * @private
+		 * @type {MutationObserver}
+		 */
+		userDescriptionObserver
+
+		/**
+		 * @private
+		 * Monitors some specific CSS changes that cause the target window to overflow, so we can cancel them.
+		 * @type {MutationObserver}
+		 */
+		antiOverflowStyleObserver;
+
+		/**
+		 * @private
+		 * Used to detect when the shelf appears.
+		 * @type {MutationObserver}
+		 */
+		shelfParentObserver;
+
+		/** @type {HTMLDivElement} */
+		targetWindow;
+
+		/** @type {HTMLDivElement} */
+		profileDescriptionElement;
+		/** @type {string} */
+		currentDescription;
+
+		constructor() {
+			this.userInfoChildListObserver = new MutationObserver(this.onUserInfoChildListChange.bind(this));
+			this.userIdObserver = new MutationObserver(this.onUserChange.bind(this));
+			this.userDescriptionObserver = new MutationObserver(this.onUserDescriptionChange.bind(this));
+			this.antiOverflowStyleObserver = new MutationObserver(this.onAntiOverflowStyleChange.bind(this));
+			this.shelfParentObserver = new MutationObserver(this.onShelfParentChildListChange.bind(this));
+		}
+
+		/**
+		 * Start watching a new target window for changes.
+		 * @param {HTMLDivElement} targetWindow The parent of the target window's .window-content div.
+		 */
+		observe(targetWindow) {
+			/**
+			 * This element has a couple of children we are interested in:
+			 *  - The report button (and thus the punish button too)
+			 *  - The target's ID. If this changes we need to recalculate a bunch of stuff
+			 */
+			this.targetWindow = targetWindow;
+			const userInfoContainer = targetWindow.querySelector(".window-content > .section > .section-content > div:nth-child(1) > #top-wrapper > div > div:nth-child(2)");
+			this.userInfoChildListObserver.observe(userInfoContainer, { childList: true });
+
+			const reportButton = userInfoContainer.querySelector("#report");
+			const idElement = userInfoContainer.children[reportButton ? 3 : 2];
+			this.userIdObserver.observe(idElement, { characterData: true, childList: true, subtree: true });
+
+			this.profileDescriptionElement = targetWindow.querySelector("#description");
+			this.currentDescription = this.profileDescriptionElement.innerText;
+			this.userDescriptionObserver.observe(this.profileDescriptionElement, { characterData: true, childList: true, subtree: true });
+
+			const windowContentDiv = targetWindow.querySelector(".window-content");
+			this.antiOverflowStyleObserver.observe(windowContentDiv, { attributes: true, attributeFilter: [ "style" ], attributeOldValue: true });
+
+			const shelfParent = targetWindow.querySelector(".section-content > div:nth-child(1)");
+			this.shelfParentObserver.observe(shelfParent, { childList: true });
+		}
+
+		/**
+		 * Stop watching the target window.
+		 * Call when the target window is closed.
+		 */
+		disconnect() {
+			this.userInfoChildListObserver.disconnect();
+			this.userIdObserver.disconnect();
+			this.userDescriptionObserver.disconnect();
+			this.antiOverflowStyleObserver.disconnect();
+			this.shelfParentObserver.disconnect();
+		}
+
+		/**
+		 * @private
+		 * Called when a childList change occurs in the user info container.
+		 * @param {MutationRecord[]} mutations The list of mutations.
+		 */
+		onUserInfoChildListChange(mutations) {
+			for(const mutation of mutations) {
+				for (const addedNode of mutation.addedNodes) {
+					if (addedNode instanceof Element && addedNode.id === "report") {
+						const punishButton = createPunishButton(this.targetWindow);
+						mutation.target.appendChild(punishButton.element);
+						return;
+					}
+				}
+
+				for (const removedNode of mutation.removedNodes) {
+					if (removedNode instanceof Element && removedNode.id === "report") {
+						this.targetWindow.querySelector("#punish")?.remove();
+						return;
+					}
+				}
+			}
+		}
+
+		/**
+		 * @private
+		 * Called when the selected player changes.
+		 */
+		onUserChange() {
+			// is this hacky? yes
+			// is it also the easiest way to make it update the command output box? hell yes
+			const punishDurationInputBox = this.targetWindow.querySelector("#punishDuration");
+			if (punishDurationInputBox) punishDurationInputBox.dispatchEvent(new Event("input"));
+
+			this.updateBtcCounter();
+		}
+
+		/**
+		 * @private
+		 * Called when parent of the shelf element has its child list change, meaning a possible shelf appearance.
+		 * @param {MutationRecord[]} mutations The list of mutations.
+		 */
+		onShelfParentChildListChange(mutations) {
+			for (const mutation of mutations) {
+				for (const node of [ ...mutation.addedNodes, ...mutation.removedNodes ]) {
+					if (node instanceof Element && node.querySelector("img[src='icons/shelf.svg']")) {
+						this.updateBtcCounter();
+						return;
+					}
+				}
+			}
+		}
+
+		updateBtcCounter() {
+			const btcCounter = this.targetWindow.querySelector("#targetBtcCounter");
+			if (btcCounter) {
+				const shelfTitle = this.targetWindow.querySelector("img[src='icons/shelf.svg']")?.parentNode;
+				if (shelfTitle && !shelfTitle.querySelector("#targetBtcCounter")) btcCounter.remove();
+
+				else {
+					const btcText = getTargetBTC(this.targetWindow);
+					// useful to check whether a player is an NPC
+					const reportButton = this.targetWindow.querySelector("#report");
+
+					if ((player.configuration.hideBtcCounterWhenTargetBtcUnknown || !reportButton) && btcText === "Unknown ") btcCounter.remove();
+					else btcCounter.childNodes[0].textContent = btcText;
+					return;
+				}
+			}
+
+			addBtcCounter(this.targetWindow);
+		}
+
+		/**
+		 * @private
+		 * Called when the description of the current user changes.
+		 * (Or in other words, the player changes, but we don't care about that here.)
+		 */
+		onUserDescriptionChange() {
+			if (this.profileDescriptionElement.innerText === this.currentDescription) return;
+			this.currentDescription = this.profileDescriptionElement.innerText;
+
+			const currentLinkButtons = this.profileDescriptionElement.querySelectorAll("button");
+			for (const button of currentLinkButtons) button.remove();
+
+			addProfileDescriptionLinks(this.profileDescriptionElement);
+		}
+
+		/**
+		 * @private
+		 * Called when the game tries to revert our CSS changes that auto-adjust the height prevent the target window from overflowing.
+		 * @param {MutationRecord[]} mutations The list of mutations.
+		 */
+		onAntiOverflowStyleChange(mutations) {
+			for (const mutation of mutations) {
+				if (mutation.target instanceof HTMLElement && mutation.target.style.height !== "fit-content") mutation.target.style.height = "fit-content";
+			}
+		}
+	}
+
+	const targetWindowObserver = new TargetWindowObserver();
+
 	const rarities = ["common", "uncommon", "rare", "epic", "legendary", "mythic", "ethereal"];
 
 	const lootRarity = [
@@ -571,6 +778,7 @@
 				defaultColors,
 			windowSnapping: localStorage.getItem("prettier-windowSnapping") === "true",
 			domainsToLinkify: localStorage.getItem("prettier-domainsToLinkify")?.split(" ") || [ "padlet.com", "youtube.com", "wiki.s0urce.io", "github.com", "discord.gg" ],
+			hideBtcCounterWhenTargetBtcUnknown: localStorage.getItem("prettier-hideBtcCounterWhenTargetBtcUnknown") !== "false",
 		},
 		input: {
 			isShiftDown: false,
@@ -1241,6 +1449,10 @@
 		if (isLogWindow)
 			logObserver.disconnect();
 
+		const isTargetWindow = windowClosed.removedNodes[0].querySelector(".window-title > img[src='icons/target.svg']")
+		if (isTargetWindow)
+			targetWindowObserver.disconnect();
+
 		const wasHackingSomeone = windowClosed.removedNodes[0].querySelector(".window-title > img[src='icons/terminal.svg']");
 		if (wasHackingSomeone) {
 			const currentHackingBy = player.hacksInProgress.find(e => e.hacker == player.currentlyHacking);
@@ -1895,6 +2107,283 @@
 		goButton.click();
 	}
 
+	/**
+	 * @param {HTMLDivElement} targetWindow
+	 */
+	const getTargetID = (targetWindow) => {
+		const reportButton = targetWindow.querySelector("#report");
+		const elementWithID = targetWindow.querySelector(`#top-wrapper > div > div:nth-child(2) > div:nth-child(${reportButton ? 4 : 3})`);
+		return elementWithID.innerText.replace("ID: ", "");
+	}
+
+	/**
+	 * @param {HTMLDivElement} targetWindow
+	 */
+	const getTargetUsername = (targetWindow) => {
+		const reportButton = targetWindow.querySelector("#report");
+		const elementWithUsername = targetWindow.querySelector(`#top-wrapper > div > div:nth-child(2) > div:nth-child(${reportButton ? 2 : 1}) > div`);
+		return elementWithUsername.innerText;
+	}
+
+	/**
+	 * Returns the username (for registered players) or session ID (for guests).
+	 * @param {HTMLDivElement} targetWindow
+	 * @returns {{ usernameOrId: string; usernameOrIdText: string }}
+	 */
+	const getTargetUsernameOrId = (targetWindow) => {
+		const buttonsContainer = targetWindow.querySelector(".section-content > div:nth-child(2)");
+		const tradeButton = buttonsContainer.querySelector("div > a > button > img[src='icons/trade.svg']");
+		const usernameOrIdText = tradeButton ? "username" : "ID";
+		const usernameOrId = tradeButton ? getTargetUsername(targetWindow) : getTargetID(targetWindow);
+		return { usernameOrId, usernameOrIdText };
+	};
+
+	/**
+	 * @param {HTMLDivElement} targetWindow
+	 */
+	const createPunishButton = (targetWindow) => new Component("div", {
+		style: {
+			position: "absolute",
+			right: "26px",
+			top: "2px",
+			padding: "2px 4px",
+			borderRadius: "2px",
+		},
+		id: "punish",
+		children: [
+			new Component("img", {
+				classList: ["icon"],
+				src: getAssetLink("legal-hammer.svg"),
+				alt: "Punish",
+				style: {
+					filter: "invert(60%)"
+				},
+			}),
+		],
+		onclick: () => {
+			for (const comment of targetWindow.querySelectorAll(".comment-wrapper")) comment.remove();
+			const lines = targetWindow.querySelectorAll(".line");
+			if (lines.length === 2) lines[1].remove();
+
+			const buttonsContainer = targetWindow.querySelector(".section-content > div:nth-child(2)");
+			// Make sure to not remove the trade button, as it's always there for registered players, even when offline
+			buttonsContainer.querySelector("div > a > button > img[src='icons/hack.svg']")?.parentNode?.parentNode?.parentNode?.remove();
+			targetWindow.querySelector(".window-content").style.height = "fit-content";
+
+			const punishOptionsContainer = new Component("div", {
+				style: {
+					marginTop: "5px",
+					display: "flex",
+				},
+			});
+			buttonsContainer.appendChild(punishOptionsContainer.element);
+
+			let selectedPunishCommand = "";
+			const createPunishOption = (buttonText, punishCommand, color, iconSrc, iconAlt) => {
+				const punishOption = new Component("div", {
+					style: {
+						display: "flex",
+						flexDirection: "column",
+						flex: "1",
+					},
+					children: [new Component("a", {
+						style: {
+							width: "100%",
+							display: "inline-block",
+							margin: "0px",
+							flex: "0 1 auto",
+						},
+						children: [new Component("button", {
+							classList: [color, "svelte-ec9kqa"],
+							style: {
+								height: "auto",
+								padding: "6px 0",
+								fontFamily: "var(--font-family-1)",
+								fontSize: "16px",
+								boxShadow: "0 10px 15px var(--color-shadow)",
+								//fontSize: "clamp(1rem, 1vw + 1rem, 2rem)",
+							},
+							innerHTML: `<img class="icon icon-in-text" src="${iconSrc}" alt="${iconAlt}">${buttonText}`,
+							onclick: () => {
+								selectedPunishCommand = punishCommand;
+								updateOutputBox();
+							},
+						})],
+					})],
+				});
+				punishOptionsContainer.element.appendChild(punishOption.element);
+			};
+
+			createPunishOption("Mute", "mute", "green", "emojis/zipper-mouth-face.svg", "Zipper Mouth Face");
+			createPunishOption("Ban", "ban", "yellow", getAssetLink("legal-hammer.svg"), "Legal Hammer");
+			createPunishOption("IP Ban", "ip-ban", "red", "emojis/pile-of-poo.svg", "Pile Of Poo");
+
+			const durationFormats = {
+				minutes: 1,
+				hours: [60, "minutes"],
+				days: [24, "hours"],
+				weeks: [7, "days"],
+				months: [30, "days"],
+				quarters: [3, "months"],
+				years: [365, "days"],
+				decades: [10, "years"],
+				centuries: [100, "years"],
+				millennia: [1000, "years"],
+			};
+			function calculateDurationInMinutes(duration, durationFormat) {
+				const durationFormatInfo = durationFormats[durationFormat];
+				if (Array.isArray(durationFormatInfo)) return calculateDurationInMinutes(durationFormatInfo[0] * duration, durationFormatInfo[1]);
+				return durationFormatInfo * duration;
+			}
+
+			const durationInput = new Component("input", {
+				id: "punishDuration",
+				type: "number",
+				min: 1,
+				value: 60,
+				size: 5,
+				style: { padding: "4px", borderRadius: "3px", backgroundColor: "var(--color-grey)", boxShadow: "0 10px 20px var(--color-shadow) inset", border: "1px solid var(--color-lightgrey)", fontFamily: "var(--font-family-2)", width: "100%", outline: "none" },
+				oninput: () => updateOutputBox(),
+				onwheel: event => {
+					event.preventDefault();
+					const valueToAdd = event.deltaY < 0 ? 1 : -1;
+					event.target.value = Number(event.target.value) + valueToAdd;
+					updateOutputBox();
+				}
+			});
+			const durationFormat = new Component("select", {
+				id: "punishDurationFormat",
+				children: Object.keys(durationFormats)
+					.map(durationFormat => new Component("option", {
+						value: durationFormat,
+						innerText: capitalize(durationFormat),
+					})),
+				onchange: () => updateOutputBox(),
+				style: { width: "100%" }
+			});
+			const durationContainer = new Component("div", {
+				children: [durationInput, durationFormat],
+				style: {
+					marginTop: "5px",
+					display: "flex",
+				},
+			});
+			buttonsContainer.appendChild(durationContainer.element);
+
+			const outputCommandBox = new Component("input", {
+				id: "punishOutputCommand",
+				style: { padding: "4px", borderRadius: "3px", backgroundColor: "var(--color-grey)", boxShadow: "0 10px 20px var(--color-shadow) inset", border: "1px solid var(--color-lightgrey)", fontFamily: "var(--font-family-2)", width: "100%", outline: "none" },
+			});
+			const sendOutputCommandButton = new Component("button", {
+				innerText: "Send",
+				classList: ["blue", "svelte-ec9kqa"],
+				style: { padding: "6px 0", width: "51%" },
+				onclick: () => sendChatMessage(outputCommandBox.element.value),
+			});
+			const outputContainer = new Component("div", {
+				children: [outputCommandBox, sendOutputCommandButton],
+				style: {
+					marginTop: "5px",
+					display: "flex",
+					height: "36px"
+				},
+			});
+			buttonsContainer.appendChild(outputContainer.element);
+
+			function updateOutputBox() {
+				const { usernameOrId } = getTargetUsernameOrId(targetWindow);
+				const durationInMinutes = calculateDurationInMinutes(durationInput.element.value, durationFormat.element.value);
+				outputCommandBox.element.value = `/${selectedPunishCommand} ${usernameOrId} ${durationInMinutes}`;
+			}
+		},
+	});
+
+	/**
+	 * @param {HTMLDivElement} descriptionElement The description element in the target window.
+	 */
+	function addProfileDescriptionLinks(descriptionElement) {
+		currentTargetWindowLinks = [];
+
+		const foundLinksButtons = descriptionElement.innerText
+			.split(" ")
+			.filter(word => {
+				if (word.startsWith("http://") || word.startsWith("https://")) return true;
+				for (const domain of player.configuration.domainsToLinkify) {
+					if (word.startsWith(domain)) return true;
+				}
+			})
+			.map((link, index) => {
+				if (!link.startsWith("http:") && !link.startsWith("https:")) link = `${location.protocol}//${link}`;
+				currentTargetWindowLinks.push(link);
+
+				const button = new Component("button", {
+					onclick: () => void openBrowserLink(currentTargetWindowLinks[index]),
+					children: [
+						new Component("img", {
+							src: getAssetLink("link-external.svg"),
+							alt: "External link",
+							style: {
+								width: "20px",
+								filter: "invert()",
+							}
+						})
+					]
+				});
+				return button.element;
+			});
+
+		for (const button of foundLinksButtons) descriptionElement.appendChild(button);
+	}
+
+	/**
+	 * Gets a string representation of the current selected target's BTC,
+	 * intended to be used for the BTC counter.
+	 * If you're gonna use this for something else, make sure to trim the output.
+	 * @param {HTMLDivElement} targetWindow The target window's root container element.
+	 * @returns {string} A string representation of the current selected target's BTC.
+	 */
+	function getTargetBTC(targetWindow) {
+		const btcAmount = playerBTC[getTargetUsernameOrId(targetWindow).usernameOrId];
+		const btcText = btcAmount ? (btcAmount.toFixed(8) + " ") : "Unknown ";
+		return btcText;
+	}
+
+	/**
+	 * Adds a BTC counter to a target window.
+	 * @param {HTMLDivElement} targetWindow The target window's root container element.
+	 */
+	function addBtcCounter(targetWindow) {
+		const btcText = getTargetBTC(targetWindow);
+		// useful to check whether a player is an NPC
+		const reportButton = targetWindow.querySelector("#report");
+		if ((player.configuration.hideBtcCounterWhenTargetBtcUnknown || !reportButton) && btcText === "Unknown ") return;
+
+		const shelfTitle = targetWindow.querySelector("img[src='icons/shelf.svg']")?.parentNode;
+		const btcCounter = new Component("span", {
+			id: "targetBtcCounter",
+			style: shelfTitle ? {
+				position: "absolute",
+				right: "15px",
+			} : {},
+			children: [
+				{ element: document.createTextNode(btcText) },
+				new Component("img", {
+					classList: [ "icon", "icon-in-text" ],
+					src: "icons/btc.svg",
+					alt: "Bitcoin Icon",
+				}),
+			]
+		});
+
+		if (shelfTitle) {
+			shelfTitle.appendChild(btcCounter.element);
+			return;
+		}
+
+		const line = targetWindow.querySelector(".line");
+		line.insertAdjacentElement("beforebegin", btcCounter.element);
+	}
+
 	const windowOpenObserver = new MutationObserver(async function (mutations) {
 		const newWindow = mutations.find(e => {
 			return e.target == document.querySelector("main") &&
@@ -1963,6 +2452,7 @@
 			}
 		}
 
+		/** @type {HTMLDivElement | undefined} */
 		const isParamWindow = newWindow.addedNodes[0].querySelector(".window-title > img[src='icons/settings.svg']")?.parentNode?.parentNode;
 		if (isParamWindow) {
 			isParamWindow.querySelector(".slider[min='70']").onchange = (e) =>
@@ -2461,115 +2951,87 @@
 			})
 
 
-			const { windowSnapping } = player.configuration;
-			const windowSnappingText = new Component("span", {
-				style: {
-					color: windowSnapping ? "var(--color-green)" : "var(--color-red)",
-					fontWeight: 600,
-				},
-				innerText: windowSnapping ? "On" : "Off",
-			});
-			const windowSnappingSetting = new Component("div", {
-				classList: [ "el", "el-toggler", "svelte-176ijne" ],
-				children: [
-					new Component("div", {
-						children: [
-							{ element: document.createTextNode("Window snapping: ") },
-							windowSnappingText,
-						],
-					}),
-					new Component("a", {
-						style: {
-							width: "auto",
-							display: "inline-block",
-							margin: "0px",
-							flex: "0 1 auto",
-						},
-						children: [
-							new Component("button", {
-								classList: [ "grey", "svelte-ec9kqa" ],
-								style: {
-									height: "auto",
-									padding: "6px 14px",
-									fontFamily: "var(--font-family-1)",
-									fontSize: "16px",
-									boxShadow: "0 10px 15px var(--color-shadow)",
-								},
-								innerText: "Toggle",
-								onclick: () => {
-									player.configuration.windowSnapping = !player.configuration.windowSnapping;
-									const { windowSnapping } = player.configuration;
-									localStorage.setItem("prettier-windowSnapping", String(windowSnapping));
-									windowSnappingText.element.style.color = windowSnapping ? "var(--color-green)" : "var(--color-red)";
-									windowSnappingText.element.innerText = windowSnapping ? "On" : "Off";
-								},
-							}),
-						],
-					}),
-				],
-			});
+			/**
+			 * Creates a toggle button for a boolean setting.
+			 * @param {keyof typeof player.configuration} setting The internal id of the setting (used in player.configuration and localStorage).
+			 * @param {string} settingLabel The user-readable name of the setting.
+			 */
+			function createToggleSetting(setting, settingLabel) {
+				const settingEnabled = player.configuration[setting];
+
+				const settingStatusLabel = new Component("span", {
+					style: {
+						color: settingEnabled ? "var(--color-green)" : "var(--color-red)",
+						fontWeight: 600,
+					},
+					innerText: settingEnabled ? "On" : "Off",
+				});
+
+				const settingToggle = new Component("div", {
+					classList: [ "el", "el-toggler", "svelte-176ijne" ],
+					children: [
+						new Component("div", {
+							children: [
+								{ element: document.createTextNode(`${settingLabel}: `) },
+								settingStatusLabel,
+							],
+						}),
+						new Component("a", {
+							style: {
+								width: "auto",
+								display: "inline-block",
+								margin: "0px",
+								flex: "0 1 auto",
+							},
+							children: [
+								new Component("button", {
+									classList: [ "grey", "svelte-ec9kqa" ],
+									style: {
+										height: "auto",
+										padding: "6px 14px",
+										fontFamily: "var(--font-family-1)",
+										fontSize: "16px",
+										boxShadow: "0 10px 15px var(--color-shadow)",
+									},
+									innerText: "Toggle",
+									onclick: () => {
+										player.configuration[setting] = !player.configuration[setting];
+										const settingEnabled = player.configuration[setting];
+										localStorage.setItem(`prettier-${setting}`, String(settingEnabled));
+										settingStatusLabel.element.style.color = settingEnabled ? "var(--color-green)" : "var(--color-red)";
+										settingStatusLabel.element.innerText = settingEnabled ? "On" : "Off";
+									},
+								}),
+							],
+						}),
+					],
+				});
+
+				return settingToggle.element;
+			}
 
 			wrapper.insertBefore(backgroundSetting.element, wrapper.querySelector("div:nth-child(2)"));
 			wrapper.insertBefore(tabColorSetting.element, wrapper.querySelector("div:nth-child(2)"));
 			wrapper.insertBefore(iconColorSetting.element, wrapper.querySelector("div:nth-child(2)"));
 			wrapper.insertBefore(itemManager.element, wrapper.querySelector("div:nth-child(1)"));
-			wrapper.insertBefore(windowSnappingSetting.element, wrapper.querySelector("div:nth-child(9)"));
+			wrapper.insertBefore(createToggleSetting("hideBtcCounterWhenTargetBtcUnknown", "Hide BTC counter when the target's BTC is unknown"), wrapper.querySelector("div:nth-child(9)"));
+			wrapper.insertBefore(createToggleSetting("windowSnapping", "Window snapping"), wrapper.querySelector("div:nth-child(9)"));
 			// wrapper.insertBefore(autolootSetting.element, wrapper.querySelector("div:nth-child(2)"));
 		}
 
 		const targetWindow = newWindow.addedNodes[0].querySelector(".window-title > img[src='icons/target.svg']")?.parentNode?.parentNode;
-		ifTargetWindow: if (targetWindow) {
+		if (targetWindow) {
+			targetWindowObserver.observe(targetWindow);
+
 			const descriptionElement = document.querySelector("#description");
-			currentTargetWindowLinks = [];
-
-			const foundLinksButtons = descriptionElement.innerText
-				.split(" ")
-				.filter( word => {
-					if (word.startsWith("http://") || word.startsWith("https://")) return true;
-					for (const domain of player.configuration.domainsToLinkify) {
-						if (word.startsWith(domain)) return true;
-					}
-				})
-				.map( (link, index) => {
-					if (!link.startsWith("http:") && !link.startsWith("https:")) link = `${location.protocol}//${link}`
-					currentTargetWindowLinks.push(link)
-
-					const button = new Component("button", {
-						onclick: () => void openBrowserLink(currentTargetWindowLinks[index]),
-						children: [
-							new Component("img", {
-								src: getAssetLink("link-external.svg"),
-								alt: "External link",
-								style: {
-									width: "20px",
-									filter: "invert()",
-								}
-							})
-						]
-					})
-					return button.element
-				})
-
-			for (const button of foundLinksButtons) descriptionElement.appendChild(button);
+			addProfileDescriptionLinks(descriptionElement);
 
 			// useful to check whether it's an actual player
 			const reportButton = targetWindow.querySelector("#report");
-
 			const elementWithUsername = targetWindow.querySelector(`#top-wrapper > div > div:nth-child(2) > div:nth-child(${reportButton ? 2 : 1}) > div`);
-			const elementWithID = targetWindow.querySelector(`#top-wrapper > div > div:nth-child(2) > div:nth-child(${reportButton ? 4 : 3})`);
-			const getTargetID = () => elementWithID.innerText.replace("ID: ", "");
-			const getTargetUsername = () => elementWithUsername.innerText;
-
-			const getUsernameOrId = () => {
-				const buttonsContainer = targetWindow.querySelector(".section-content > div:nth-child(2)");
-				const tradeButton = buttonsContainer.querySelector("div > a > button > img[src='icons/trade.svg']");
-				const usernameOrIdText = tradeButton ? "username" : "ID";
-				const usernameOrId = tradeButton ? getTargetUsername() : getTargetID();
-				return { usernameOrId, usernameOrIdText };
-			};
 
 			elementWithUsername.onclick = () => {
-				const { usernameOrId, usernameOrIdText } = getUsernameOrId();
+				const { usernameOrId, usernameOrIdText } = getTargetUsernameOrId(targetWindow);
 
 				navigator.clipboard.writeText(usernameOrId)
 					.then( () => sendLog(`<img class="icon" src="icons/check.svg"/> Successfully copied target ${usernameOrIdText} to clipboard`) )
@@ -2577,186 +3039,13 @@
 					.then( () => new Audio("/sound/log.m4a").play() );
 			}
 
-			await sleep(500);
-			const shelfTitle = targetWindow.querySelector("img[src='icons/shelf.svg']")?.parentNode;
-			if (shelfTitle) {
-				const btcInShelfTitle = new Component("span", {
-					style: {
-						position: "absolute",
-						right: "15px",
-					},
-					children: [
-						{ element: document.createTextNode(playerBTC[getUsernameOrId().usernameOrId].toFixed(8) + " ") },
-						new Component("img", {
-							classList: [ "icon", "icon-in-text" ],
-							src: "icons/btc.svg",
-							alt: "Bitcoin Icon",
-						}),
-					]
-				})
-
-				shelfTitle.appendChild(btcInShelfTitle.element)
+			if (evilStaffFeaturesActivated && reportButton) {
+				const punishButton = createPunishButton(targetWindow);
+				reportButton?.parentNode.appendChild(punishButton.element);
 			}
 
-			if (!evilStaffFeaturesActivated || !reportButton) break ifTargetWindow;
-
-			const punishButton = new Component("div", {
-				style: {
-					position: "absolute",
-					right: "26px",
-					top: "2px",
-					padding: "2px 4px",
-					borderRadius: "2px",
-				},
-				id: "punish",
-				children: [
-					new Component("img", {
-						classList: ["icon"],
-						src: getAssetLink("legal-hammer.svg"),
-						alt: "Punish",
-						style: {
-							filter: "invert(60%)"
-						},
-					}),
-				],
-				onclick: () => {
-					for (const comment of targetWindow.querySelectorAll(".comment-wrapper")) comment.remove();
-					const lines = targetWindow.querySelectorAll(".line");
-					if (lines.length === 2) lines[1].remove();
-
-					const buttonsContainer = targetWindow.querySelector(".section-content > div:nth-child(2)");
-					buttonsContainer.querySelector("div > a > button > img[src='icons/hack.svg']")?.parentNode?.parentNode?.parentNode?.remove();
-					buttonsContainer.querySelector("div > a > button > img[src='icons/trade.svg']")?.parentNode?.parentNode?.parentNode?.remove();
-					targetWindow.querySelector(".window-content").style.height = "fit-content";
-
-					const punishOptionsContainer = new Component("div", {
-						style: {
-							marginTop: "5px",
-							display: "flex",
-						},
-					});
-					buttonsContainer.appendChild(punishOptionsContainer.element);
-
-					let selectedPunishCommand = "";
-					const createPunishOption = (buttonText, punishCommand, color, iconSrc, iconAlt) => {
-						const punishOption = new Component("div", {
-							style: {
-								display: "flex",
-								flexDirection: "column",
-								flex: "1",
-							},
-							children: [new Component("a", {
-								style: {
-									width: "100%",
-									display: "inline-block",
-									margin: "0px",
-									flex: "0 1 auto",
-								},
-								children: [new Component("button", {
-									classList: [color, "svelte-ec9kqa"],
-									style: {
-										height: "auto",
-										padding: "6px 0",
-										fontFamily: "var(--font-family-1)",
-										fontSize: "16px",
-										boxShadow: "0 10px 15px var(--color-shadow)",
-										//fontSize: "clamp(1rem, 1vw + 1rem, 2rem)",
-									},
-									innerHTML: `<img class="icon icon-in-text" src="${iconSrc}" alt="${iconAlt}">${buttonText}`,
-									onclick: () => {
-										selectedPunishCommand = punishCommand;
-										updateOutputBox();
-									},
-								})],
-							})],
-						});
-						punishOptionsContainer.element.appendChild(punishOption.element);
-					}
-
-					createPunishOption("Mute", "mute", "green", "emojis/zipper-mouth-face.svg", "Zipper Mouth Face");
-					createPunishOption("Ban", "ban", "yellow", getAssetLink("legal-hammer.svg"), "Legal Hammer");
-					createPunishOption("IP Ban", "ip-ban", "red", "emojis/pile-of-poo.svg", "Pile Of Poo");
-
-					const durationFormats = {
-						minutes: 1,
-						hours: [ 60, "minutes" ],
-						days: [ 24, "hours" ],
-						weeks: [ 7, "days" ],
-						months: [ 30, "days" ],
-						quarters: [ 3, "months" ],
-						years: [ 365, "days" ],
-						decades: [ 10, "years" ],
-						centuries: [ 100, "years" ],
-						millennia: [ 1000, "years" ],
-					};
-					function calculateDurationInMinutes(duration, durationFormat) {
-						const durationFormatInfo = durationFormats[durationFormat];
-						if (Array.isArray(durationFormatInfo)) return calculateDurationInMinutes(durationFormatInfo[0] * duration, durationFormatInfo[1]);
-						return durationFormatInfo * duration;
-					}
-
-					const durationInput = new Component("input", {
-						id: "punishDuration",
-						type: "number",
-						min: 1,
-						value: 60,
-						size: 5,
-						style: { padding: "4px", borderRadius: "3px", backgroundColor: "var(--color-grey)", boxShadow: "0 10px 20px var(--color-shadow) inset", border: "1px solid var(--color-lightgrey)", fontFamily: "var(--font-family-2)", width: "100%", outline: "none" },
-						oninput: () => updateOutputBox(),
-						onwheel: event => {
-							event.preventDefault();
-							const valueToAdd = event.deltaY < 0 ? 1 : -1;
-							event.target.value = Number(event.target.value) + valueToAdd;
-							updateOutputBox();
-						}
-					});
-					const durationFormat = new Component("select", {
-						id: "punishDurationFormat",
-						children: Object.keys(durationFormats)
-							.map(durationFormat => new Component("option", {
-								value: durationFormat,
-								innerText: capitalize(durationFormat),
-							})),
-						onchange: () => updateOutputBox(),
-						style: { width: "100%" }
-					});
-					const durationContainer = new Component("div", {
-						children: [durationInput, durationFormat],
-						style: {
-							marginTop: "5px",
-							display: "flex",
-						},
-					});
-					buttonsContainer.appendChild(durationContainer.element);
-
-					const outputCommandBox = new Component("input", {
-						id: "punishOutputCommand",
-						style: { padding: "4px", borderRadius: "3px", backgroundColor: "var(--color-grey)", boxShadow: "0 10px 20px var(--color-shadow) inset", border: "1px solid var(--color-lightgrey)", fontFamily: "var(--font-family-2)", width: "100%", outline: "none" },
-					});
-					const sendOutputCommandButton = new Component("button", {
-						innerText: "Send",
-						classList: ["blue", "svelte-ec9kqa"],
-						style: { padding: "6px 0", width: "51%" },
-						onclick: () => sendChatMessage(outputCommandBox.element.value),
-					});
-					const outputContainer = new Component("div", {
-						children: [outputCommandBox, sendOutputCommandButton],
-						style: {
-							marginTop: "5px",
-							display: "flex",
-							height: "36px"
-						},
-					});
-					buttonsContainer.appendChild(outputContainer.element);
-
-					function updateOutputBox() {
-						const { usernameOrId } = getUsernameOrId(targetWindow);
-						const durationInMinutes = calculateDurationInMinutes(durationInput.element.value, durationFormat.element.value);
-						outputCommandBox.element.value = `/${selectedPunishCommand} ${usernameOrId} ${durationInMinutes}`;
-					}
-				},
-			});
-			reportButton?.parentNode.appendChild(punishButton.element);
+			await sleep(500);
+			addBtcCounter(targetWindow);
 		}
 
 		const hasBeenHackedWindow = newWindow.addedNodes[0].querySelector(".window-title > img[src='icons/hack.svg']") && newWindow.addedNodes[0].querySelector(".window-title")?.innerText?.trim() == "Hacked"
