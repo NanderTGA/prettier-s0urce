@@ -2384,6 +2384,23 @@
 		line.insertAdjacentElement("beforebegin", btcCounter.element);
 	}
 
+	/**
+	 * Helper function to copy text to the clipboard with error handling and log messages.
+	 * @param {string} text The text to copy.
+	 * @param {string} label A user-friendly description of what you're copying onto the clipboard.
+	 */
+	function copyTextToClipboard(text, label) {
+		navigator.clipboard.writeText(text)
+			.then( () => {
+				sendLog(`<img class="icon" src="icons/check.svg"/> Successfully copied ${label} to clipboard`);
+				new Audio("/sound/log.m4a").play();
+			})
+			.catch( () => {
+				sendLog(`<img class="icon" src="icons/close.svg"/> Could not copy ${label} to clipboard`);
+				new Audio("/sound/error.m4a").play();
+			});
+	}
+
 	const windowOpenObserver = new MutationObserver(async function (mutations) {
 		const newWindow = mutations.find(e => {
 			return e.target == document.querySelector("main") &&
@@ -3019,6 +3036,7 @@
 			// wrapper.insertBefore(autolootSetting.element, wrapper.querySelector("div:nth-child(2)"));
 		}
 
+		/** @type {HTMLDivElement | undefined} */
 		const targetWindow = newWindow.addedNodes[0].querySelector(".window-title > img[src='icons/target.svg']")?.parentNode?.parentNode;
 		if (targetWindow) {
 			targetWindowObserver.observe(targetWindow);
@@ -3029,14 +3047,16 @@
 			// useful to check whether it's an actual player
 			const reportButton = targetWindow.querySelector("#report");
 			const elementWithUsername = targetWindow.querySelector(`#top-wrapper > div > div:nth-child(2) > div:nth-child(${reportButton ? 2 : 1}) > div`);
+			const elementWithID = targetWindow.querySelector(`#top-wrapper > div > div:nth-child(2) > div:nth-child(${reportButton ? 4 : 3})`);
 
 			elementWithUsername.onclick = () => {
 				const { usernameOrId, usernameOrIdText } = getTargetUsernameOrId(targetWindow);
+				copyTextToClipboard(usernameOrId, `target ${usernameOrIdText}`);
+			}
 
-				navigator.clipboard.writeText(usernameOrId)
-					.then( () => sendLog(`<img class="icon" src="icons/check.svg"/> Successfully copied target ${usernameOrIdText} to clipboard`) )
-					.catch( () => sendLog(`<img class="icon" src="icons/close.svg"/> Could not copy target ${usernameOrIdText} to clipboard`) )
-					.then( () => new Audio("/sound/log.m4a").play() );
+			elementWithID.onclick = () => {
+				const id = getTargetID(targetWindow);
+				copyTextToClipboard(id, "target ID");
 			}
 
 			if (evilStaffFeaturesActivated && reportButton) {
