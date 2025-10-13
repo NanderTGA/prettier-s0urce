@@ -3038,8 +3038,35 @@
 
 		/** @type {HTMLDivElement | undefined} */
 		const targetWindow = newWindow.addedNodes[0].querySelector(".window-title > img[src='icons/target.svg']")?.parentNode?.parentNode;
+		var currentStore = null;
 		if (targetWindow) {
 			targetWindowObserver.observe(targetWindow);
+
+			//! IMPORTANT merger comment:
+			//!
+			//! This code has not been tested in its current state and I'm only merging this
+			//! for the sake of merging the whole commit tree of d0urce into n0urce and I'm reverting this right after merging.
+			//!
+			//! This code was merged from d0t's target window open observer into mine,
+			//! which have been developed independently of each other.
+			//!
+			//! This code was originally meant to be used in some sort of while loop,
+			//! but I can't explain the details because I don't understand d0t's code and I'm not gonna bother.
+			//!
+			//! Needless to say, make sure you add the next commit to your branch as well to revert this weirdness.
+
+			const details = document.querySelector("#description").innerText
+			const padlet = details.split("https://padlet.com/")[1] || details.split("padlet.com/")[1] || null
+
+			if (currentStore && currentStore != newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(2) > div").innerText) {
+				newWindow.addedNodes[0].querySelector("div.window-title.svelte-1hjm43z > button").click()
+			}
+
+			if (padlet && details) {
+				currentStore = newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(2) > div").innerText
+				document.querySelector("#description").innerHTML = details.split("https://padlet.com/")[0].split("Browse Shop")[0] +
+				`<button id="` + padlet + `" onclick="openPadlet()" class="green svelte-ec9kqa" style="margin-left: 20%;width: 60%;height: 40px;">Browse Shop</button>`
+			}
 
 			const descriptionElement = document.querySelector("#description");
 			addProfileDescriptionLinks(descriptionElement);
@@ -3169,7 +3196,7 @@
 				element.innerHTML = element.innerHTML.replace(/^\d+\.\d+/, total);
 			return total;
 		} catch (e) {
-			console.log(e);
+			//console.log(e);
 			prettierLoadFails("7");
 		}
 
@@ -3228,7 +3255,7 @@
 			filamentObserver.disconnect();
 			filamentObserver.observe(container, { subtree: true, characterData: true, childList: true });
 		} catch (e) {
-			console.log(e);
+			//console.log(e);
 			prettierLoadFails("6")
 		}
 	}
@@ -3974,6 +4001,27 @@
 		loadingScreen("delete");
 	})();
 })();
+
+// Padlet handler:
+
+async function openPadlet() {
+	document.querySelector('#desktop-container > div:nth-child(14)').click();
+	const sleep = (ms) => {
+		return new Promise(resolve => setTimeout(resolve, ms));
+	}
+	await sleep(300)
+	const inputFields = document.querySelectorAll('#wrapper > input');
+	var inputField = null
+	for (var i = 0; i < inputFields.length; i++) {
+		inputField = inputFields[i].placeholder == "" ? inputFields[i] : inputField
+	}
+	//console.log(inputField,document.querySelector("#description").innerHTML)
+	inputField.value = "https://padlet.com/" + document.querySelector("#description").innerHTML.split("id=\"")[1].split("\"")[0];
+	inputField.dispatchEvent(new Event('input', { bubbles: true }));
+	document.querySelector("body > div > main > div.window.svelte-1hjm43z.window-selected > div.window-content.svelte-1hjm43z > div > form > a > button").click();
+	await sleep(1000)
+	document.querySelector("body > div > main > div.window.svelte-1hjm43z.window-selected > div.window-content.svelte-1hjm43z > div > form > a > button").click();
+}
 
 // Page Break
 
