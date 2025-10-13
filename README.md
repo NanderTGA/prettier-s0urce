@@ -92,8 +92,9 @@ Very big thank you to Nelumbo for finding this very useful bug!
 
 Branches:
 
-- `main` branch, which is where the end result ends up
-- `d0urce-main` branch: this is the main branch of d0t's fork but with one extra commit that renames `d0urce-prettier.user.js` to `prettier-s0urce.user.js` so git merge can work
+- `main` branch: where the end result ends up; this the only one you really need to worry about
+- `d0urce-main` branch: points to the main branch on d0t's prettier repository
+- `d0urce-renamed-main-file` branch: this is the main branch of d0t's fork but with one extra commit that renames `d0urce-prettier.user.js` to `prettier-s0urce.user.js` so git merge can work
 
 Remotes:
 
@@ -102,7 +103,13 @@ Remotes:
 - `d0urce`: [d0t's prettier repository](https://github.com/d0t3k1/d0t-s0urce-prettier)
 
 To merge from Xen0o2's prettier repository, I merge from the `upstream` remote into the `main` branch.
-To merge from d0t's prettier repository, I first pull those commits into `d0urce-main`, then merge from that branch into `main`.
+
+To merge from d0t's prettier repository, I first pull those commits into `d0urce-main`, then merge one commit into `d0urce-renamed-main-file`.
+I then merge `d0urce-renamed-main-file` into `main`, this is also when I deal with merge conflicts.
+If there's more commits to be merged, I proceed to merge another commit into `d0urce-renamed-main-file` and repeat the process.
+
+I usually merge commits one-by-one so I can more easily deal with merge conflicts.
+Giant unclear diffs are a pain, especially when git is not aware that I have moved a lot of code around in my own branch and the line numbers differ greatly.
 
 ### Reverting Commits
 
@@ -136,5 +143,4 @@ This does not apply to s0urce assets or reputable CDNs (notable mention: twemoji
 
 ### Notes
 
-- Do not merge d0urce v1.8.0, I wrote my own profile links feature instead (kinda wip, need to add a MutationObserver to the target list)
 - Do not merge "fix: tampermonkey issue" either, it removes window snapping, but I already moved that to an option disabled by default
