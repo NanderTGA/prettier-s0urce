@@ -923,7 +923,7 @@
 	}
 
 	const prettierLoadFails = (code) => {
-		alert(`Prettier-s0urce loading failed, please contact Xen0o2 on Discord (error code: ${code})`);
+		alert(`Prettier-s0urce loading failed, please contact NanderTGA on Discord (error code: ${code})`);
 	}
 
 	const sendLog = async (HTMLContent) => {
