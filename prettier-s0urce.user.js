@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         prettier-n0urce
-// @version      2025-10-10
+// @version      2025-10-14
 // @description  Nander's merge of prettier-s0urce and d0urce, aiming to provide you the best experience of both worlds.
 // @author       Xen0o2, d0t3ki, NanderTGA
 // @match        https://s0urce.io/
 // @icon         https://s0urce.io/icons/s0urce.svg
 // @grant        none
+// @run-at       document-start
 // @downloadURL  https://raw.githubusercontent.com/NanderTGA/prettier-s0urce/main/prettier-s0urce.user.js
 // @updateURL    https://raw.githubusercontent.com/NanderTGA/prettier-s0urce/main/prettier-s0urce.user.js
 // @homepageURL  https://github.com/NanderTGA/prettier-s0urce
@@ -3953,8 +3954,12 @@
 	}
 
 	(async () => {
-		while (document.querySelector("#login-top") || window.location.href !== "https://s0urce.io/")
+		// when running at document-start, a lot of elements we mess with will be missing, like the head and the body
+		// never thought I'd ever encounter a page with no body, but hey ig we have to check for that too now
+		// all worth it to fix the damn btc to usd functionality of course :)
+		while (document.querySelector("#login-top") || window.location.href !== "https://s0urce.io/" || !document.querySelector("main"))
 			await sleep(500);
+
 		loadingScreen("create", "Prettier s0urce");
 		editFilaments();
 		customTerminal();
