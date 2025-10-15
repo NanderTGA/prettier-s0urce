@@ -4023,33 +4023,33 @@ tab key bind open/close feature.
 Note: You need to hold alt before using
 any of these keys!
 
-		-------------------------
-		| TAB NAME        | KEY |
-		| -----------------------
-		| Computer	  |  c  |
-		| Inventory	  |  i  |
-		| Target List	  |  t  |
-		| Terminal	  |  T  |
-		| Season Pass	  |  P  |
-		| Friends	  |  F  |
-		| Log		  |  l  |
-		| Item Seller	  |  I  |
-		| Premium	  |  P  |
-		| Shop		  |  s  |
-		| Leaderboard	  |  b  |
-		| Country Wars	  |  w  |
-		| Task Manager	  |  M  |
-		| s0urce Browser  |  0  |
-		| Upgrader	  |  u  |
-		| Spotify	  |  S  |
-		| VPN		  |  v  |
-		| Filament	  |  f  |
-		| 3D Printer	  |  p  |
-		| Global Chat	  |  g  |
-		| Agents	  |  a  |
-		| Mail		  |  m  |
-		-------------------------
-		`
+        -------------------------
+        | TAB NAME        | KEY |
+        | -----------------------
+        | Computer	  |  c  |
+        | Inventory	  |  i  |
+        | Target List	  |  t  |
+        | Terminal	  |  T  |
+        | Season Pass	  |  P  |
+        | Friends	  |  F  |
+        | Log		  |  l  |
+        | Item Seller	  |  I  |
+        | Premium	  |  P  |
+        | Shop		  |  s  |
+        | Leaderboard	  |  b  |
+        | Country Wars	  |  w  |
+        | Task Manager	  |  M  |
+        | s0urce Browser  |  0  |
+        | Upgrader	  |  u  |
+        | Spotify	  |  S  |
+        | VPN		  |  v  |
+        | Filament	  |  f  |
+        | 3D Printer	  |  p  |
+        | Global Chat	  |  g  |
+        | Agents	  |  a  |
+        | Mail		  |  m  |
+        -------------------------
+        `
 	}
 
 	(async () => {
