@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         prettier-n0urce
-// @version      2025-10-14
+// @version      2025-10-15
 // @description  Nander's merge of prettier-s0urce and d0urce, aiming to provide you the best experience of both worlds.
 // @author       Xen0o2, d0t3ki, NanderTGA
 // @match        https://s0urce.io/
@@ -3142,13 +3142,13 @@
 
 		sendLog(/* html */`
 			<div style="color: #52e7f7; text-shadow: 0 0 2px #0fa, 0 0 3px #52e7f7; letter-spacing: 0.3px; font-weight: lighter">
-				New In d0urce v1.9.0:
+				New In prettier-n0urce 2025-10-15:
+						<img class="icon" src="${getAssetLink("rat.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+					Merged d0urce v1.9.0
 						<img class="icon" src="${getAssetLink("tools.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
 					Alt-Key Navigation
-						<img class="icon" src="${getAssetLink("rat.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
-					No-Log Crash Bug Fix
 						<img class="icon" src="${getAssetLink("sparkle.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
-					Prettier Optimization
+					Fixed a couple of dTI bugs
 			</div>
 		`)
 	}
@@ -4012,10 +4012,15 @@
 
 
 		document.querySelector("body > div.window.svelte-1hjm43z.window-selected > div.window-content.svelte-1hjm43z > form > textarea").value =
-	`Thanks for using d0urce v1.9.0!
+	`Thanks for using prettier-n0urce!
+
+This update features the alt navigation
+from d0urce v1.9.0.
 
 Below is a guide to help you use d0urce
 tab key bind open/close feature.
+Note that some of the keybinds change
+in later d0urce updates.
 
 Note: You need to hold alt before using
 any of these keys!
