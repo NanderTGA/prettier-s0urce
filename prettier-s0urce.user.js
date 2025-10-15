@@ -3140,14 +3140,14 @@
 			</div>
 		`)
 
-		sendLog(`
+		sendLog(/* html */`
 			<div style="color: #52e7f7; text-shadow: 0 0 2px #0fa, 0 0 3px #52e7f7; letter-spacing: 0.3px; font-weight: lighter">
 				New In d0urce v1.9.0:
-						<img class="icon" src="https://www.svgrepo.com/show/418453/feature-request-device.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+						<img class="icon" src="${getAssetLink("tools.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
 					Alt-Key Navigation
-						<img class="icon" src="https://www.svgrepo.com/show/323093/rat.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+						<img class="icon" src="${getAssetLink("rat.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
 					No-Log Crash Bug Fix
-						<img class="icon" src="https://www.svgrepo.com/show/364858/sparkle-fill.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+						<img class="icon" src="${getAssetLink("sparkle.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
 					Prettier Optimization
 			</div>
 		`)

@@ -69,6 +69,14 @@ except for those listed below with a different license.
 - Changes made: None
 - Author: [Dazzle UI](https://www.svgrepo.com/author/Dazzle%20UI/)
 
+### `rat.svg`
+
+- Source: <https://www.svgrepo.com/svg/323093/rat> (Original source: <https://game-icons.net/1x1/delapouite/rat.html>)
+- License: [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/)
+- Changes made: None
+- Uploader: Game-Icons.net ([SVG Repo](https://www.svgrepo.com/author/game-icons.net/), [Website](https://game-icons.net))
+- Author: [Delapouite](https://delapouite.com/)
+
 ### `sort.svg`
 
 - Source: <https://www.svgrepo.com/svg/2287/sort>
@@ -76,9 +84,24 @@ except for those listed below with a different license.
 - Changes made: None
 - Uploader: [SVG Repo](https://www.svgrepo.com/)
 
+### `sparkle.svg`
+
+- Source: <https://www.svgrepo.com/svg/364858/sparkle-fill>
+- License: [MIT License](https://github.com/phosphor-icons/core/blob/33fb01d1d33cd0156633ea4d33f4011fabe4d2da/LICENSE)
+- Changes made: None
+- Author: [Phosphor Icons](https://phosphoricons.com/)
+
 ### `spinning-rat.gif`
 
 - Source: <https://tenor.com/view/rat-gif-26363718>
 - License: unknown
 - Changes made: none
 - Uploader: [KMBC](https://tenor.com/users/kmbc)
+
+### `tools.svg`
+
+- Source: <https://www.svgrepo.com/svg/418453/feature-request-device>
+- License: [CC Attribution License](https://www.svgrepo.com/page/licensing/#CC%20Attribution), also known as CC BY; More information on the Creative Commons website: [Deed (summary)](https://creativecommons.org/licenses/by/4.0/), [Legal Code (Actual License)](https://creativecommons.org/licenses/by/4.0/legalcode)
+  - NOTE: the links above link to information on the CC BY 4.0 license, but we could not find which specific version of the CC-BY this work is licensed under.
+- Changes made: None
+- Author: [Pinpoint](https://www.svgrepo.com/author/pinpoint/)
