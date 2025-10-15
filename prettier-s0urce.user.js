@@ -3573,7 +3573,6 @@
 		})
 	}
 
-	/*
 	const sumPx = (a, b) => {
 		return Number((a.match(/\d+px/) || [""])[0].slice(0, -2)) + Number((b.match(/\d+px/) || [""])[0].slice(0, -2));
 	}
@@ -3661,7 +3660,6 @@
 			createLine({ top: "0px", height: "100vh", width: "2px", left: `${value}px` });
 		}
 	};
-	*/
 
 	const altNavigate = (e) => {
 		let name = null;
@@ -3718,12 +3716,12 @@
 				&& ["Computer", "Inventory", "Trade"].includes(windowClicked?.querySelector(".window-title > img")?.alt)
 			)
 				manageItemSelection(e.target.parentNode);
-			//if (e.target.classList.contains("window-title"))
-				//window.addEventListener("mousemove", manageWindowDragged);
+			if (e.target.classList.contains("window-title"))
+				window.addEventListener("mousemove", manageWindowDragged);
 		})
 		document.body.addEventListener("mouseup", () => {
 			document.querySelectorAll(".sticky-line").forEach(e => e.remove());
-			//window.removeEventListener("mousemove", manageWindowDragged);
+			window.removeEventListener("mousemove", manageWindowDragged);
 		})
 		document.body.oncontextmenu = (e) => {
 			e.preventDefault();
