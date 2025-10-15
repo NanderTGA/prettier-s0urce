@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         prettier-n0urce
-// @version      2025-10-15
-// @description  Nander's merge of prettier-s0urce and d0urce, aiming to provide you the best experience of both worlds.
+// @version      2025-10-15 - 2
+// @description  Nander's fork/branch/merge of prettier-s0urce and d0urce, aiming to provide you the best experience of both worlds, and more!
 // @author       Xen0o2, d0t3ki, NanderTGA
 // @match        https://s0urce.io/
 // @icon         https://s0urce.io/icons/s0urce.svg
@@ -3116,9 +3116,10 @@
 			return;
 		message.innerHTML = message.innerHTML
 			.replace("System started.<br>", "")
-			.replace("s0urceOS 2023", "✨ Prettier s0urce ✨")
-			.replace(">.", ">. <br><span style='font-size: 0.8rem; color: var(--color-lightgrey);'>Expanded by <span style='color: chartreuse; text-shadow: 0 0 3px chartreuse'>d0t</span> 😍.</span>")
-			.replace(">.", ">. <br><span style='font-size: 0.8rem; color: var(--color-lightgrey);'>Made with ❤️ by <span style='color: pink; text-shadow: 0 0 3px pink'>Xen0o2</span>.</span>");
+			.replace("s0urceOS 2023", "✨ Prettier n0urce ✨")
+			.replace(">.", ">. <br><span style='font-size: 0.8rem; color: var(--color-lightgrey);'>Now maintained by <span style='color: yellow; text-shadow: 0 0 3px yellow'>NanderTGA</span> 🍎</span>")
+			.replace(">.", ">. <br><span style='font-size: 0.8rem; color: var(--color-lightgrey);'>Expanded by <span style='color: chartreuse; text-shadow: 0 0 3px chartreuse'>d0t</span> 😍</span>")
+			.replace(">.", "> <br><span style='font-size: 0.8rem; color: var(--color-lightgrey);'>Made with ❤️ by <span style='color: pink; text-shadow: 0 0 3px pink'>Xen0o2</span></span>");
 
 		sendLog(/* html */`
 			<div style="letter-spacing: 0.3px; font-family: var(--font-family-2)">
@@ -3258,7 +3259,11 @@
 							style: { color: "var(--color-lightgrey)", fontFamily: "var(--font-family-2)", fontWeight: "500", fontSize: "2rem", marginTop: "20px" }
 						}),
 						new Component("span", {
-							innerText: "Expanded by d0t 😍.",
+							innerText: "Expanded by d0t 😍",
+							style: { color: "var(--color-lightgrey)", fontFamily: "var(--font-family-2)", fontWeight: "500", fontSize: "2rem", marginTop: "20px" }
+						}),
+						new Component("span", {
+							innerText: "Now maintained by NanderTGA 🍎",
 							style: { color: "var(--color-lightgrey)", fontFamily: "var(--font-family-2)", fontWeight: "500", fontSize: "2rem", marginTop: "20px" }
 						}),
 						new Component("span", {
@@ -4061,7 +4066,7 @@ any of these keys!
 		while (document.querySelector("#login-top") || window.location.href !== "https://s0urce.io/" || !document.querySelector("main"))
 			await sleep(500);
 
-		loadingScreen("create", "Prettier s0urce");
+		loadingScreen("create", "Prettier n0urce");
 		editFilaments();
 		customTerminal();
 		createObserver();
