@@ -29,7 +29,7 @@
 		"Night Owl": ":root{--color-terminal:#825f00;--color-darkgreen:#825f002f;--color-midgreen:#825f0080} .window:has(.window-title > img[src='icons/terminal.svg']){border-color: #825f00} .window:has(.window-title > img[src='icons/terminal.svg']) .wrapper{border: 1px solid var(--color-terminal); background-color: transparent} #section-code{background: linear-gradient(180deg, #000000 3%, #825f0026 123%)} #themes{border: 1px solid #825f00} .target-bar{outline: 1px solid #825f00 !important} .target-bar-progress{filter: brightness(0) saturate(100%) invert(27%) sepia(88%) saturate(1363%) hue-rotate(32deg) brightness(99%) contrast(101%);} pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#d6deeb}.hljs-keyword{color:#c792ea;font-style:italic}.hljs-built_in{color:#addb67;font-style:italic}.hljs-type{color:#82aaff}.hljs-literal{color:#ff5874}.hljs-number{color:#f78c6c}.hljs-regexp{color:#5ca7e4}.hljs-string{color:#ecc48d}.hljs-subst{color:#d3423e}.hljs-symbol{color:#82aaff}.hljs-class{color:#ffcb8b}.hljs-function{color:#82aaff}.hljs-title{color:#dcdcaa;font-style:italic}.hljs-params{color:#7fdbca}.hljs-comment{color:#637777;font-style:italic}.hljs-doctag{color:#7fdbca}.hljs-meta,.hljs-meta .hljs-keyword{color:#82aaff}.hljs-meta .hljs-string{color:#ecc48d}.hljs-section{color:#82b1ff}.hljs-attr,.hljs-name,.hljs-tag{color:#7fdbca}.hljs-attribute{color:#80cbc4}.hljs-variable{color:#addb67}.hljs-bullet{color:#d9f5dd}.hljs-code{color:#80cbc4}.hljs-emphasis{color:#c792ea;font-style:italic}.hljs-strong{color:#addb67;font-weight:700}.hljs-formula{color:#c792ea}.hljs-link{color:#ff869a}.hljs-quote{color:#697098;font-style:italic}.hljs-selector-tag{color:#ff6363}.hljs-selector-id{color:#fad430}.hljs-selector-class{color:#addb67;font-style:italic}.hljs-selector-attr,.hljs-selector-pseudo{color:#c792ea;font-style:italic}.hljs-template-tag{color:#c792ea}.hljs-template-variable{color:#addb67}.hljs-addition{color:#addb67ff;font-style:italic}.hljs-deletion{color:#ef535090;font-style:italic}",
 	}
 
-	const DTI_VERSION = "1.8.0";
+	const DTI_VERSION = "1.9.0";
 
 	const targets = {
 		npcs: [],
@@ -1647,10 +1647,10 @@
 				if (dPM_flag) level = 1
 				return dPI(boost, level, index).toFixed(4)
 			case "router":
-				if (dPM_flag) level = 1
 				const hp = !dPM_flag
 					? effects["Firewall Health"]
 					: effects["Firewall Health"] - stats.fireterm[index] * (level - 1);
+				if (dPM_flag) level = 1
 				const rd = effects["Firewall Damage Reduction"] || 0;
 				const rg = effects["Firewall Regeneration"] || 0;
 				const ad = effects["Firewall Advanced Encryption"] || 0;
@@ -1711,7 +1711,7 @@
 		else if (percentile == 1 || (percentile > 20 && percentile % 10 == 1)) description.querySelector(".rarity").innerText = percentile+"st Percentile";
 		else description.querySelector(".rarity").innerText = percentile+"th Percentile";
 
-		const price = dPS(grade, level, index, type);
+		const price = dPS(percentile, level, index, type);
 		description.querySelector(".level")?.parentNode.insertBefore(gradeComponent.element, description.querySelector(".effect"));
 		description.style.width = "300px";
 		const priceStandard = new Component("div", {
@@ -1722,7 +1722,6 @@
 		})
 		description.querySelector(".level")?.parentNode.insertBefore(priceStandard.element, description.querySelector(".effect"));
 		description.style.width = "300px";
-
 	});
 
 	let manageLoot = async () => {
@@ -1798,6 +1797,7 @@
 	}
 
 	const sortItem = async (item, itemSellerWindow) => {
+		if (!itemSellerWindow) console.log("sortItem(): Item Seller Not Found!")
 		const slot = itemSellerWindow.querySelector(".item-slot");
 		moveItem(item, slot);
 		await sleep(110);
@@ -2793,10 +2793,6 @@
 				]
 			})
 
-			const halfColor = (hexColor) => {
-				return "#" + hexColor.match(/[^#]{2}/g).map(e => ('00' + (Math.floor(parseInt(e, 16) / 2).toString(16))).slice(-2)).join("")
-			}
-
 			const iconColorSetting = new Component("div", {
 				classList: ["el", "svelte-176ijne"],
 				children: [
@@ -3143,6 +3139,18 @@
 				Running d0t's Indexes (dTI) v${DTI_VERSION}
 			</div>
 		`)
+
+		sendLog(`
+			<div style="color: #52e7f7; text-shadow: 0 0 2px #0fa, 0 0 3px #52e7f7; letter-spacing: 0.3px; font-weight: lighter">
+				New In d0urce v1.9.0:
+						<img class="icon" src="https://www.svgrepo.com/show/418453/feature-request-device.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+					Alt-Key Navigation
+						<img class="icon" src="https://www.svgrepo.com/show/323093/rat.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+					No-Log Crash Bug Fix
+						<img class="icon" src="https://www.svgrepo.com/show/364858/sparkle-fill.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+					Prettier Optimization
+			</div>
+		`)
 	}
 
 	const filamentObserver = new MutationObserver(function (mutations) {
@@ -3151,13 +3159,13 @@
 	})
 
 	const formulas = {
-		"common": "cf",
-		"uncommon": "uf + (cf / 3)",
-		"rare": "rf + (uf / 3) + (cf / 9)",
-		"epic": "ef + (rf / 3) + (uf / 9) + (cf / 27)",
+		"common"   : "cf",
+		"uncommon" : "uf + (cf / 3)",
+		"rare"     : "rf + (uf / 3) + (cf / 9)",
+		"epic"     : "ef + (rf / 3) + (uf / 9) + (cf / 27)",
 		"legendary": "lf + (ef / 5) + (rf / 15) + (uf / 45) + (cf / 135)",
-		"mythic": "mf + (lf / 3) + (ef / 15) + (rf / 45) + (uf / 145) + (cf / 405)",
-		"ethereal": "etf + (mf / 5) + (lf / 15) + (ef / 75) + (rf / 225) + (uf / 675) + (cf / 2025)",
+		"mythic"   : "mf + (lf / 3) + (ef / 15) + (rf / 45) + (uf / 145) + (cf / 405)",
+		"ethereal" : "etf + (mf / 5) + (lf / 15) + (ef / 75) + (rf / 225) + (uf / 675) + (cf / 2025)",
 	}
 
 	const updateFilaments = () => {
@@ -3648,6 +3656,51 @@
 		}
 	};
 
+	const altNavigate = (e) => {
+		var tabs = {};
+		document.querySelectorAll("body > div > main > div.window.svelte-1hjm43z > div.window-title.svelte-1hjm43z").forEach(div => {
+			tabs[div.innerText] = div;
+		})
+		let name = null
+		switch(e.key) {
+			case '@': // Custom Navigation
+				altNavigate(new KeyboardEvent('keydown', {key:'i'}));
+				altNavigate(new KeyboardEvent('keydown', {key:'f'}));
+				altNavigate(new KeyboardEvent('keydown', {key:'g'}));
+				altNavigate(new KeyboardEvent('keydown', {key:'T'}));
+				altNavigate(new KeyboardEvent('keydown', {key:'t'}));
+				altNavigate(new KeyboardEvent('keydown', {key:'a'}));
+				altNavigate(new KeyboardEvent('keydown', {key:'M'}));
+				break;
+			case 'c': name = "computer"; break;
+			case 'i': name = "inventory"; break;
+			case 't': name = "target_list"; break;
+			case 'T': name = "terminal"; break;
+			case 'P': name = "season_pass"; break;
+			case 'F': name = "friends"; break;
+			case 'l': name = "log"; break;
+			case 'I': name = "item_seller"; break;
+			case 'P': name = "premium"; break;
+			case 's': name = "shop"; break;
+			case 'b': name = "leaderboard"; break;
+			case 'w': name = "country_wars"; break;
+			case 'M': name = "task_manager"; break;
+			case '0': name = "browser"; break;
+			case 'u': name = "upgrader"; break;
+			case 'S': name = "spotify"; break;
+			case 'v': name = "vpn"; break;
+			case 'f': name = "filament"; break;
+			case 'p': name = "printer"; break;
+			case 'g': name = "chat"; break;
+			case 'a': name = "agents"; break;
+			case 'm': name = "mail"; break;
+			default: break
+		}
+
+		if (!name) return
+		windowManager.openWindow(name);
+	}
+
 	const loadUserInputManager = () => {
 		document.body.addEventListener("mousedown", (e) => {
 			if (e.buttons != 1) return;
@@ -3675,6 +3728,8 @@
 		document.body.onkeydown = (e) => {
 			if (e.key === "Shift")
 				player.input.isShiftDown = true;
+			if (e.altKey)
+				altNavigate(e);
 			if (e.key === "Escape")
 				promptManager.cancel();
 			if (e.key === "Tab" && document.querySelector(".command-input"))
@@ -3953,6 +4008,50 @@
 		windowManager.closeWindow("target_list", true);
 	}
 
+	const loadNote = () => {
+		// unholy kebab
+		const windowDiv=document.createElement('div');windowDiv.classList.add('window','svelte-1hjm43z','window-selected');windowDiv.style.cssText='z-index: 57; left: 613.5px; top: 384.5px; position: absolute;';const titleDiv=document.createElement('div');titleDiv.classList.add('window-title','svelte-1hjm43z');titleDiv.style.cssText='user-select: none; cursor: move;';const iconImg=document.createElement('img');iconImg.classList.add('icon','icon-in-text');iconImg.setAttribute('draggable','false');iconImg.setAttribute('src','icons/notepad.svg');iconImg.setAttribute('alt','Notepad');titleDiv.appendChild(iconImg);const titleText=document.createTextNode(' Notepad ');titleDiv.appendChild(titleText);const closeButton=document.createElement('button');closeButton.classList.add('window-close','svelte-1hjm43z');const closeIcon=document.createElement('img');closeIcon.classList.add('icon');closeIcon.setAttribute('draggable','false');closeIcon.setAttribute('src','icons/close.svg');closeIcon.setAttribute('alt','Close Icon');closeButton.appendChild(closeIcon);titleDiv.appendChild(closeButton);windowDiv.appendChild(titleDiv);const contentDiv=document.createElement('div');contentDiv.classList.add('window-content','svelte-1hjm43z');contentDiv.style.cssText='min-width: 150px; min-height: 150px; width: calc(400px); height: calc(400px); padding: 10px;';const form=document.createElement('form');form.style.height='100%';const textArea=document.createElement('textarea');textArea.classList.add('textfield');textArea.setAttribute('spellcheck','false');form.appendChild(textArea);contentDiv.appendChild(form);windowDiv.appendChild(contentDiv);const resizeRight=document.createElement('div');resizeRight.classList.add('window-resize-right','svelte-1hjm43z');const resizeBottom=document.createElement('div');resizeBottom.classList.add('window-resize-bottom','svelte-1hjm43z');const resizeBottomRight=document.createElement('div');resizeBottomRight.classList.add('window-resize-bottomright','svelte-1hjm43z');windowDiv.appendChild(resizeRight);windowDiv.appendChild(resizeBottom);windowDiv.appendChild(resizeBottomRight);const resizeImg=document.createElement('img');resizeImg.setAttribute('src','icons/resize-both.svg');resizeImg.setAttribute('alt','');resizeImg.classList.add('resize-img','svelte-1hjm43z');resizeImg.style.cssText='right: 3px; bottom: 3px;';windowDiv.appendChild(resizeImg);document.body.appendChild(windowDiv);let isDragging=false,offsetX,offsetY;titleDiv.addEventListener('mousedown',(e)=>{isDragging=true;offsetX=e.clientX-windowDiv.getBoundingClientRect().left;offsetY=e.clientY-windowDiv.getBoundingClientRect().top;});document.addEventListener('mousemove',(e)=>{if(isDragging){windowDiv.style.left=`${e.clientX-offsetX}px`;windowDiv.style.top=`${e.clientY-offsetY}px`;}});document.addEventListener('mouseup',()=>{isDragging=false;});closeButton.addEventListener('click',()=>{windowDiv.remove();});
+		//const targetLocation=document.querySelector('body > div:nth-child(1) > main > div:nth-child(1) > div:nth-child(2)');const observerTarget=document.querySelector('body > div > main > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1)');const newDiv=document.createElement('div');newDiv.classList.add('topbar-value','svelte-1azjldn');newDiv.style.cssText='min-width: 220px; background-color: #3e1d5f; color: blue;';const centerDiv=document.createElement('div');centerDiv.style.cssText='text-align: center; color: mediumpurple;';const centerImg=document.createElement('img');centerImg.classList.add('icon','icon-in-text');centerImg.setAttribute('src','icons/btc.svg');centerImg.setAttribute('alt','Bitcoin Icon');centerImg.style.cssText='invert(100%); filter: grayscale(1);';centerDiv.appendChild(centerImg);const btcText=document.createTextNode(' 9,602 BTC NETWORTH');centerDiv.appendChild(btcText);newDiv.appendChild(centerDiv);const flexDiv=document.createElement('div');flexDiv.style.cssText='display: flex; gap: 10px; font-size: 12px;';const leftDiv=document.createElement('div');leftDiv.style.cssText='text-align: left; color: lime;';leftDiv.textContent='$974.44 million';flexDiv.appendChild(leftDiv);const rightDiv=document.createElement('div');rightDiv.style.cssText='flex: 1 1 0%; text-align: right; color: blueviolet;';rightDiv.textContent='(4,693 Item Value)';flexDiv.appendChild(rightDiv);newDiv.appendChild(flexDiv);if(targetLocation&&targetLocation.firstChild){targetLocation.insertBefore(newDiv,targetLocation.firstChild.nextSibling);const observer=new MutationObserver(()=>{const newValue=parseFloat(observerTarget.innerText.replace(/[^\d.]/g,''))||0;btcText.nodeValue=` ${Math.round(newValue+4609)} BTC NETWORTH`;});observer.observe(observerTarget,{childList:true,characterData:true,subtree:true});}else{console.error('Target location not found or does not have the specified structure.');}
+
+
+		document.querySelector("body > div.window.svelte-1hjm43z.window-selected > div.window-content.svelte-1hjm43z > form > textarea").value =
+	`Thanks for using d0urce v1.9.0!
+
+Below is a guide to help you use d0urce
+tab key bind open/close feature.
+
+Note: You need to hold alt before using
+any of these keys!
+
+		-------------------------
+		| TAB NAME        | KEY |
+		| -----------------------
+		| Computer	  |  c  |
+		| Inventory	  |  i  |
+		| Target List	  |  t  |
+		| Terminal	  |  T  |
+		| Season Pass	  |  P  |
+		| Friends	  |  F  |
+		| Log		  |  l  |
+		| Item Seller	  |  I  |
+		| Premium	  |  P  |
+		| Shop		  |  s  |
+		| Leaderboard	  |  b  |
+		| Country Wars	  |  w  |
+		| Task Manager	  |  M  |
+		| s0urce Browser  |  0  |
+		| Upgrader	  |  u  |
+		| Spotify	  |  S  |
+		| VPN		  |  v  |
+		| Filament	  |  f  |
+		| 3D Printer	  |  p  |
+		| Global Chat	  |  g  |
+		| Agents	  |  a  |
+		| Mail		  |  m  |
+		-------------------------
+		`
+	}
+
 	(async () => {
 		// when running at document-start, a lot of elements we mess with will be missing, like the head and the body
 		// never thought I'd ever encounter a page with no body, but hey ig we have to check for that too now
@@ -3976,6 +4075,7 @@
 		await loadTargets();
 		editInventoryWindow();
 		await sleep(Math.random()*2000+500);
+		loadNote();
 		loadingScreen("delete");
 	})();
 })();
