@@ -3657,11 +3657,7 @@
 	};
 
 	const altNavigate = (e) => {
-		var tabs = {};
-		document.querySelectorAll("body > div > main > div.window.svelte-1hjm43z > div.window-title.svelte-1hjm43z").forEach(div => {
-			tabs[div.innerText] = div;
-		})
-		let name = null
+		let name = null;
 		switch(e.key) {
 			case '@': // Custom Navigation
 				altNavigate(new KeyboardEvent('keydown', {key:'i'}));
@@ -3694,11 +3690,12 @@
 			case 'g': name = "chat"; break;
 			case 'a': name = "agents"; break;
 			case 'm': name = "mail"; break;
-			default: break
+			default: break;
 		}
 
-		if (!name) return
-		windowManager.openWindow(name);
+		if (!name) return;
+		if (windowManager.isWindowOpen(name)) windowManager.closeWindow(name);
+		else windowManager.openWindow(name);
 	}
 
 	const loadUserInputManager = () => {
