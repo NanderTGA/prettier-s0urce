@@ -1626,8 +1626,17 @@
 
 	const dCPS = (type, rarity, mint, premium) => {
 		const value = stats['filament_price'][rarity];
-		//console.log(type, (12.5*value)**(1/(1+Math.log10(mint)))-(mint/50),"~",(25*value)**(1/(1+Math.log10(mint)))-(mint/200))
-		if (type.includes("name_")) {
+		//console.log(type, type in ["skxll", "navin", "zenko", "xenia", "shadowpriestess"])
+		if (!type) {
+			return mint > 3
+				? Math.max(((50*value)**(1/(1+Math.log10(mint)))-(mint/100)).toFixed(2),value.toFixed(2)) + "~" + Math.max(((100*value)**(1/(1+Math.log10(mint)))-(mint/400)).toFixed(2),(2*value).toFixed(2))
+				: (mint == 3 ? (66*value).toFixed(2) + "+"
+				: (mint == 2 ? (110*value).toFixed(2) + "+"
+				: (400*value).toFixed(2) + "+"));
+		} else if (type == "skxll" || type == "navin" || type == "zenko" || type == "xenia" || type == "shadowpriestess" || type == "valenia") {
+			return value;
+		}
+		else if (type.includes("name_")) {
 			return mint > 1
 				? Math.max(((12.5*value)**(1/(1+Math.log10(mint)))-(mint/50)).toFixed(2),value.toFixed(2)) + "~" + Math.max(((25*value)**(1/(1+Math.log10(mint)))-(mint/200)).toFixed(2),(2*value).toFixed(2))
 				: (25*value).toFixed(2) + "+";
@@ -1695,7 +1704,7 @@
 
 		const premium = description.querySelector("div:nth-child(2) > img") ? true : false;
 		const mint = parseInt(description.querySelector("div:nth-child(2) > div").innerText.split(" by")[0].substr(1));
-		const type = (description.querySelector("img")?.src?.match(/[^\/]+\.webp/) || [])[0]?.slice(0, -5);
+		var type = (description.querySelector("img")?.src?.match(/[^\/]+\.webp/) || [])[0]?.slice(0, -5);
 		const rarity = description.querySelector(".rarity")?.innerText;
 		const level = (description.querySelector(".level")?.innerText.match(/\d+/) || [])[0];
 		const effects = {};
@@ -1706,9 +1715,12 @@
 			const value = effect.querySelector("div > span > span")?.innerText;
 			effects[name] = Number(value);
 		});
-		if (!type)
+		//console.log(type, rarity, level, effects)
+		if (!rarity)
 			return;
 		else if (!level || effects.length == 0) {
+
+			if (!type) type = description.querySelector("div > div").innerHTML.split("valenia").length > 1 ? "valenia" : null;
 			const index = rarities.indexOf(rarity.toLowerCase());
 			const price = dCPS(type, index, mint, premium);
 			const priceStandard = new Component("div", {
@@ -4149,8 +4161,8 @@ any of these keys!
 
 		windowManager.closeWindow("inventory", true);
 		sendLog(`<div style="color:rgb(110, 247, 82); text-shadow: 0 0 2px #0fa, 0 0 3px rgb(110, 247, 82); letter-spacing: 0.3px; font-weight: lighter">
-				<img class="icon" src="${getAssetLink("networth.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
-				According to dPS, your inventory is worth ~$${total.toFixed(2)} BTC.
+				<img class="icon" src="${getAssetLink("networth.svg")}" style="filter: drop-shadow(50px 0px 100px) invert(50%) sepia(100%) saturate(7486%) hue-rotate(143deg) brightness(200%) contrast(94%);">
+				According to dPS, your inventory is worth ~${total.toFixed(2)} BTC.
 				</div>`)
 	}
 
