@@ -116,7 +116,9 @@ Giant unclear diffs are a pain, especially when git is not aware that I have mov
 I encounter obsolete commits every once in a while because I wrote a competing feature or they manually merge something from a different fork.
 The way I deal with them is pretty straightforward.
 You might be thinking oh hey maybe he's cherry picking commits to only merge specific stuff, but no, I'm not. Turns out those can cause issues down the line.
-So I just merge without skipping commits (git doesn't really let you skip commits in case you didn't realize).
+So I just merge without skipping commits (git doesn't really let you skip commits in case you didn't realize) and then revert the change afterwards.
+Often such a change (like d0t's original "open padlet" button) will cause a merge conflict too and so I try to put the code in a place that makes sense,
+although it doesn't really matter as I revert it right after.
 
 ### Vendoring Assets
 
