@@ -3548,10 +3548,7 @@
 			.create();
 	}
 
-	const simulateMouseHover = (selector) => {
-		const element = document.querySelector(selector);
-		if (!element) return;
-
+	const simulateMouseHover = (element) => {
 		const mouseOverEvent = new MouseEvent('mouseover', {
 			view: window,
 			bubbles: true,
@@ -3561,10 +3558,7 @@
 		element.dispatchEvent(mouseOverEvent);
 	};
 
-	const simulateMousePressDown = (selector) => {
-		const element = document.querySelector(selector);
-		if (!element) return;
-
+	const simulateMousePressDown = (element) => {
 		const mouseDownEvent = new MouseEvent('mousedown', {
 			view: window,
 			bubbles: true,
@@ -4130,29 +4124,30 @@ any of these keys!
         `
 	}
 
-	const openWindows = () => {
-		document.querySelectorAll("#desktop-container > div").forEach(div => {
-			divs[div.innerText] = div;
-		});
-		divs["Log"].click()
-		divs["Inventory"].click()
-	}
-
 	const calculateNetworth = async () => {
-		var total = 0.0
-		for (var i=0; i < document.querySelectorAll("#item-container > div").length; i++) {
-			simulateMouseHover("#item-container > div:nth-child("+i+") > div > div > div > div")
-			await sleep(1)
+		if (!windowManager.isWindowOpen("inventory")) windowManager.openWindow("inventory", true);
+
+		let total = 0;
+		for (let i = 0; i < document.querySelectorAll("#item-container > div").length; i++) {
+			const item = document.querySelector(`#item-container > div:nth-child(${i}) > div > div > div > div`);
+
+			simulateMouseHover(item);
+			await sleep(1);
+
 			try {
-				total += document.querySelector("#price").innerText.split("~").length > 1
-					? (parseFloat(document.querySelector("#price").innerText.split("~")[0]) + parseFloat(document.querySelector("#price").innerText.split("~")[1])) / 2
-					: parseFloat(document.querySelector("#price").innerText.split("+")[0])
+				const priceText = document.querySelector("#price").innerText;
+				const priceTextParts = priceText.split("~");
+				total += priceTextParts.length > 1
+					? (parseFloat(priceTextParts[0]) + parseFloat(priceTextParts[1])) / 2
+					: parseFloat(priceText.replace("+", ""))
 				}
 			catch {}
-			simulateMousePressDown("#item-container > div:nth-child("+i+") > div > div > div > div")
-			await sleep(1)
+
+			simulateMousePressDown(item);
+			await sleep(1);
 		}
-		//console.log(total)
+
+		windowManager.closeWindow("inventory", true);
 		sendLog(`<div style="color:rgb(110, 247, 82); text-shadow: 0 0 2px #0fa, 0 0 3px rgb(110, 247, 82); letter-spacing: 0.3px; font-weight: lighter">
 				<img class="icon" src="https://www.svgrepo.com/show/308635/home-value-house-price-home-price-house-value.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
 				According to dPS, your inventory is worth ~$${total.toFixed(2)} BTC.
@@ -4175,7 +4170,6 @@ any of these keys!
 		updateThemeStyle();
 		loadStyle();
 		await loadScripts();
-		openWindows();
 		await calculateNetworth(); // WIP
 		editWelcomeMessage();
 		await editDesktopIcons();
