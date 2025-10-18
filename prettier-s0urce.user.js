@@ -29,7 +29,7 @@
 		"Night Owl": ":root{--color-terminal:#825f00;--color-darkgreen:#825f002f;--color-midgreen:#825f0080} .window:has(.window-title > img[src='icons/terminal.svg']){border-color: #825f00} .window:has(.window-title > img[src='icons/terminal.svg']) .wrapper{border: 1px solid var(--color-terminal); background-color: transparent} #section-code{background: linear-gradient(180deg, #000000 3%, #825f0026 123%)} #themes{border: 1px solid #825f00} .target-bar{outline: 1px solid #825f00 !important} .target-bar-progress{filter: brightness(0) saturate(100%) invert(27%) sepia(88%) saturate(1363%) hue-rotate(32deg) brightness(99%) contrast(101%);} pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#d6deeb}.hljs-keyword{color:#c792ea;font-style:italic}.hljs-built_in{color:#addb67;font-style:italic}.hljs-type{color:#82aaff}.hljs-literal{color:#ff5874}.hljs-number{color:#f78c6c}.hljs-regexp{color:#5ca7e4}.hljs-string{color:#ecc48d}.hljs-subst{color:#d3423e}.hljs-symbol{color:#82aaff}.hljs-class{color:#ffcb8b}.hljs-function{color:#82aaff}.hljs-title{color:#dcdcaa;font-style:italic}.hljs-params{color:#7fdbca}.hljs-comment{color:#637777;font-style:italic}.hljs-doctag{color:#7fdbca}.hljs-meta,.hljs-meta .hljs-keyword{color:#82aaff}.hljs-meta .hljs-string{color:#ecc48d}.hljs-section{color:#82b1ff}.hljs-attr,.hljs-name,.hljs-tag{color:#7fdbca}.hljs-attribute{color:#80cbc4}.hljs-variable{color:#addb67}.hljs-bullet{color:#d9f5dd}.hljs-code{color:#80cbc4}.hljs-emphasis{color:#c792ea;font-style:italic}.hljs-strong{color:#addb67;font-weight:700}.hljs-formula{color:#c792ea}.hljs-link{color:#ff869a}.hljs-quote{color:#697098;font-style:italic}.hljs-selector-tag{color:#ff6363}.hljs-selector-id{color:#fad430}.hljs-selector-class{color:#addb67;font-style:italic}.hljs-selector-attr,.hljs-selector-pseudo{color:#c792ea;font-style:italic}.hljs-template-tag{color:#c792ea}.hljs-template-variable{color:#addb67}.hljs-addition{color:#addb67ff;font-style:italic}.hljs-deletion{color:#ef535090;font-style:italic}",
 	}
 
-	const DTI_VERSION = "1.9.1";
+	const DTI_VERSION = "1.10.0";
 
 	const targets = {
 		npcs: [],
@@ -899,10 +899,23 @@
 			[1.08, 2.01, 2.23, 2.39, 2.51, 2.61, 2.71, 2.79, 2.86, 2.94, 3.01, 3.08, 3.15, 3.23, 3.31, 3.4, 3.48, 3.55, 3.63, 3.7, 3.77, 3.84, 3.9, 3.97, 4.03, 4.09, 4.15, 4.21, 4.27, 4.32, 4.37, 4.42, 4.46, 4.5, 4.55, 4.59, 4.63, 4.67, 4.71, 4.75, 4.78, 4.82, 4.86, 4.9, 4.94, 4.98, 5.02, 5.06, 5.1, 5.14, 5.18, 5.22, 5.26, 5.3, 5.34, 5.38, 5.42, 5.46, 5.5, 5.54, 5.59, 5.63, 5.67, 5.71, 5.75, 5.79, 5.83, 5.88, 5.92, 5.96, 6.01, 6.05, 6.1, 6.14, 6.19, 6.23, 6.28, 6.33, 6.38, 6.42, 6.48, 6.53, 6.58, 6.63, 6.69, 6.75, 6.81, 6.87, 6.93, 7.0, 7.07, 7.14, 7.22, 7.31, 7.4, 7.51, 7.63, 7.77, 7.94, 8.2, 9.19],
 			[1.06, 2.32, 2.6, 2.8, 2.96, 3.09, 3.21, 3.31, 3.4, 3.49, 3.57, 3.65, 3.72, 3.79, 3.85, 3.91, 3.97, 4.03, 4.09, 4.14, 4.19, 4.24, 4.29, 4.34, 4.39, 4.43, 4.48, 4.52, 4.57, 4.61, 4.66, 4.7, 4.74, 4.78, 4.82, 4.86, 4.9, 4.94, 4.98, 5.02, 5.06, 5.1, 5.14, 5.18, 5.22, 5.26, 5.29, 5.33, 5.37, 5.41, 5.45, 5.49, 5.52, 5.56, 5.6, 5.64, 5.68, 5.72, 5.76, 5.8, 5.84, 5.88, 5.92, 5.96, 6.0, 6.04, 6.08, 6.12, 6.16, 6.2, 6.25, 6.29, 6.34, 6.38, 6.43, 6.47, 6.52, 6.57, 6.62, 6.67, 6.72, 6.78, 6.83, 6.89, 6.95, 7.01, 7.08, 7.14, 7.21, 7.29, 7.37, 7.45, 7.54, 7.64, 7.75, 7.87, 8.01, 8.18, 8.39, 8.69, 9.91]
 		],
-		// Last updated as of 7/19/2024
+		cpu_dPD: [
+			.0868132/.269972, .177895/.623288, .286729/.597990, .287237/.559912, .255927/.431983, .124276/.327463, .0514166/.184865
+		],
+		gpu_dPD: [
+			.269972/.269972, .623288/.623288, .597990/.597990, .559912/.559912, .332157/.431983, .327463/.327463, .184865/.184865
+		],
+		psu_dPD: [
+			.0376525/.269972, .0449814/.623288, .0429196/.597990, .0721342/.559912, .0589863/.431983, .0244560/.327463, .0316829/.184865
+		],
+		fire_dPD: [
+			.104414/.269972, .302410/.623288, .374685/.597990, .362374/.559912, .431983/.431983, .131577/.327463, .0668066/.184865
+		],
+		// Last updated as of 2/23/2025
 		filament_price: [
 			0.01, 0.03, 0.1, 0.3, 1.5, 4.5, 45
 		],
+		cf_filament_value: 0.1 / 90,
 	};
 
 	const halfColor = (hexColor) => {
@@ -1508,24 +1521,29 @@
 		return idle + barter + crypto;
 	}
 
-	const dPS = (dPM, level, rarity) => {
-		let basePrice = stats.filament_price[rarity];
-		const value = (level - 1) * 3 * basePrice + basePrice;
-		// console.log(dPM,rarity)
+	const dPS = (dPM, level, rarity, type) => {
+		var basePrice = stats.filament_price[rarity];
+		var value = (level-1)*3*basePrice + basePrice;
+		var diff = type == 'cpu' ? stats.cpu_dPD [rarity] :
+		type == 'gpu' ? stats.gpu_dPD [rarity] :
+		type == 'psu' ? stats.psu_dPD [rarity] :
+		type == 'router' ? stats.fire_dPD [rarity] : value;
+		diff = (diff+1)/2
+		//console.log(type,value,diff)
 		switch (rarity) {
 			case 5:
-				if (dPM > 50) return (value).toFixed(2) + "~" + (value*2).toFixed(2);
-				else if (dPM > 1) return (value + basePrice*3 - 1.928 * (dPM - 1) ** (1/2)).toFixed(2) + "~" + (value * 2 + basePrice + basePrice * 2 * 4 - 3 * (dPM - 1) ** (2/3)).toFixed(2);
-				else if (dPM > 0) return (value * 2 + basePrice * 8).toFixed(2) + "+"
+				if (dPM > 50) return (value).toFixed(2) + "~" + (value*1.5).toFixed(2);
+				else if (dPM > 1) return Math.max((value + basePrice*3 - 1.928 * (dPM - 1) ** (1/2),value)*diff).toFixed(2) + "~" + Math.max((value * 2 + basePrice + basePrice * 2 * 4 - 3 * (dPM - 1) ** (2/3))*diff,value*1.5).toFixed(2);
+				else if (dPM > 0) return ((value * 2 + basePrice * 8)*diff).toFixed(2) + "+"
 			case 6:
 				if (dPM == 100) return (value).toFixed(4);
-				else if (dPM > 50) return (value + basePrice*0.5 + 0.5 - 1.7 * (dPM - 50) ** (2/3)).toFixed(2) + "~" + (basePrice*1.5).toFixed(2);
-				else if (dPM > 1) return (value + basePrice*3 - 16 * (dPM - 1) ** (1/2)).toFixed(2) + "~" + (value/45*68 + basePrice/45*68 * 4 - 20.3 * (dPM - 1) ** (2/3)).toFixed(2);
-				else if (dPM > 0) return (value/45*68 + basePrice/45*68 * 4 - 20.3 * (dPM - 1) ** (2/3)).toFixed(2);
+				else if (dPM > 50) return Math.max((value + basePrice*0.5 + 0.5 - 1.7 * (dPM - 50) ** (2/3))*diff,value).toFixed(2) + "~" + (value*1.5).toFixed(2);
+				else if (dPM > 1) return Math.max((value + basePrice*3 - 16 * (dPM - 1) ** (1/2))*diff,value).toFixed(2) + "~" + Math.max((value/45*68 + basePrice/45*68 * 4 - 20.3 * (dPM - 1) ** (2/3))*diff,value*1.5).toFixed(2);
+				else if (dPM > 0) return ((value/45*68 + basePrice/45*68 * 4 - 20.3 * (dPM - 1) ** (2/3))*diff).toFixed(2);
 			default:
-				if (dPM > 30) return (value).toFixed(4) + "~" + (value*2).toFixed(4);
-				else if (dPM > 1) return (value + basePrice - 4.3 * basePrice / 30 * (dPM - 1) ** (1/2)).toFixed(4) + "~" + (value*2 + basePrice*2 - 4.3 * basePrice / 30 * (dPM - 1) ** (2/3)).toFixed(4);
-				else if (dPM > 0) return (value*2 + basePrice*2 - 4.3 * basePrice / 30 * (dPM - 1) ** (2/3)).toFixed(4) + "+";
+				if (dPM > 30) return (value).toFixed(4) + "~" + (value*1.5).toFixed(4);
+				else if (dPM > 1) return Math.max((value + basePrice - 4.3 * basePrice / 30 * (dPM - 1) ** (1/2))*diff,value).toFixed(4) + "~" + Math.max((value*2 + basePrice*2 - 4.3 * basePrice / 30 * (dPM - 1) ** (2/3))*diff,value*1.5).toFixed(4);
+				else if (dPM > 0) return ((value*2 + basePrice*2 - 4.3 * basePrice / 30 * (dPM - 1) ** (2/3))*diff).toFixed(4) + "+";
 				// If there's no estimated price for it, chances are it's worth a lot
 				else return "Invaluable";
 		}
@@ -1589,7 +1607,15 @@
 		return [(100 + hack) + (0.05 + chance) * (100 + hack) * (0.3 + dam), pen, trueDam];
 	}
 
+	const averageDamage = (hack, trueDam, pen, chance, dam) => {
+		pen /= 100;
+		chance /= 100;
+		dam /= 100;
+		return ((100+hack)+(0.05+chance)*(100+hack)*(0.3+dam)) * (1+pen) + trueDam
+	}
+
 	const dCI = (raw, pen, trueDam, level, rarity) => {
+		//console.log(stats.cpu[rarity],raw,pen,trueDam,level,rarity)
 		const item = stats.cpu[rarity];
 		const port = stats.port[rarity];
 		const bestHackPower = hackPower(item.hack[1] + stats.cputerm[rarity] * (level - 1), item.trueDam[1], item.pen[1], item.chance[1], item.dam[1]);
@@ -1625,7 +1651,7 @@
 	}
 
 	const dCPS = (type, rarity, mint, premium) => {
-		const value = stats['filament_price'][rarity];
+		var value = stats['filament_price'][rarity];
 		//console.log(type, type in ["skxll", "navin", "zenko", "xenia", "shadowpriestess"])
 		if (!type) {
 			return mint > 3
@@ -1634,23 +1660,29 @@
 				: (mint == 2 ? (110*value).toFixed(2) + "+"
 				: (400*value).toFixed(2) + "+"));
 		} else if (type == "skxll" || type == "navin" || type == "zenko" || type == "xenia" || type == "shadowpriestess" || type == "valenia") {
-			return value;
+			value *= type == "skxll" || type == "navin"
+				? 1.5
+				: type == "zenko" || type == "xenia" || "shadowpriestess"
+				? 2
+				: 3; // valenia
+		} else if (type == "pepehacker") {
+			value *= 3;
 		}
-		else if (type.includes("name_")) {
+		if (type.includes("name_")) {
 			return mint > 1
 				? Math.max(((12.5*value)**(1/(1+Math.log10(mint)))-(mint/50)).toFixed(2),value.toFixed(2)) + "~" + Math.max(((25*value)**(1/(1+Math.log10(mint)))-(mint/200)).toFixed(2),(2*value).toFixed(2))
 				: (25*value).toFixed(2) + "+";
 		} else if (premium) {
 			return mint > 3
 				? Math.max(((50*value)**(1/(1+Math.log10(mint)))-(mint/10)).toFixed(2),value.toFixed(2)) + "~" + Math.max(((100*value)**(1/(1+Math.log10(mint)))-(mint/20)).toFixed(2),(2*value).toFixed(2))
-				: (mint == 3 ? (20*value).toFixed(2) + "+"
-				: (mint == 2 ? (33*value).toFixed(2) + "+"
+				: (mint == 3 ? (25*value).toFixed(2) + "+"
+				: (mint == 2 ? (50*value).toFixed(2) + "+"
 				: (100*value).toFixed(2) + "+"));
 		} else {
 			return mint > 3
 				? Math.max(((50*value)**(1/(1+Math.log10(mint)))-(mint/100)).toFixed(2),value.toFixed(2)) + "~" + Math.max(((100*value)**(1/(1+Math.log10(mint)))-(mint/400)).toFixed(2),(2*value).toFixed(2))
-				: (mint == 3 ? (33*value).toFixed(2) + "+"
-				: (mint == 2 ? (55*value).toFixed(2) + "+"
+				: (mint == 3 ? (50*value).toFixed(2) + "+"
+				: (mint == 2 ? (100*value).toFixed(2) + "+"
 				: (200*value).toFixed(2) + "+"));
 		}
 	}
@@ -1726,7 +1758,7 @@
 			const priceStandard = new Component("div", {
 				id: "price",
 				classList: ["attribute", "svelte-181npts"],
-				innerHTML: `<img class="icon icon-in-text" src="icons/btc.svg" alt="Bitcoin Icon">${price}`,
+				innerHTML: `<img class="icon icon-in-text" src="icons/btc.svg" alt="Bitcoin Icon">${price} <span style="font-size: 0.8rem">v${DTI_VERSION}</span>`,
 				style: { paddingBlock: "4px", paddingInline: "9px", borderRadius: "2px", background: "linear-gradient(112deg, rgb(61, 237, 61) 4%, rgb(129, 255, 140) 34%, rgb(61, 237, 61) 66%, rgb(129, 255, 140) 100%)" }
 			})
 			description?.lastChild.insertBefore(priceStandard.element, description.lastChild.childNodes[3]);
@@ -1760,7 +1792,7 @@
 		if (percentile == 3 || (percentile > 20 && percentile % 10 == 3)) description.querySelector(".rarity").innerText = percentile+"rd Percentile";
 		else if (percentile == 2 || (percentile > 20 && percentile % 10 == 2)) description.querySelector(".rarity").innerText = percentile+"nd Percentile";
 		else if (percentile == 1 || (percentile > 20 && percentile % 10 == 1)) description.querySelector(".rarity").innerText = percentile+"st Percentile";
-		else description.querySelector(".rarity").innerText = percentile+"th Percentile";
+		description.querySelector(".rarity").innerHTML = `${percentile}th Percentile <span style="font-size: 0.8rem">v${DTI_VERSION}</span>`;
 
 		const price = dPS(percentile, level, index, type);
 		description.querySelector(".level")?.parentNode.insertBefore(gradeComponent.element, description.querySelector(".effect"));
@@ -3207,6 +3239,14 @@
 					Cosmetic Pricing (dCPS)
 						<img class="icon" src="${getAssetLink("networth.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
 					Login Networth Reports
+				<br>
+				New In 1.10.0:
+						<img class="icon" src="https://www.svgrepo.com/show/532401/bitcoin-circle.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+					Networth Meter
+						<img class="icon" src="https://www.svgrepo.com/show/532432/dollar-sign.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+					dPS Changes
+						<img class="icon" src="https://www.svgrepo.com/show/449156/navigate.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+					Alt-nav Fixes
 			</div>
 		`)
 	}
@@ -3754,13 +3794,13 @@
 			case 'i': name = "inventory"; break;
 			case 't': name = "target_list"; break;
 			case 'T': name = "terminal"; break;
-			case 'P': name = "season_pass"; break;
+			case 'n': name = "season_pass"; break;
 			case 'F': name = "friends"; break;
 			case 'l': name = "log"; break;
 			case 'I': name = "item_seller"; break;
 			case 'P': name = "premium"; break;
 			case 's': name = "shop"; break;
-			case 'b': name = "leaderboard"; break;
+			case 'L': name = "leaderboard"; break;
 			case 'w': name = "country_wars"; break;
 			case 'M': name = "task_manager"; break;
 			case '0': name = "browser"; break;
@@ -4097,7 +4137,7 @@
 	`Thanks for using prettier-n0urce!
 
 This update features the alt navigation
-from d0urce v1.9.0.
+from d0urce v${DTI_VERSION}.
 
 Below is a guide to help you use d0urce
 tab key bind open/close feature.
@@ -4114,13 +4154,13 @@ any of these keys!
         | Inventory	  |  i  |
         | Target List	  |  t  |
         | Terminal	  |  T  |
-        | Season Pass	  |  P  |
+        | Season Pass	  |  n  |
         | Friends	  |  F  |
         | Log		  |  l  |
         | Item Seller	  |  I  |
         | Premium	  |  P  |
         | Shop		  |  s  |
-        | Leaderboard	  |  b  |
+        | Leaderboard	  |  L  |
         | Country Wars	  |  w  |
         | Task Manager	  |  M  |
         | s0urce Browser  |  0  |
@@ -4166,6 +4206,225 @@ any of these keys!
 				</div>`)
 	}
 
+	function updateNetworth(data) {
+		const itemNetworth = fetchNetworth(data);
+		return;
+		/*const btcNetworth = parseFloat(document.querySelector("body > div:nth-child(1) > main > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1)").innerText.split(" BTC")[0])
+		const totalNetworth = itemNetworth + btcNetworth;
+		console.error(itemNetworth, btcNetworth)
+		const networthDiv = document.querySelector('body > div:nth-child(1) > main > div:nth-child(1) > div:nth-child(2) > div:nth-child(2)');
+		if (networthDiv) {
+			const btcText = networthDiv.querySelector('div:nth-child(1)').childNodes[1];
+			const leftDiv = networthDiv.querySelector('div:nth-child(2) > div:nth-child(1)');
+			const rightDiv = networthDiv.querySelector('div:nth-child(2) > div:nth-child(2)');
+
+			const dollarNetworth = 0;
+
+			if (btcText.textContent != totalNetworth.toFixed(2)) btcText.textContent = `${totalNetworth.toFixed(2)} BTC NETWORTH`;
+			//leftDiv.textContent = `$${dollarNetworth.toFixed(2)} million`;
+			if (rightDiv.textContent != itemNetworth.toFixed(2)) rightDiv.textContent = `(${itemNetworth.toFixed(2)} BTC Item Value)`;
+		}*/
+	}
+	window.updateNetworth = updateNetworth;
+
+	function fetchNetworth(data) {
+		var btcValue = 0;
+		const rarities = ["D", "C", "B", "A", "S", "SS", "SSS"];
+		for (var key in data["inventory"]) {
+			data[key] = data["inventory"][key]
+		}
+		for (var key in data) {
+			key = data[key]
+			var rarity = rarities.indexOf(key?.rarity) || 0;
+			var btc = 0;
+			switch (key?.type) {
+				case 'gpu':
+					//console.log(key.stats[0].value - key.stats[0].increasePerLevel*(key.upgradeLevel-1), dPM(key.stats[0].value - key.stats[0].increasePerLevel*(key.upgradeLevel-1), rarity, key.type))
+					btc = dPS(
+						dPM(key.stats[0].value - key.stats[0].increasePerLevel*(key.upgradeLevel-1), rarity, key.type),
+						key.upgradeLevel,
+						rarity,
+						key.type
+					)
+					break;
+				case 'cpu':
+					let hack = key.stats[0].value - key.stats[0].increasePerLevel*(key.upgradeLevel-1);
+					let chance, pen, trueDam, dam = 0;
+					for (let stat of key.stats.slice(1)) {
+						switch (stat.name) {
+							case 'Hack Critical Damage Chance':
+								chance = stat.value;
+								break;
+							case 'Hack Armor Penetration':
+								pen = stat.value;
+								break;
+							case 'True Damage':
+								trueDam = stat.value;
+								break;
+							case 'Hack Critical Damage Bonus':
+								dam = stat.value;
+								break;
+						}
+					}
+					if (chance === undefined) chance = 0;
+					if (pen === undefined) pen = 0;
+					if (trueDam === undefined) trueDam = 0;
+					if (dam === undefined) dam = 0;
+					const [raw, penV, trueDamV] = hackPower(hack, trueDam, pen, chance, dam);
+					btc = dPS(
+						dPM(dCI(raw, penV, trueDamV, 1, rarity), rarity, key.type),
+						key.upgradeLevel,
+						rarity,
+						key.type
+					)
+					break;
+				case 'psu':
+					//console.log(dPI(key.stats[0].value - key.stats[0].increasePerLevel*(key.upgradeLevel-1), 1, rarity), rarity, key.type)
+					btc = dPS(
+						dPM(dPI(key.stats[0].value - key.stats[0].increasePerLevel*(key.upgradeLevel-1), 1, rarity), rarity, key.type),
+						key.upgradeLevel,
+						rarity,
+						key.type
+					)
+					break;
+				case 'firewall':
+					let hp = key.stats[0].value - key.stats[0].increasePerLevel*(key.upgradeLevel-1);
+					let rd, rg, ad, ms = 0;
+					for (let stat of key.stats.slice(1)) {
+						switch (stat.name) {
+							case 'Firewall Damage Reduction':
+								rd = stat.value;
+								break;
+							case 'Firewall Regeneration':
+								rg = stat.value;
+								break;
+							case 'Firewall Advanced Encryption':
+								ad = stat.value;
+								break;
+							case 'Firewall Master Encryption':
+								ms = stat.value;
+								break;
+						}
+					}
+					if (rd === undefined) rd = 0;
+					if (rg === undefined) rg = 0;
+					if (ad === undefined) ad = 0;
+					if (ms === undefined) ms = 0;
+					const [hpP, rdP, rgP, encryption] = firewallEncryption(hp,rd,rg,ad,ms);
+					//console.log(dFI(hpP, rdP, rgP, encryption, 1, rarity), dPM(dFI(hpP, rdP, rgP, encryption, 1, rarity), rarity, 'router'))
+					btc = dPS(
+						dPM(dFI(hpP, rdP, rgP, encryption, 1, rarity), rarity, 'router'),
+						key.upgradeLevel,
+						rarity,
+						'router'
+					)
+					break;
+				default:
+					if (key && key.name) {
+						btc = dCPS(
+							key.name.toString().toLowerCase(),
+							rarity,
+							key.mint,
+							key.premium
+						)
+					}
+					break;
+			}
+			if (key && key.name && btc) {
+				//console.log(btc)
+				if (typeof btc === 'number') btcValue += btc
+				else {
+					btcValue += (btc.split("~").length > 1
+						? (rarity > 5) ? (parseFloat(btc.split("~")[0]) + parseFloat(btc.split("~")[1])) / 2 : parseFloat(btc.split("~")[0])
+						: parseFloat(btc.split("+")[0])) || 0
+				}
+			}
+		}
+		globalItemNetworth = btcValue;
+		return btcValue;
+	}
+
+	function createNetworthDiv() {
+		const targetLocation = document.querySelector('body > div:nth-child(1) > main > div:nth-child(1) > div:nth-child(2)');
+		const observerTarget = document.querySelector('body > div > main > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1)');
+
+		const newDiv = document.createElement('div');
+		newDiv.classList.add('topbar-value', 'svelte-1azjldn');
+		newDiv.style.cssText = 'min-width: 220px; background-color:rgb(63 0 78); color: blue;';
+
+		const centerDiv = document.createElement('div');
+		centerDiv.style.cssText = 'text-align: center; color: mediumpurple;';
+
+		const centerImg = document.createElement('img');
+		centerImg.classList.add('icon', 'icon-in-text');
+		centerImg.setAttribute('src', 'icons/btc.svg');
+		centerImg.setAttribute('alt', 'Bitcoin Icon');
+		centerImg.style.cssText = 'invert(100%); filter: hue-rotate(225deg);';
+		centerDiv.appendChild(centerImg);
+
+		const btcText = document.createTextNode('X BTC NETWORTH');
+		centerDiv.appendChild(btcText);
+		newDiv.appendChild(centerDiv);
+
+		const flexDiv = document.createElement('div');
+		flexDiv.style.cssText = 'display: flex; gap: 10px; font-size: 12px;';
+
+		const leftDiv = document.createElement('div');
+		leftDiv.style.cssText = 'text-align: left; color: cyan;';
+		leftDiv.textContent = 'X.xx';
+		flexDiv.appendChild(leftDiv);
+
+		const rightDiv = document.createElement('div');
+		rightDiv.style.cssText = 'flex: 1 1 0%; text-align: right; color: hotpink;';
+		const rightText = document.createTextNode('X.xx');
+		rightDiv.appendChild(rightText);
+		flexDiv.appendChild(rightDiv);
+
+		newDiv.appendChild(flexDiv);
+
+		if (targetLocation && targetLocation.firstChild) {
+			targetLocation.insertBefore(newDiv, targetLocation.firstChild.nextSibling);
+
+			const networthDiv = document.querySelector('body > div:nth-child(1) > main > div:nth-child(1) > div:nth-child(2) > div:nth-child(2)');
+			const observer = new MutationObserver(() => {
+				const btcText = networthDiv.querySelector('div:nth-child(1)').childNodes[1];
+				const newValue = parseFloat(observerTarget.innerText.replace(/[^\d.]/g, '')) || 0;
+
+				// Get user filament-networth
+				const filaments = document.querySelectorAll(".filament-el");
+				const [cf, uf, rf, ef, lf, mf, ethf] = Array.from(filaments).map(e => parseInt(e.innerText.trim()));
+				const total = cf + 3 * (uf + 3 * (rf + 3 * (ef + 5 * (lf + 3 * (mf + 5 * ethf)))));
+				const filamentNetworth = total * stats.cf_filament_value;
+				// end
+
+				//console.log(btcText.nodeValue,rightDiv.textContent)
+				if (btcText.nodeValue != `${(newValue + filamentNetworth + globalItemNetworth).toFixed(2)} BTC NETWORTH`) btcText.nodeValue = `${(newValue + globalItemNetworth).toFixed(2)} BTC NETWORTH`;
+				if (leftDiv.textContent != filamentNetworth.toFixed(2)) {
+					const filamentImg = document.createElement('img');
+					filamentImg.classList.add('icon', 'icon-in-text');
+					filamentImg.setAttribute('src', 'icons/filament-mythic.svg');
+					leftDiv.textContent = '';
+					leftDiv.appendChild(filamentImg);
+					leftDiv.append(`${filamentNetworth.toFixed(2)}`);
+				}
+				if (rightDiv.textContent != globalItemNetworth.toFixed(2)) {
+					const inventoryImg = document.createElement('img');
+					inventoryImg.classList.add('icon', 'icon-in-text');
+					inventoryImg.setAttribute('src', 'icons/inventory.svg');
+					inventoryImg.style.filter = 'brightness(50%) sepia(100) saturate(100) hue-rotate(315deg)';
+					rightDiv.textContent = '';
+					rightDiv.appendChild(inventoryImg);
+					rightDiv.append(`${globalItemNetworth.toFixed(2)}`);
+				}
+			});
+
+			observer.observe(observerTarget, { childList: true, characterData: true, subtree: true });
+
+		} else {
+			console.error('Target location not found or does not have the specified structure.');
+		}
+	}
+
 	(async () => {
 		// when running at document-start, a lot of elements we mess with will be missing, like the head and the body
 		// never thought I'd ever encounter a page with no body, but hey ig we have to check for that too now
@@ -4182,7 +4441,8 @@ any of these keys!
 		updateThemeStyle();
 		loadStyle();
 		await loadScripts();
-		await calculateNetworth(); // WIP
+		// await calculateNetworth(); // Disabled for now
+		createNetworthDiv();
 		editWelcomeMessage();
 		await editDesktopIcons();
 		tryCheckStaffStatus(document.querySelector("main"));
@@ -4195,7 +4455,18 @@ any of these keys!
 	})();
 })();
 
+// Other Networth Stuff (d0urce v1.10.0)
+/*function fetchNetworth(data) {
+	for (const key in data) {
+		if (data.hasOwnProperty(key)) {
+			console.log(`${key}: ${JSON.stringify(data[key], null, 2)}`);
+		}
+	}
+}*/
+
 // Page Break
+
+let globalItemNetworth = 0;
 
 // Backup original WebSocket send method
 var originalSend = WebSocket.prototype.send;
@@ -4282,5 +4553,13 @@ listen(({ data, socket, event }) => {
 
 	data = data.substring(0, index) + JSON.stringify(payload);
 	event.data = data;
-	if (inboundLog) console.debug(data);
+	if (inboundLog) {
+		console.debug(data);
+
+		item_info = payload[0]?.data || null
+		if (item_info && item_info.hasOwnProperty('inventory')) {
+			console.log(item_info);
+			window.updateNetworth(item_info);
+		}
+	}
 });
