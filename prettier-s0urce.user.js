@@ -1711,7 +1711,7 @@
 		else if (!level || effects.length == 0) {
 			const index = rarities.indexOf(rarity.toLowerCase());
 			const price = dCPS(type, index, mint, premium);
-			var priceStandard = new Component("div", {
+			const priceStandard = new Component("div", {
 				id: "price",
 				classList: ["attribute", "svelte-181npts"],
 				innerHTML: `<img class="icon icon-in-text" src="icons/btc.svg" alt="Bitcoin Icon">${price}`,
