@@ -778,7 +778,7 @@
 				JSON.parse(localStorage.getItem("prettier-windowColors")) :
 				defaultColors,
 			windowSnapping: localStorage.getItem("prettier-windowSnapping") === "true",
-			domainsToLinkify: localStorage.getItem("prettier-domainsToLinkify")?.split(" ") || [ "padlet.com", "youtube.com", "wiki.s0urce.io", "github.com", "discord.gg" ],
+			domainsToLinkify: localStorage.getItem("prettier-domainsToLinkify")?.split(" ") || [ "padlet.com", "youtube.com", "youtu.be", "wiki.s0urce.io", "github.com", "discord.gg" ],
 			hideBtcCounterWhenTargetBtcUnknown: localStorage.getItem("prettier-hideBtcCounterWhenTargetBtcUnknown") !== "false",
 		},
 		input: {
