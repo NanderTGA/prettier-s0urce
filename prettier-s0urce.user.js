@@ -3191,9 +3191,9 @@
 					Fixed a couple of dTI bugs
 				<br>
 				New in d0urce v1.9.1:
-						<img class="icon" src="https://www.svgrepo.com/show/512729/profile-round-1342.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+						<img class="icon" src="${getAssetLink("profile.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
 					Cosmetic Pricing (dCPS)
-						<img class="icon" src="https://www.svgrepo.com/show/308635/home-value-house-price-home-price-house-value.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+						<img class="icon" src="${getAssetLink("networth.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
 					Login Networth Reports
 			</div>
 		`)
@@ -4149,7 +4149,7 @@ any of these keys!
 
 		windowManager.closeWindow("inventory", true);
 		sendLog(`<div style="color:rgb(110, 247, 82); text-shadow: 0 0 2px #0fa, 0 0 3px rgb(110, 247, 82); letter-spacing: 0.3px; font-weight: lighter">
-				<img class="icon" src="https://www.svgrepo.com/show/308635/home-value-house-price-home-price-house-value.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+				<img class="icon" src="${getAssetLink("networth.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
 				According to dPS, your inventory is worth ~$${total.toFixed(2)} BTC.
 				</div>`)
 	}

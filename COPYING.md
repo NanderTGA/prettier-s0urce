@@ -61,6 +61,20 @@ except for those listed below with a different license.
 - Changes made: None
 - Author: Radhika Paghdal ([SVG Repo](https://www.svgrepo.com/author/Radhika%20Paghdal/), [Dribbble](https://dribbble.com/radhikapaghdal?ref=svgrepo.com))
 
+### `networth.svg`
+
+- Source: <https://www.svgrepo.com/svg/308635/home-value-house-price-home-price-house-value>
+- License: [CC0 License](https://www.svgrepo.com/page/licensing/#CC0) (Public Domain); More information on the Creative Commons website: [About](https://creativecommons.org/public-domain/cc0/), [Deed (Summary)](https://creativecommons.org/publicdomain/zero/1.0/), [Legal Code (Actual License)](https://creativecommons.org/publicdomain/zero/1.0/legalcode)
+- Changes made: None
+- Uploader: [SVG Repo](https://www.svgrepo.com/)
+
+### `profile.svg`
+
+- Source: <https://www.svgrepo.com/svg/512729/profile-round-1342> (Original source: <https://dribbble.com/shots/2888226-1800-Free-Minimal-Icon-Pack-20x20>)
+- License: [Public Domain](https://www.svgrepo.com/page/licensing/#PD)
+- Changes made: None
+- Author: [Alexandru Stoica](https://dribbble.com/alexandrustoica)
+
 ### `psu.svg`
 
 - Source: <https://www.svgrepo.com/svg/533150/power-bank>
