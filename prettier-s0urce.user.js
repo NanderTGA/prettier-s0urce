@@ -3226,27 +3226,27 @@
 
 		sendLog(/* html */`
 			<div style="color: #52e7f7; text-shadow: 0 0 2px #0fa, 0 0 3px #52e7f7; letter-spacing: 0.3px; font-weight: lighter">
-				New In prettier-n0urce 2025-10-15:
+				New In prettier-n0urce 2025-10-15: <br>
 						<img class="icon" src="${getAssetLink("rat.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
-					Merged d0urce v1.9.0
+					Merged d0urce v1.9.0 <br>
 						<img class="icon" src="${getAssetLink("tools.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
-					Alt-Key Navigation
+					Alt-Key Navigation <br>
 						<img class="icon" src="${getAssetLink("sparkle.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
-					Fixed a couple of dTI bugs
+					Fixed a couple of dTI bugs <br>
 				<br>
-				New in d0urce v1.9.1:
+				New in d0urce v1.9.1: <br>
 						<img class="icon" src="${getAssetLink("profile.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
-					Cosmetic Pricing (dCPS)
+					Cosmetic Pricing (dCPS) <br>
 						<img class="icon" src="${getAssetLink("networth.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
-					Login Networth Reports
+					Login Networth Reports <br>
 				<br>
-				New In 1.10.0:
+				New In 1.10.0: <br>
 						<img class="icon" src="https://www.svgrepo.com/show/532401/bitcoin-circle.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
-					Networth Meter
+					Networth Meter <br>
 						<img class="icon" src="https://www.svgrepo.com/show/532432/dollar-sign.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
-					dPS Changes
+					dPS Changes <br>
 						<img class="icon" src="https://www.svgrepo.com/show/449156/navigate.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
-					Alt-nav Fixes
+					Alt-nav Fixes <br>
 			</div>
 		`)
 	}
