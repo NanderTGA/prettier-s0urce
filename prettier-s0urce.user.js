@@ -29,7 +29,7 @@
 		"Night Owl": ":root{--color-terminal:#825f00;--color-darkgreen:#825f002f;--color-midgreen:#825f0080} .window:has(.window-title > img[src='icons/terminal.svg']){border-color: #825f00} .window:has(.window-title > img[src='icons/terminal.svg']) .wrapper{border: 1px solid var(--color-terminal); background-color: transparent} #section-code{background: linear-gradient(180deg, #000000 3%, #825f0026 123%)} #themes{border: 1px solid #825f00} .target-bar{outline: 1px solid #825f00 !important} .target-bar-progress{filter: brightness(0) saturate(100%) invert(27%) sepia(88%) saturate(1363%) hue-rotate(32deg) brightness(99%) contrast(101%);} pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#d6deeb}.hljs-keyword{color:#c792ea;font-style:italic}.hljs-built_in{color:#addb67;font-style:italic}.hljs-type{color:#82aaff}.hljs-literal{color:#ff5874}.hljs-number{color:#f78c6c}.hljs-regexp{color:#5ca7e4}.hljs-string{color:#ecc48d}.hljs-subst{color:#d3423e}.hljs-symbol{color:#82aaff}.hljs-class{color:#ffcb8b}.hljs-function{color:#82aaff}.hljs-title{color:#dcdcaa;font-style:italic}.hljs-params{color:#7fdbca}.hljs-comment{color:#637777;font-style:italic}.hljs-doctag{color:#7fdbca}.hljs-meta,.hljs-meta .hljs-keyword{color:#82aaff}.hljs-meta .hljs-string{color:#ecc48d}.hljs-section{color:#82b1ff}.hljs-attr,.hljs-name,.hljs-tag{color:#7fdbca}.hljs-attribute{color:#80cbc4}.hljs-variable{color:#addb67}.hljs-bullet{color:#d9f5dd}.hljs-code{color:#80cbc4}.hljs-emphasis{color:#c792ea;font-style:italic}.hljs-strong{color:#addb67;font-weight:700}.hljs-formula{color:#c792ea}.hljs-link{color:#ff869a}.hljs-quote{color:#697098;font-style:italic}.hljs-selector-tag{color:#ff6363}.hljs-selector-id{color:#fad430}.hljs-selector-class{color:#addb67;font-style:italic}.hljs-selector-attr,.hljs-selector-pseudo{color:#c792ea;font-style:italic}.hljs-template-tag{color:#c792ea}.hljs-template-variable{color:#addb67}.hljs-addition{color:#addb67ff;font-style:italic}.hljs-deletion{color:#ef535090;font-style:italic}",
 	}
 
-	const DTI_VERSION = "1.9.0";
+	const DTI_VERSION = "1.9.1";
 
 	const targets = {
 		npcs: [],
@@ -1624,6 +1624,28 @@
 		}
 	}
 
+	const dCPS = (type, rarity, mint, premium) => {
+		const value = stats['filament_price'][rarity];
+		//console.log(type, (12.5*value)**(1/(1+Math.log10(mint)))-(mint/50),"~",(25*value)**(1/(1+Math.log10(mint)))-(mint/200))
+		if (type.includes("name_")) {
+			return mint > 1
+				? Math.max(((12.5*value)**(1/(1+Math.log10(mint)))-(mint/50)).toFixed(2),value.toFixed(2)) + "~" + Math.max(((25*value)**(1/(1+Math.log10(mint)))-(mint/200)).toFixed(2),(2*value).toFixed(2))
+				: (25*value).toFixed(2) + "+";
+		} else if (premium) {
+			return mint > 3
+				? Math.max(((50*value)**(1/(1+Math.log10(mint)))-(mint/10)).toFixed(2),value.toFixed(2)) + "~" + Math.max(((100*value)**(1/(1+Math.log10(mint)))-(mint/20)).toFixed(2),(2*value).toFixed(2))
+				: (mint == 3 ? (20*value).toFixed(2) + "+"
+				: (mint == 2 ? (33*value).toFixed(2) + "+"
+				: (100*value).toFixed(2) + "+"));
+		} else {
+			return mint > 3
+				? Math.max(((50*value)**(1/(1+Math.log10(mint)))-(mint/100)).toFixed(2),value.toFixed(2)) + "~" + Math.max(((100*value)**(1/(1+Math.log10(mint)))-(mint/400)).toFixed(2),(2*value).toFixed(2))
+				: (mint == 3 ? (33*value).toFixed(2) + "+"
+				: (mint == 2 ? (55*value).toFixed(2) + "+"
+				: (200*value).toFixed(2) + "+"));
+		}
+	}
+
 	const getItemGrade = (type, level, index, effects, dPM_flag = false) => {
 		switch(type) {
 			case "cpu":
@@ -1670,18 +1692,35 @@
 		if (!description)
 			return;
 		description.style.zIndex = 1001;
+
+		const premium = description.querySelector("div:nth-child(2) > img") ? true : false;
+		const mint = parseInt(description.querySelector("div:nth-child(2) > div").innerText.split(" by")[0].substr(1));
 		const type = (description.querySelector("img")?.src?.match(/[^\/]+\.webp/) || [])[0]?.slice(0, -5);
 		const rarity = description.querySelector(".rarity")?.innerText;
 		const level = (description.querySelector(".level")?.innerText.match(/\d+/) || [])[0];
 		const effects = {};
+		//console.log(type,rarity,level,effects)
 		Array.from(description.querySelectorAll(".effect")).forEach(effect => {
 			effect.style.width = "100%";
 			const name = effect.querySelector("div > div")?.innerText.split("  ")[1].trim();
 			const value = effect.querySelector("div > span > span")?.innerText;
 			effects[name] = Number(value);
 		});
-		if (!type || !level || effects.length == 0)
+		if (!type)
 			return;
+		else if (!level || effects.length == 0) {
+			const index = rarities.indexOf(rarity.toLowerCase());
+			const price = dCPS(type, index, mint, premium);
+			var priceStandard = new Component("div", {
+				id: "price",
+				classList: ["attribute", "svelte-181npts"],
+				innerHTML: `<img class="icon icon-in-text" src="icons/btc.svg" alt="Bitcoin Icon">${price}`,
+				style: { paddingBlock: "4px", paddingInline: "9px", borderRadius: "2px", background: "linear-gradient(112deg, rgb(61, 237, 61) 4%, rgb(129, 255, 140) 34%, rgb(61, 237, 61) 66%, rgb(129, 255, 140) 100%)" }
+			})
+			description?.lastChild.insertBefore(priceStandard.element, description.lastChild.childNodes[3]);
+			description.style.width = "300px";
+			return;
+		}
 
 		const index = rarities.indexOf(rarity.toLowerCase());
 		const grade = getItemGrade(type, level, index, effects);
@@ -3150,6 +3189,12 @@
 					Alt-Key Navigation
 						<img class="icon" src="${getAssetLink("sparkle.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
 					Fixed a couple of dTI bugs
+				<br>
+				New in d0urce v1.9.1:
+						<img class="icon" src="https://www.svgrepo.com/show/512729/profile-round-1342.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+					Cosmetic Pricing (dCPS)
+						<img class="icon" src="https://www.svgrepo.com/show/308635/home-value-house-price-home-price-house-value.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+					Login Networth Reports
 			</div>
 		`)
 	}
@@ -3502,6 +3547,32 @@
 			.addAction("Sell", sellFromContextMenu, { isDangerous: true })
 			.create();
 	}
+
+	const simulateMouseHover = (selector) => {
+		const element = document.querySelector(selector);
+		if (!element) return;
+
+		const mouseOverEvent = new MouseEvent('mouseover', {
+			view: window,
+			bubbles: true,
+			cancelable: true
+		});
+
+		element.dispatchEvent(mouseOverEvent);
+	};
+
+	const simulateMousePressDown = (selector) => {
+		const element = document.querySelector(selector);
+		if (!element) return;
+
+		const mouseDownEvent = new MouseEvent('mousedown', {
+			view: window,
+			bubbles: true,
+			cancelable: true
+		});
+
+		element.dispatchEvent(mouseDownEvent);
+	};
 
 	const manageRightClickOnDesktop = (pointer) => {
 		new Popup(pointer)
@@ -4059,6 +4130,35 @@ any of these keys!
         `
 	}
 
+	const openWindows = () => {
+		document.querySelectorAll("#desktop-container > div").forEach(div => {
+			divs[div.innerText] = div;
+		});
+		divs["Log"].click()
+		divs["Inventory"].click()
+	}
+
+	const calculateNetworth = async () => {
+		var total = 0.0
+		for (var i=0; i < document.querySelectorAll("#item-container > div").length; i++) {
+			simulateMouseHover("#item-container > div:nth-child("+i+") > div > div > div > div")
+			await sleep(1)
+			try {
+				total += document.querySelector("#price").innerText.split("~").length > 1
+					? (parseFloat(document.querySelector("#price").innerText.split("~")[0]) + parseFloat(document.querySelector("#price").innerText.split("~")[1])) / 2
+					: parseFloat(document.querySelector("#price").innerText.split("+")[0])
+				}
+			catch {}
+			simulateMousePressDown("#item-container > div:nth-child("+i+") > div > div > div > div")
+			await sleep(1)
+		}
+		//console.log(total)
+		sendLog(`<div style="color:rgb(110, 247, 82); text-shadow: 0 0 2px #0fa, 0 0 3px rgb(110, 247, 82); letter-spacing: 0.3px; font-weight: lighter">
+				<img class="icon" src="https://www.svgrepo.com/show/308635/home-value-house-price-home-price-house-value.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+				According to dPS, your inventory is worth ~$${total.toFixed(2)} BTC.
+				</div>`)
+	}
+
 	(async () => {
 		// when running at document-start, a lot of elements we mess with will be missing, like the head and the body
 		// never thought I'd ever encounter a page with no body, but hey ig we have to check for that too now
@@ -4075,6 +4175,8 @@ any of these keys!
 		updateThemeStyle();
 		loadStyle();
 		await loadScripts();
+		openWindows();
+		await calculateNetworth(); // WIP
 		editWelcomeMessage();
 		await editDesktopIcons();
 		tryCheckStaffStatus(document.querySelector("main"));
