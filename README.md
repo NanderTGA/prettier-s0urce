@@ -102,6 +102,8 @@ Remotes:
 - `origin`: this repository
 - `d0urce`: [d0t's prettier repository](https://github.com/d0t3k1/d0t-s0urce-prettier)
 
+### Merging from other forks/branches
+
 To merge from Xen0o2's prettier repository, I merge from the `upstream` remote into the `main` branch.
 
 To merge from d0t's prettier repository, I first pull those commits into `d0urce-main`, then merge one commit into `d0urce-renamed-main-file`.
@@ -110,6 +112,21 @@ If there's more commits to be merged, I proceed to merge another commit into `d0
 
 I usually merge commits one-by-one so I can more easily deal with merge conflicts.
 Giant unclear diffs are a pain, especially when git is not aware that I have moved a lot of code around in my own branch and the line numbers differ greatly.
+
+Concretely, merging looks something like this:
+
+```bash
+git checkout d0urce-main
+git pull
+git checkout d0urce-renamed-main-file
+git merge <hash from a commit the d0urce-main branch>
+git checkout main
+git merge d0urce-renamed-main-file
+```
+
+Pro tip: use git bash, it has all the usual commands you're used to on linux and has a more useful prompt than powershell.
+It doesn't save your history properly though, so when you close vscode all the session's history will be lost unless you run `history -w` first.
+(Not an issue on zsh, seriously though, you should try it.)
 
 ### Reverting Commits
 
