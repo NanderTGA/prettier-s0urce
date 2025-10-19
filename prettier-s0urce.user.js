@@ -4180,56 +4180,7 @@ any of these keys!
         `
 	}
 
-	const calculateNetworth = async () => {
-		if (!windowManager.isWindowOpen("inventory")) windowManager.openWindow("inventory", true);
-
-		let total = 0;
-		for (let i = 0; i < document.querySelectorAll("#item-container > div").length; i++) {
-			const item = document.querySelector(`#item-container > div:nth-child(${i}) > div > div > div > div`);
-
-			simulateMouseHover(item);
-			await sleep(1);
-
-			try {
-				const priceText = document.querySelector("#price").innerText;
-				const priceTextParts = priceText.split("~");
-				total += priceTextParts.length > 1
-					? (parseFloat(priceTextParts[0]) + parseFloat(priceTextParts[1])) / 2
-					: parseFloat(priceText.replace("+", ""))
-				}
-			catch {}
-
-			simulateMousePressDown(item);
-			await sleep(1);
-		}
-
-		windowManager.closeWindow("inventory", true);
-		sendLog(`<div style="color:rgb(110, 247, 82); text-shadow: 0 0 2px #0fa, 0 0 3px rgb(110, 247, 82); letter-spacing: 0.3px; font-weight: lighter">
-				<img class="icon" src="${getAssetLink("networth.svg")}" style="filter: drop-shadow(50px 0px 100px) invert(50%) sepia(100%) saturate(7486%) hue-rotate(143deg) brightness(200%) contrast(94%);">
-				According to dPS, your inventory is worth ~${total.toFixed(2)} BTC.
-				</div>`)
-	}
-
-	function updateNetworth(data) {
-		const itemNetworth = fetchNetworth(data);
-		return;
-		/*const btcNetworth = parseFloat(document.querySelector("body > div:nth-child(1) > main > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1)").innerText.split(" BTC")[0])
-		const totalNetworth = itemNetworth + btcNetworth;
-		console.error(itemNetworth, btcNetworth)
-		const networthDiv = document.querySelector('body > div:nth-child(1) > main > div:nth-child(1) > div:nth-child(2) > div:nth-child(2)');
-		if (networthDiv) {
-			const btcText = networthDiv.querySelector('div:nth-child(1)').childNodes[1];
-			const leftDiv = networthDiv.querySelector('div:nth-child(2) > div:nth-child(1)');
-			const rightDiv = networthDiv.querySelector('div:nth-child(2) > div:nth-child(2)');
-
-			const dollarNetworth = 0;
-
-			if (btcText.textContent != totalNetworth.toFixed(2)) btcText.textContent = `${totalNetworth.toFixed(2)} BTC NETWORTH`;
-			//leftDiv.textContent = `$${dollarNetworth.toFixed(2)} million`;
-			if (rightDiv.textContent != itemNetworth.toFixed(2)) rightDiv.textContent = `(${itemNetworth.toFixed(2)} BTC Item Value)`;
-		}*/
-	}
-	window.updateNetworth = updateNetworth;
+	window.updateNetworth = fetchNetworth;
 
 	function fetchNetworth(data) {
 		var btcValue = 0;
@@ -4445,7 +4396,6 @@ any of these keys!
 		updateThemeStyle();
 		loadStyle();
 		await loadScripts();
-		// await calculateNetworth(); // Disabled for now
 		createNetworthDiv();
 		editWelcomeMessage();
 		await editDesktopIcons();
@@ -4458,15 +4408,6 @@ any of these keys!
 		loadingScreen("delete");
 	})();
 })();
-
-// Other Networth Stuff (d0urce v1.10.0)
-/*function fetchNetworth(data) {
-	for (const key in data) {
-		if (data.hasOwnProperty(key)) {
-			console.log(`${key}: ${JSON.stringify(data[key], null, 2)}`);
-		}
-	}
-}*/
 
 // Page Break
 
