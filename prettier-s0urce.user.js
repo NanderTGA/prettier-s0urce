@@ -3215,11 +3215,15 @@
 			<a href="https://www.buymeacoffee.com/doteki">Like d0t's work? Buy him a <span style='color: chartreuse; text-shadow: 0 0 3px chartreuse'>dCoffee</span> 😉</a>
 		`)
 
+		function createDtiIcon(assetName) {
+			return /*html */`<img class="icon" src="${getAssetLink(`${assetName}.svg`)}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">`
+		}
+
 		sendLog(/* html */`
 			<div style="color: #52e7f7; text-shadow: 0 0 2px #0fa, 0 0 3px #52e7f7; letter-spacing: 0.3px; font-weight: lighter">
-				<img class="icon" src="${getAssetLink("cpu.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
-				<img class="icon" src="${getAssetLink("firewall.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
-				<img class="icon" src="${getAssetLink("psu.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+				${createDtiIcon("cpu")}
+				${createDtiIcon("firewall")}
+				${createDtiIcon("psu")}
 				Running d0t's Indexes (dTI) v${DTI_VERSION}
 			</div>
 		`)
@@ -3227,25 +3231,25 @@
 		sendLog(/* html */`
 			<div style="color: #52e7f7; text-shadow: 0 0 2px #0fa, 0 0 3px #52e7f7; letter-spacing: 0.3px; font-weight: lighter">
 				New In prettier-n0urce 2025-10-15: <br>
-						<img class="icon" src="${getAssetLink("rat.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+						${createDtiIcon("rat")}
 					Merged d0urce v1.9.0 <br>
-						<img class="icon" src="${getAssetLink("tools.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+						${createDtiIcon("tools")}
 					Alt-Key Navigation <br>
-						<img class="icon" src="${getAssetLink("sparkle.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+						${createDtiIcon("sparkle")}
 					Fixed a couple of dTI bugs <br>
 				<br>
 				New in d0urce v1.9.1: <br>
-						<img class="icon" src="${getAssetLink("profile.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+						${createDtiIcon("profile")}
 					Cosmetic Pricing (dCPS) <br>
-						<img class="icon" src="${getAssetLink("networth.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+						${createDtiIcon("networth")}
 					Login Networth Reports <br>
 				<br>
 				New In 1.10.0: <br>
-						<img class="icon" src="${getAssetLink("bitcoin.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+						${createDtiIcon("bitcoin")}
 					Networth Meter <br>
-						<img class="icon" src="${getAssetLink("dollar.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+						${createDtiIcon("dollar")}
 					dPS Changes <br>
-						<img class="icon" src="${getAssetLink("navigate.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+						${createDtiIcon("navigate")}
 					Alt-nav Fixes <br>
 			</div>
 		`)
