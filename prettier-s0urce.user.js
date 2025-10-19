@@ -1789,10 +1789,13 @@
 		description.style.width = "300px";
 
 		const percentile = dPM(standardGrade, index, type);
-		if (percentile == 3 || (percentile > 20 && percentile % 10 == 3)) description.querySelector(".rarity").innerText = percentile+"rd Percentile";
-		else if (percentile == 2 || (percentile > 20 && percentile % 10 == 2)) description.querySelector(".rarity").innerText = percentile+"nd Percentile";
-		else if (percentile == 1 || (percentile > 20 && percentile % 10 == 1)) description.querySelector(".rarity").innerText = percentile+"st Percentile";
-		description.querySelector(".rarity").innerHTML = `${percentile}th Percentile <span style="font-size: 0.8rem">v${DTI_VERSION}</span>`;
+		let percentileSuffix = "";
+		if (percentile == 3 || (percentile > 20 && percentile % 10 == 3)) percentileSuffix = "rd";
+		else if (percentile == 2 || (percentile > 20 && percentile % 10 == 2)) percentileSuffix = "nd";
+		else if (percentile == 1 || (percentile > 20 && percentile % 10 == 1)) percentileSuffix = "st";
+		else percentileSuffix = "th";
+
+		description.querySelector(".rarity").innerHTML = `${percentile}${percentileSuffix} Percentile <span style="font-size: 0.8rem">v${DTI_VERSION}</span>`;
 
 		const price = dPS(percentile, level, index, type);
 		description.querySelector(".level")?.parentNode.insertBefore(gradeComponent.element, description.querySelector(".effect"));
