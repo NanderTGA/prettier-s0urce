@@ -159,6 +159,8 @@ This does not apply to s0urce assets or reputable CDNs (notable mention: twemoji
 - Dot added some css/setting that changes some colors used inside windows/tabs/whatever-they're-called, and it doesn't work in this fork how I intended it I think, idk I need to look into it sometime.
 - The command bar hack command seems to break on higher latency networks, I guess it's trying to click a hack or port button that's not there yet
 - Tweak URL linkifying so d0t's description triggers it too
+- Add ability to customize alt-nav keybinds
+- Search all of github and greasyfork for other forks or userscripts for s0urce 2
 
 ### Notes
 
