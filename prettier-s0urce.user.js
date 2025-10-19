@@ -3241,11 +3241,11 @@
 					Login Networth Reports <br>
 				<br>
 				New In 1.10.0: <br>
-						<img class="icon" src="https://www.svgrepo.com/show/532401/bitcoin-circle.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+						<img class="icon" src="${getAssetLink("bitcoin.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
 					Networth Meter <br>
-						<img class="icon" src="https://www.svgrepo.com/show/532432/dollar-sign.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+						<img class="icon" src="${getAssetLink("dollar.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
 					dPS Changes <br>
-						<img class="icon" src="https://www.svgrepo.com/show/449156/navigate.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+						<img class="icon" src="${getAssetLink("navigate.svg")}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
 					Alt-nav Fixes <br>
 			</div>
 		`)
