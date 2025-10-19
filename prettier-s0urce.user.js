@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         prettier-n0urce
-// @version      2025-10-15 - 2
+// @version      2025-10-19
 // @description  Nander's fork/branch/merge of prettier-s0urce and d0urce, aiming to provide you the best experience of both worlds, and more!
 // @author       Xen0o2, d0t3ki, NanderTGA
 // @match        https://s0urce.io/
