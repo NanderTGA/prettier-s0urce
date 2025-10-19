@@ -2561,7 +2561,18 @@
 		if (isParamWindow) {
 			isParamWindow.querySelector(".slider[min='70']").onchange = (e) =>
 				localStorage.setItem("prettier-desktopIconSize", e.target.value);
-			isParamWindow.querySelector(".window-content").style.width = "600px"
+
+			const windowContent = isParamWindow.querySelector(".window-content");
+			windowContent.style.width = "600px";
+
+			// prevent the width from glitching between 400px and 600px
+			const widthObserver = new MutationObserver(function (mutations) {
+				for (const mutation of mutations) {
+					if (mutation.target instanceof HTMLElement && mutation.target.style.width !== "600px") mutation.target.style.width = "600px";
+				}
+			});
+			widthObserver.observe(windowContent, { attributes: true, attributeFilter: [ "style" ], attributeOldValue: true })
+
 			let currImage = localStorage.getItem("prettier-backgroundImage");
 			const wrapper = isParamWindow.querySelector(".window-content > div");
 			const shredder = wrapper.querySelector("div:nth-child(4)");
@@ -3716,8 +3727,6 @@
 		const content = windowDragged?.querySelector(".window-content");
 		if (!windowDragged || !content) return;
 
-		if (windowDragged.querySelector(".window-title > img[src='icons/settings.svg']"))
-			windowDragged.querySelector(".window-content").style.width = "600px";
 		if (!player.configuration.windowSnapping) return;
 
 		const getPxValue = (style) => Number(style.match(/\d+/)[0]);
