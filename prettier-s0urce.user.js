@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         prettier-n0urce
-// @version      2025-10-19
+// @version      2025-10-19 - 2
 // @description  Nander's fork/branch/merge of prettier-s0urce and d0urce, aiming to provide you the best experience of both worlds, and more!
 // @author       Xen0o2, d0t3ki, NanderTGA
 // @match        https://s0urce.io/
@@ -3244,27 +3244,19 @@
 
 		sendLog(/* html */`
 			<div style="color: #52e7f7; text-shadow: 0 0 2px #0fa, 0 0 3px #52e7f7; letter-spacing: 0.3px; font-weight: lighter">
-				New In prettier-n0urce 2025-10-15: <br>
-						${createDtiIcon("rat")}
-					Merged d0urce v1.9.0 <br>
-						${createDtiIcon("tools")}
-					Alt-Key Navigation <br>
-						${createDtiIcon("sparkle")}
-					Fixed a couple of dTI bugs <br>
-				<br>
-				New in d0urce v1.9.1: <br>
-						${createDtiIcon("profile")}
-					Cosmetic Pricing (dCPS) <br>
-						${createDtiIcon("networth")}
-					Login Networth Reports <br>
-				<br>
-				New In 1.10.0: <br>
-						${createDtiIcon("bitcoin")}
-					Networth Meter <br>
-						${createDtiIcon("dollar")}
-					dPS Changes <br>
-						${createDtiIcon("navigate")}
-					Alt-nav Fixes <br>
+				New In prettier-n0urce 2025-10-19: <br>
+					<details>
+					<summary>${createDtiIcon("rat")} <span style="color: #52e7f7">Merged d0urce v1.9.1 and v1.10.0, featuring the networth meter, dPS and dCPS improvements and a small alt-nav fix</span> <br></summary>
+						<div style="color: #52e7f7; padding-left: 11px">
+						${createDtiIcon("profile")}	Cosmetic Pricing (dCPS) <br>
+						${createDtiIcon("dollar")} other dPS Changes <br>
+						${createDtiIcon("networth")} Networth Meter <br>
+						${createDtiIcon("navigate")} Changed some alt-nav keybinds <br>
+						</span>
+					</details>
+					${createDtiIcon("tools")} Fix settings window's width glitching out while dragging it around <br>
+					${createDtiIcon("sparkle")}	Made the changelogs actually readable <br>
+					${createDtiIcon("bitcoin")} Use the correct suffix again in the percentile text (bug introduced in d0urce v1.10.0) <br>
 			</div>
 		`)
 	}
