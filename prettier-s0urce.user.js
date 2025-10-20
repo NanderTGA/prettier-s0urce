@@ -29,7 +29,7 @@
 		"Night Owl": ":root{--color-terminal:#825f00;--color-darkgreen:#825f002f;--color-midgreen:#825f0080} .window:has(.window-title > img[src='icons/terminal.svg']){border-color: #825f00} .window:has(.window-title > img[src='icons/terminal.svg']) .wrapper{border: 1px solid var(--color-terminal); background-color: transparent} #section-code{background: linear-gradient(180deg, #000000 3%, #825f0026 123%)} #themes{border: 1px solid #825f00} .target-bar{outline: 1px solid #825f00 !important} .target-bar-progress{filter: brightness(0) saturate(100%) invert(27%) sepia(88%) saturate(1363%) hue-rotate(32deg) brightness(99%) contrast(101%);} pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#d6deeb}.hljs-keyword{color:#c792ea;font-style:italic}.hljs-built_in{color:#addb67;font-style:italic}.hljs-type{color:#82aaff}.hljs-literal{color:#ff5874}.hljs-number{color:#f78c6c}.hljs-regexp{color:#5ca7e4}.hljs-string{color:#ecc48d}.hljs-subst{color:#d3423e}.hljs-symbol{color:#82aaff}.hljs-class{color:#ffcb8b}.hljs-function{color:#82aaff}.hljs-title{color:#dcdcaa;font-style:italic}.hljs-params{color:#7fdbca}.hljs-comment{color:#637777;font-style:italic}.hljs-doctag{color:#7fdbca}.hljs-meta,.hljs-meta .hljs-keyword{color:#82aaff}.hljs-meta .hljs-string{color:#ecc48d}.hljs-section{color:#82b1ff}.hljs-attr,.hljs-name,.hljs-tag{color:#7fdbca}.hljs-attribute{color:#80cbc4}.hljs-variable{color:#addb67}.hljs-bullet{color:#d9f5dd}.hljs-code{color:#80cbc4}.hljs-emphasis{color:#c792ea;font-style:italic}.hljs-strong{color:#addb67;font-weight:700}.hljs-formula{color:#c792ea}.hljs-link{color:#ff869a}.hljs-quote{color:#697098;font-style:italic}.hljs-selector-tag{color:#ff6363}.hljs-selector-id{color:#fad430}.hljs-selector-class{color:#addb67;font-style:italic}.hljs-selector-attr,.hljs-selector-pseudo{color:#c792ea;font-style:italic}.hljs-template-tag{color:#c792ea}.hljs-template-variable{color:#addb67}.hljs-addition{color:#addb67ff;font-style:italic}.hljs-deletion{color:#ef535090;font-style:italic}",
 	}
 
-	const DTI_VERSION = "1.10.1";
+	const DTI_VERSION = "1.10.2";
 
 	const targets = {
 		npcs: [],
@@ -3259,6 +3259,7 @@
 				<br>
 				prettier-n0urce 2025-10-20: <br>
 					${createDtiIcon("discount.svg")} Merged mythic dPS adjustments from d0urce v1.10.1 <br>
+					${createDtiIcon("bitcoin.svg")} BTC Total Added Below Meter (merged from d0urce v1.10.2) <br>
 			</div>
 		`)
 	}
@@ -4335,6 +4336,11 @@ any of these keys!
 		leftDiv.textContent = 'X.xx';
 		flexDiv.appendChild(leftDiv);
 
+		const middleDiv = document.createElement('div');
+		middleDiv.style.cssText = 'flex: 1 1 0%; text-align: center; color: gold;';
+		middleDiv.textContent = 'X.xx';
+		flexDiv.appendChild(middleDiv);
+
 		const rightDiv = document.createElement('div');
 		rightDiv.style.cssText = 'flex: 1 1 0%; text-align: right; color: hotpink;';
 		const rightText = document.createTextNode('X.xx');
@@ -4354,7 +4360,7 @@ any of these keys!
 				// Get user filament-networth
 				const filaments = document.querySelectorAll(".filament-el");
 				const [cf, uf, rf, ef, lf, mf, ethf] = Array.from(filaments).map(e => parseInt(e.innerText.trim()));
-				const total = cf + 3 * (uf + 3 * (rf + 3 * (ef + 5 * (lf + 3 * (mf + 5 * ethf)))));
+				const total = cf + 3 * uf + 9 * rf + 27 * ef + 135 * lf + 405 * mf + 2025 * ethf;
 				const filamentNetworth = total * stats.cf_filament_value;
 				// end
 
@@ -4367,6 +4373,14 @@ any of these keys!
 					leftDiv.textContent = '';
 					leftDiv.appendChild(filamentImg);
 					leftDiv.append(`${filamentNetworth.toFixed(2)}`);
+				}
+				if (middleDiv.textContent != newValue.toFixed(2)) {
+					const btcImg = document.createElement('img');
+					btcImg.classList.add('icon', 'icon-in-text');
+					btcImg.setAttribute('src', 'icons/btc.svg');
+					middleDiv.textContent = '';
+					middleDiv.appendChild(btcImg);
+					middleDiv.append(`${newValue.toFixed(2)}`);
 				}
 				if (rightDiv.textContent != globalItemNetworth.toFixed(2)) {
 					const inventoryImg = document.createElement('img');
