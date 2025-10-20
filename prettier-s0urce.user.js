@@ -3405,6 +3405,7 @@
 		windowOpenObserver.observe(document, { attributes: false, childList: true, characterData: false, subtree: true });
 		windowCloseObserver.observe(document, { attributes: false, childList: true, characterData: false, subtree: true });
 		itemHoverObserver.observe(document.querySelector("main"), { attributes: false, childList: true, characterData: false, subtree: true });
+		descriptionObserver.observe(document.body, { childList: true, subtree: true });
 
 		// Observe logWindow and ignore messages from muted players
 		const logObserverCallback = (mutationsList) => {
@@ -4470,7 +4471,6 @@ any of these keys!
 	}
 
 	const descriptionObserver = new MutationObserver(applyItemSwag);
-	descriptionObserver.observe(document.body, { childList: true, subtree: true });
 
 	(async () => {
 		// when running at document-start, a lot of elements we mess with will be missing, like the head and the body
