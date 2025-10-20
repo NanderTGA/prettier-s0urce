@@ -107,6 +107,14 @@ except for those listed below with a different license.
 - Changes made: None
 - Uploader: [SVG Repo](https://www.svgrepo.com/)
 
+### `plus.svg`
+
+- Source: <https://www.svgrepo.com/svg/532997/plus-large>
+- License: [CC Attribution License](https://www.svgrepo.com/page/licensing/#CC%20Attribution), also known as CC BY; More information on the Creative Commons website: [Deed (summary)](https://creativecommons.org/licenses/by/4.0/), [Legal Code (Actual License)](https://creativecommons.org/licenses/by/4.0/legalcode)
+  - NOTE: the links above link to information on the CC BY 4.0 license, but we could not find which specific version of the CC-BY this work is licensed under.
+- Changes made: None
+- Author: [Dazzle UI](https://www.svgrepo.com/author/Dazzle%20UI/)
+
 ### `profile.svg`
 
 - Source: <https://www.svgrepo.com/svg/512729/profile-round-1342> (Original source: <https://dribbble.com/shots/2888226-1800-Free-Minimal-Icon-Pack-20x20>)
@@ -143,6 +151,14 @@ except for those listed below with a different license.
 - License: [MIT License](https://github.com/phosphor-icons/core/blob/33fb01d1d33cd0156633ea4d33f4011fabe4d2da/LICENSE)
 - Changes made: None
 - Author: [Phosphor Icons](https://phosphoricons.com/)
+
+### `spider-web.svg`
+
+- Source: <https://www.svgrepo.com/svg/389868/spider-web>
+- License: [CC Attribution License](https://www.svgrepo.com/page/licensing/#CC%20Attribution), also known as CC BY; More information on the Creative Commons website: [Deed (summary)](https://creativecommons.org/licenses/by/4.0/), [Legal Code (Actual License)](https://creativecommons.org/licenses/by/4.0/legalcode)
+  - NOTE: the links above link to information on the CC BY 4.0 license, but we could not find which specific version of the CC-BY this work is licensed under.
+- Changes made: None
+- Author: WishForge Games([Svg Repo](https://www.svgrepo.com/author/wishforge.games/), [Website](https://wishforge.games/))
 
 ### `spinning-rat.gif`
 

@@ -29,7 +29,7 @@
 		"Night Owl": ":root{--color-terminal:#825f00;--color-darkgreen:#825f002f;--color-midgreen:#825f0080} .window:has(.window-title > img[src='icons/terminal.svg']){border-color: #825f00} .window:has(.window-title > img[src='icons/terminal.svg']) .wrapper{border: 1px solid var(--color-terminal); background-color: transparent} #section-code{background: linear-gradient(180deg, #000000 3%, #825f0026 123%)} #themes{border: 1px solid #825f00} .target-bar{outline: 1px solid #825f00 !important} .target-bar-progress{filter: brightness(0) saturate(100%) invert(27%) sepia(88%) saturate(1363%) hue-rotate(32deg) brightness(99%) contrast(101%);} pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#d6deeb}.hljs-keyword{color:#c792ea;font-style:italic}.hljs-built_in{color:#addb67;font-style:italic}.hljs-type{color:#82aaff}.hljs-literal{color:#ff5874}.hljs-number{color:#f78c6c}.hljs-regexp{color:#5ca7e4}.hljs-string{color:#ecc48d}.hljs-subst{color:#d3423e}.hljs-symbol{color:#82aaff}.hljs-class{color:#ffcb8b}.hljs-function{color:#82aaff}.hljs-title{color:#dcdcaa;font-style:italic}.hljs-params{color:#7fdbca}.hljs-comment{color:#637777;font-style:italic}.hljs-doctag{color:#7fdbca}.hljs-meta,.hljs-meta .hljs-keyword{color:#82aaff}.hljs-meta .hljs-string{color:#ecc48d}.hljs-section{color:#82b1ff}.hljs-attr,.hljs-name,.hljs-tag{color:#7fdbca}.hljs-attribute{color:#80cbc4}.hljs-variable{color:#addb67}.hljs-bullet{color:#d9f5dd}.hljs-code{color:#80cbc4}.hljs-emphasis{color:#c792ea;font-style:italic}.hljs-strong{color:#addb67;font-weight:700}.hljs-formula{color:#c792ea}.hljs-link{color:#ff869a}.hljs-quote{color:#697098;font-style:italic}.hljs-selector-tag{color:#ff6363}.hljs-selector-id{color:#fad430}.hljs-selector-class{color:#addb67;font-style:italic}.hljs-selector-attr,.hljs-selector-pseudo{color:#c792ea;font-style:italic}.hljs-template-tag{color:#c792ea}.hljs-template-variable{color:#addb67}.hljs-addition{color:#addb67ff;font-style:italic}.hljs-deletion{color:#ef535090;font-style:italic}",
 	}
 
-	const DTI_VERSION = "1.10.2";
+	const DTI_VERSION = "1.10.3";
 
 	const targets = {
 		npcs: [],
@@ -805,7 +805,7 @@
 				epic:      { cpu: 0.3,  gpu: 0.3,  psu: 0.3,  firewall: 0.3,  other: 0.3 },
 				legendary: { cpu: 1.5,  gpu: 1.5,  psu: 1.5,  firewall: 1.5,  other: 1.5 },
 				mythic:    { cpu: 4.5,  gpu: 4.5,  psu: 4.5,  firewall: 4.5,  other: 4.5 },
-				ethereal:  { cpu: 67.5, gpu: 67.5, psu: 67.5, firewall: 67.5, other: 67.5 },
+				ethereal:  { cpu: 45, gpu: 45, psu: 45, firewall: 45, other: 45 },
 			},
 
 	}
@@ -868,6 +868,7 @@
 		psu_term: [
 			1.2, 1.4, 1.6, 1.7, 1.9, 2, 2.2
 		],
+		rarityMap: { D: 0, C: 1, B: 2, A: 3, S: 4, SS: 5, SSS: 6 },
 		cpu_dPM: [
 			[1.0, 1.1, 1.2, 1.29, 1.39, 1.49, 1.59, 1.68, 1.78, 1.88, 1.97, 2.07, 2.17, 2.26, 2.36, 2.46, 2.55, 2.65, 2.74, 2.84, 2.93, 3.03, 3.12, 3.22, 3.31, 3.41, 3.5, 3.59, 3.69, 3.78, 3.87, 3.97, 4.06, 4.15, 4.25, 4.34, 4.43, 4.52, 4.61, 4.7, 4.79, 4.89, 4.98, 5.07, 5.16, 5.25, 5.34, 5.43, 5.52, 5.61, 5.7, 5.79, 5.88, 5.97, 6.06, 6.14, 6.23, 6.32, 6.41, 6.5, 6.59, 6.67, 6.76, 6.85, 6.93, 7.02, 7.11, 7.2, 7.29, 7.37, 7.46, 7.55, 7.63, 7.72, 7.8, 7.89, 7.98, 8.07, 8.15, 8.24, 8.32, 8.41, 8.49, 8.58, 8.66, 8.75, 8.83, 8.92, 9.0, 9.08, 9.17, 9.25, 9.34, 9.42, 9.5, 9.59, 9.67, 9.75, 9.83, 9.92, 10.0],
 			[1.11, 2.53, 2.86, 3.09, 3.27, 3.42, 3.55, 3.67, 3.78, 3.87, 3.97, 4.05, 4.13, 4.21, 4.29, 4.36, 4.42, 4.49, 4.55, 4.62, 4.68, 4.73, 4.79, 4.84, 4.9, 4.95, 5.0, 5.05, 5.1, 5.15, 5.19, 5.24, 5.28, 5.33, 5.37, 5.42, 5.46, 5.5, 5.55, 5.59, 5.63, 5.67, 5.71, 5.75, 5.79, 5.83, 5.87, 5.91, 5.95, 5.99, 6.03, 6.07, 6.11, 6.15, 6.19, 6.23, 6.27, 6.3, 6.34, 6.38, 6.42, 6.46, 6.5, 6.54, 6.58, 6.62, 6.67, 6.71, 6.75, 6.79, 6.83, 6.88, 6.92, 6.97, 7.01, 7.06, 7.1, 7.15, 7.2, 7.25, 7.3, 7.35, 7.4, 7.45, 7.51, 7.56, 7.62, 7.69, 7.75, 7.81, 7.89, 7.96, 8.04, 8.12, 8.21, 8.32, 8.43, 8.57, 8.74, 8.98, 9.79],
@@ -3257,9 +3258,11 @@
 					${createDtiIcon("sparkle")}	Made the changelogs actually readable <br>
 					${createDtiIcon("bitcoin")} Use the correct suffix again in the percentile text (bug introduced in d0urce v1.10.0) <br>
 				<br>
-				prettier-n0urce 2025-10-20: <br>
+				New in prettier-n0urce 2025-10-20: <br>
 					${createDtiIcon("discount.svg")} Merged mythic dPS adjustments from d0urce v1.10.1 <br>
 					${createDtiIcon("bitcoin.svg")} BTC Total Added Below Meter (merged from d0urce v1.10.2) <br>
+					${createDtiIcon("plus.svg")} Merged d0t's item swag (Upgraded Item Flair merged from d0urce v1.10.3) <br>
+					${createDtiIcon("spider-web.svg")} Merged the last changes from d0urce. The merge is now complete. <br>
 			</div>
 		`)
 	}
@@ -4400,6 +4403,75 @@ any of these keys!
 		}
 	}
 
+	function applyItemSwag() {
+		const desc = document.querySelector("#desc");
+		if (!desc) return;
+
+		descriptionObserver.disconnect();
+
+		const typeCode = (desc.querySelector("div > div > img")?.src?.match(/[^\/]+\.webp/) || [])[0]?.slice(0, 3);
+		const typeMap = {
+			cpu: "cputerm",
+			rou: "fireterm",
+			gpu: "gpu_term",
+			psu: "psu_term",
+		};
+
+		const statKey = typeMap[typeCode];
+		if (!statKey) {
+			descriptionObserver.observe(document.body, { childList: true, subtree: true });
+			return;
+		}
+
+		const rarityTag = desc.querySelector("div > div:nth-child(2)")?.textContent?.split("-")[0]?.split(" ")[1];
+		const rarity = rarityTag?.substring(0, rarityTag.length - 1);
+		const rarityIndex = stats.rarityMap[rarity];
+
+		if (rarityIndex == null || stats[statKey] == null) {
+			descriptionObserver.observe(document.body, { childList: true, subtree: true });
+			return;
+		}
+
+		const levelDiv = desc.querySelector(".level");
+		const levelMatch = levelDiv?.innerText?.match(/Level (\d+)/);
+		const level = levelMatch ? parseInt(levelMatch[1], 10) : null;
+
+		if (!level || level <= 1) {
+			// If Level is 1 or not found, don't change anything
+			descriptionObserver.observe(document.body, { childList: true, subtree: true });
+			return;
+		}
+
+		const bonusVal = stats[statKey][rarityIndex] * (level - 1);
+		const bonusFormatted = statKey === "gpu_term"
+			? `+${bonusVal.toFixed(8)}`
+			: `+${bonusVal.toFixed(2)}`;
+
+		const span = desc.querySelector("#desc > div:nth-child(2) > div:nth-child(5) > span");
+		if (!span || span.innerHTML.includes(bonusFormatted)) {
+			descriptionObserver.observe(document.body, { childList: true, subtree: true });
+			return;
+		}
+
+		const content = span.innerHTML;
+
+		const match1 = content.match(/(.+?by )<span[^>]*>([\d.]+)<\/span>(%?)/);
+		const match2 = content.match(/(Mines )<span[^>]*>([\d.]+)<\/span>( BTC per second.*)/);
+
+		if (match1) {
+			const [, prefix, value, suffix] = match1;
+			span.innerHTML = `${prefix}<span style="font-weight: 500; padding: 0 2px; border-radius: 2px; color: #ffdd00;">${value}</span> (<span style="font-weight: 500; padding: 0 2px; border-radius: 2px; color: #c4ff8a;">${bonusFormatted}</span>)${suffix}`;
+		} else if (match2) {
+			const [, prefix, value, suffix] = match2;
+			span.innerHTML = `${prefix}<span style="font-weight: 500; padding: 0 2px; border-radius: 2px; color: #ffdd00;">${value}</span> (<span style="font-weight: 500; padding: 0 2px; border-radius: 2px; color: #c4ff8a;">${bonusFormatted}</span>)${suffix}`;
+		}
+
+		descriptionObserver.observe(document.body, { childList: true, subtree: true });
+	}
+
+	const descriptionObserver = new MutationObserver(applyItemSwag);
+	descriptionObserver.observe(document.body, { childList: true, subtree: true });
+
 	(async () => {
 		// when running at document-start, a lot of elements we mess with will be missing, like the head and the body
 		// never thought I'd ever encounter a page with no body, but hey ig we have to check for that too now
@@ -4417,6 +4489,7 @@ any of these keys!
 		loadStyle();
 		await loadScripts();
 		createNetworthDiv();
+		applyItemSwag();
 		editWelcomeMessage();
 		await editDesktopIcons();
 		tryCheckStaffStatus(document.querySelector("main"));
