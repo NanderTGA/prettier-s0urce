@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         prettier-n0urce
-// @version      2025-10-20
+// @version      2025-10-20 - 2
 // @description  Nander's fork/branch/merge of prettier-s0urce and d0urce, aiming to provide you the best experience of both worlds, and more!
 // @author       Xen0o2, d0t3ki, NanderTGA
 // @match        https://s0urce.io/
@@ -3259,10 +3259,10 @@
 					${createDtiIcon("bitcoin")} Use the correct suffix again in the percentile text (bug introduced in d0urce v1.10.0) <br>
 				<br>
 				New in prettier-n0urce 2025-10-20: <br>
-					${createDtiIcon("discount.svg")} Merged mythic dPS adjustments from d0urce v1.10.1 <br>
-					${createDtiIcon("bitcoin.svg")} BTC Total Added Below Meter (merged from d0urce v1.10.2) <br>
-					${createDtiIcon("plus.svg")} Merged d0t's item swag (Upgraded Item Flair merged from d0urce v1.10.3) <br>
-					${createDtiIcon("spider-web.svg")} Merged the last changes from d0urce. The merge is now complete. <br>
+					${createDtiIcon("discount")} Merged mythic dPS adjustments from d0urce v1.10.1 <br>
+					${createDtiIcon("bitcoin")} BTC Total Added Below Meter (merged from d0urce v1.10.2) <br>
+					${createDtiIcon("plus")} Merged d0t's item swag (Upgraded Item Flair merged from d0urce v1.10.3) <br>
+					${createDtiIcon("spider-web")} Merged the last changes from d0urce. The merge is now complete. <br>
 			</div>
 		`)
 	}
