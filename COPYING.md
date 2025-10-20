@@ -31,6 +31,14 @@ except for those listed below with a different license.
 - Changes made: None
 - Author: [Dazzle UI](https://www.svgrepo.com/author/Dazzle%20UI/)
 
+### `bug.svg`
+
+- Source: <https://www.svgrepo.com/svg/532299/bug>
+- License: [CC Attribution License](https://www.svgrepo.com/page/licensing/#CC%20Attribution), also known as CC BY; More information on the Creative Commons website: [Deed (summary)](https://creativecommons.org/licenses/by/4.0/), [Legal Code (Actual License)](https://creativecommons.org/licenses/by/4.0/legalcode)
+  - NOTE: the links above link to information on the CC BY 4.0 license, but we could not find which specific version of the CC-BY this work is licensed under.
+- Changes made: None
+- Author: [Dazzle UI](https://www.svgrepo.com/author/Dazzle%20UI/)
+
 ### `cpu.svg`
 
 - Source: <https://www.svgrepo.com/svg/523341/cpu>
@@ -38,6 +46,14 @@ except for those listed below with a different license.
   - NOTE: the links above link to information on the CC BY 4.0 license, but we could not find which specific version of the CC-BY this work is licensed under.
 - Changes made: none
 - Author: [Solar Icons](https://www.svgrepo.com/author/Solar%20Icons/)
+
+### `discount.svg`
+
+- Source: <https://www.svgrepo.com/svg/522519/discount>
+- License: [CC Attribution License](https://www.svgrepo.com/page/licensing/#CC%20Attribution), also known as CC BY; More information on the Creative Commons website: [Deed (summary)](https://creativecommons.org/licenses/by/4.0/), [Legal Code (Actual License)](https://creativecommons.org/licenses/by/4.0/legalcode)
+  - NOTE: the links above link to information on the CC BY 4.0 license, but we could not find which specific version of the CC-BY this work is licensed under.
+- Changes made: None
+- Author: Vlad Cristea ([SVG Repo](https://www.svgrepo.com/author/Vlad%20Cristea/), [Figma](https://www.figma.com/@thevladc))
 
 ### `dollar.svg`
 

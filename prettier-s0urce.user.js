@@ -29,7 +29,7 @@
 		"Night Owl": ":root{--color-terminal:#825f00;--color-darkgreen:#825f002f;--color-midgreen:#825f0080} .window:has(.window-title > img[src='icons/terminal.svg']){border-color: #825f00} .window:has(.window-title > img[src='icons/terminal.svg']) .wrapper{border: 1px solid var(--color-terminal); background-color: transparent} #section-code{background: linear-gradient(180deg, #000000 3%, #825f0026 123%)} #themes{border: 1px solid #825f00} .target-bar{outline: 1px solid #825f00 !important} .target-bar-progress{filter: brightness(0) saturate(100%) invert(27%) sepia(88%) saturate(1363%) hue-rotate(32deg) brightness(99%) contrast(101%);} pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#d6deeb}.hljs-keyword{color:#c792ea;font-style:italic}.hljs-built_in{color:#addb67;font-style:italic}.hljs-type{color:#82aaff}.hljs-literal{color:#ff5874}.hljs-number{color:#f78c6c}.hljs-regexp{color:#5ca7e4}.hljs-string{color:#ecc48d}.hljs-subst{color:#d3423e}.hljs-symbol{color:#82aaff}.hljs-class{color:#ffcb8b}.hljs-function{color:#82aaff}.hljs-title{color:#dcdcaa;font-style:italic}.hljs-params{color:#7fdbca}.hljs-comment{color:#637777;font-style:italic}.hljs-doctag{color:#7fdbca}.hljs-meta,.hljs-meta .hljs-keyword{color:#82aaff}.hljs-meta .hljs-string{color:#ecc48d}.hljs-section{color:#82b1ff}.hljs-attr,.hljs-name,.hljs-tag{color:#7fdbca}.hljs-attribute{color:#80cbc4}.hljs-variable{color:#addb67}.hljs-bullet{color:#d9f5dd}.hljs-code{color:#80cbc4}.hljs-emphasis{color:#c792ea;font-style:italic}.hljs-strong{color:#addb67;font-weight:700}.hljs-formula{color:#c792ea}.hljs-link{color:#ff869a}.hljs-quote{color:#697098;font-style:italic}.hljs-selector-tag{color:#ff6363}.hljs-selector-id{color:#fad430}.hljs-selector-class{color:#addb67;font-style:italic}.hljs-selector-attr,.hljs-selector-pseudo{color:#c792ea;font-style:italic}.hljs-template-tag{color:#c792ea}.hljs-template-variable{color:#addb67}.hljs-addition{color:#addb67ff;font-style:italic}.hljs-deletion{color:#ef535090;font-style:italic}",
 	}
 
-	const DTI_VERSION = "1.10.0";
+	const DTI_VERSION = "1.10.1";
 
 	const targets = {
 		npcs: [],
@@ -1532,9 +1532,8 @@
 		//console.log(type,value,diff)
 		switch (rarity) {
 			case 5:
-				if (dPM > 50) return (value).toFixed(2) + "~" + (value*1.5).toFixed(2);
-				else if (dPM > 1) return Math.max((value + basePrice*3 - 1.928 * (dPM - 1) ** (1/2),value)*diff).toFixed(2) + "~" + Math.max((value * 2 + basePrice + basePrice * 2 * 4 - 3 * (dPM - 1) ** (2/3))*diff,value*1.5).toFixed(2);
-				else if (dPM > 0) return ((value * 2 + basePrice * 8)*diff).toFixed(2) + "+"
+				if (dPM > 1) return Math.max((value + basePrice*3 - 1.928 * (dPM - 1) ** (1/2))/1.5*diff,value).toFixed(2) + "~" + Math.max((value * 2 + basePrice + basePrice * 2 * 4 - 3 * (dPM - 1) ** (2/3))/2*diff,value*1.5).toFixed(2);
+				else if (dPM > 0) return ((value * 2 + basePrice * 3)*diff).toFixed(2) + "+"
 			case 6:
 				if (dPM == 100) return (value).toFixed(4);
 				else if (dPM > 50) return Math.max((value + basePrice*0.5 + 0.5 - 1.7 * (dPM - 50) ** (2/3))*diff,value).toFixed(2) + "~" + (value*1.5).toFixed(2);
@@ -3257,6 +3256,9 @@
 					${createDtiIcon("tools")} Fix settings window's width glitching out while dragging it around <br>
 					${createDtiIcon("sparkle")}	Made the changelogs actually readable <br>
 					${createDtiIcon("bitcoin")} Use the correct suffix again in the percentile text (bug introduced in d0urce v1.10.0) <br>
+				<br>
+				prettier-n0urce 2025-10-20: <br>
+					${createDtiIcon("discount.svg")} Merged mythic dPS adjustments from d0urce v1.10.1 <br>
 			</div>
 		`)
 	}
@@ -4507,7 +4509,7 @@ listen(({ data, socket, event }) => {
 
 		item_info = payload[0]?.data || null
 		if (item_info && item_info.hasOwnProperty('inventory')) {
-			console.log(item_info);
+			//console.log(item_info);
 			window.updateNetworth(item_info);
 		}
 	}
