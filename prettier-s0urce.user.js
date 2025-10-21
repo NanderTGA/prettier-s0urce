@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         prettier-n0urce
-// @version      2025-10-20 - 2
+// @version      2025-10-21
 // @description  Nander's fork/branch/merge of prettier-s0urce and d0urce, aiming to provide you the best experience of both worlds, and more!
 // @author       Xen0o2, d0t3ki, NanderTGA
 // @match        https://s0urce.io/
@@ -2440,6 +2440,7 @@
 	 * @param {HTMLDivElement} targetWindow The target window's root container element.
 	 */
 	function addBtcCounter(targetWindow) {
+		if (targetWindow.querySelector("#targetBtcCounter")) return;
 		const btcText = getTargetBTC(targetWindow);
 		// useful to check whether a player is an NPC
 		const reportButton = targetWindow.querySelector("#report");
