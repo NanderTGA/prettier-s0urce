@@ -6,19 +6,17 @@ All previous, current, and future versions of prettier-s0urce are licensed under
 
 ## About & Why
 
-This fork of prettier aims to merge the multiple existing forks/branches into one awesome prettier.
-While main prettier (Xen0o2's) and d0t's fork currently just go around copy-pasting each other's changes,
+This fork of prettier aims to merge the multiple existing forks/branches into one awesome prettier,
+and aims to add more cool features and bugfixes.
+Right now, it includes *all* of Xen0o2's and d0t's work, and some of my own.
+While main prettier (Xen0o2's) and d0t's fork (d0urce) went around copy-pasting each other's changes,
 I use git's merging features to do it properly and not miss out on any changes or details.
 That does come with the possibility of a merge accidentally breaking stuff, but I try to be careful.
-I also aim to rewrite some code that I think could be better.
-
-The downside? I'm not the fastest person and I'm currently behind on both Xen0o2's and d0t's branches, this is a work-in-progress after all.
+I also aim to rewrite some code that I think could be better; I basically maintain this project now.
 
 ## Installation
 
 Convinced? Alright, welcome to the squad.
-Remember, it doesn't matter whether you use prettier or not and which variant you choose. No need to fight ;)
-
 There are 4 ways to launch prettier (these instructions can apply to any variant):
 
 ### The recommended way
@@ -112,6 +110,7 @@ If there's more commits to be merged, I proceed to merge another commit into `d0
 
 I usually merge commits one-by-one so I can more easily deal with merge conflicts.
 Giant unclear diffs are a pain, especially when git is not aware that I have moved a lot of code around in my own branch and the line numbers differ greatly.
+Also, I would not advise using vscode's 3-way merge editor, as it takes ages to load to then find out it decided to resolve some conflicts behind your back in some wrong way.
 
 Concretely, merging looks something like this:
 
@@ -155,13 +154,10 @@ This does not apply to s0urce assets or reputable CDNs (notable mention: twemoji
 - commit "new command system" line 1758 ~~removed inventory index numbers~~
   - ~~re-add using an option/setting (disabled by default ig)~~
   - No idea what this actually did, since the inventory index numbers are still there; should look into it sometime
+  - Add an option to hide those numbers
 - Add an option to change the spinning rat gif to something else or turn it off
 - Dot added some css/setting that changes some colors used inside windows/tabs/whatever-they're-called, and it doesn't work in this fork how I intended it I think, idk I need to look into it sometime.
 - The command bar hack command seems to break on higher latency networks, I guess it's trying to click a hack or port button that's not there yet
 - Tweak URL linkifying so d0t's description triggers it too
 - Add ability to customize alt-nav keybinds
 - Search all of github and greasyfork for other forks or userscripts for s0urce 2
-
-### Notes
-
-- Do not merge "fix: tampermonkey issue" either, it removes window snapping, but I already moved that to an option disabled by default
