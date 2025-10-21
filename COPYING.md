@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-A copy of the GNU General Public License version 3 can be found in the file named `LICENSE`, located in the root of this repository.
+A copy of the GNU General Public License version 3.0 can be found in the file named `LICENSE`, located in the root of this repository.
 This license applies to all files in this repository,
 except for those listed below with a different license.
 

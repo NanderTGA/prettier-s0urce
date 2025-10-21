@@ -3,6 +3,7 @@
 // @version      2025-10-21
 // @description  Nander's fork/branch/merge of prettier-s0urce and d0urce, aiming to provide you the best experience of both worlds, and more!
 // @author       Xen0o2, d0t3ki, NanderTGA
+// @license      GPL-3.0-or-later
 // @match        https://s0urce.io/
 // @icon         https://s0urce.io/icons/s0urce.svg
 // @grant        none

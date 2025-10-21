@@ -2,7 +2,7 @@
 
 NanderTGA's fork/branch of prettier-s0urce.
 
-All previous, current, and future versions of prettier-s0urce are licensed under the GNU GPL v3.
+All previous, current, and future versions of prettier-s0urce are licensed under the GNU GPL v3.0 or later.
 
 ## About & Why
 
