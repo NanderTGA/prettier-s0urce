@@ -64,14 +64,35 @@
 		}) );
 	}
 
+	/**
+	 * @typedef CommandArg
+	 * @property {string} name
+	 * @property {string[] | undefined} options
+	 * @property {boolean} required
+	 *
+	 * @typedef {CommandArg[] | undefined} CommandArgs
+	 * @typedef {string[] | undefined} CommandRequiredWindows
+	 * @typedef {(args: string[]) => void} CommandHandler
+	 *
+	 * @typedef CommandConfiguration
+	 * @property {string} name
+	 * @property {CommandArgs} args
+	 * @property {CommandRequiredWindows} requiredWindows
+	 * @property {CommandHandler} run
+	 */
+
 	class Command {
 
+		/** @type {string} */
 		name;
+		/** @type {CommandArgs} */
 		args;
+		/** @type {CommandRequiredWindows} */
 		requiredWindows;
+		/** @type {CommandHandler} */
 		#run;
 
-		// configuration = {
+		// interface CommandConfiguration {
 		//		name: string;
 		//		args?: {
 		//			name: string;
@@ -80,23 +101,36 @@
 		//		}[],
 		//		requiredWindows?: string[];
 		//		run: (args: string[]) => void;
-		//}
+		// }
+		/** @param {CommandConfiguration} configuration */
 		constructor(configuration) {
 			this.name = configuration.name;
-			this.args = configuration.args;
+			this.args = configuration.args ?? [];
 			this.requiredWindows = configuration.requiredWindows;
 			this.#run = configuration.run;
 		}
 
-		setArgOptions = (argName, options) => {
+		/**
+		 * Changes the options of one of the command's arguments.
+		 * @param {string} argName The name of the argument of which to change the options.
+		 * @param {CommandArg["options"]} options The new options for the argument.
+		 * @returns {void}
+		 */
+		setArgOptions(argName, options) {
 			const arg = this.args.find(e => e.name === argName);
 			if (!arg) return;
 			arg.options = options;
 		}
 
-		run = (args) => {
-			if (this.requiredWindows && this.requiredWindows.some(name => !windowManager.isWindowOpen(name)))
-				return sendErrorLog((this.requiredWindows.length > 1 ? "These windows" : "This window") + ` must be open: ${this.requiredWindows.join(", ")}`);
+		/**
+		 * Runs the command and makes sure the required windows for it are open.
+		 * @param {string[]} args The arguments to pass to the command.
+		 * @returns {void}
+		 */
+		run(args) {
+			const missingWindows = this.requiredWindows?.some(name => !windowManager.isWindowOpen(name));
+			if (missingWindows)
+				return sendErrorLog(`${this.requiredWindows.length > 1 ? "These windows" : "This window"} must be open: ${this.requiredWindows.join(", ")}`);
 			this.#run(args);
 		}
 	}
