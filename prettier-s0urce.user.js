@@ -3038,7 +3038,7 @@
 			})
 
 			const backgroundSetting = new Component("div", {
-				classList: ["el", "svelte-176ijne"],
+				classList: ["el", "svelte-176ijne", "setting-edit-background-image"],
 				children: [
 					new Component("h4", {
 						innerText: "Edit background image",
@@ -3676,10 +3676,9 @@
 	const manageRightClickOnDesktop = (pointer) => {
 		new Popup(pointer)
 			.addAction("Edit background", async () => {
-				document.querySelectorAll(".topbar-clickable")[1].click()
-				await sleep(150);
-				const settings = document.querySelector(".window-title > img[src='icons/settings.svg']").parentNode.parentNode;
-				settings.querySelector(".window-content > div").scrollTop = 300
+				const settings = await windowManager.openWindow("settings");
+				if (!settings) return void sendErrorLog("Please open the settings window first");
+				settings.querySelector(".setting-edit-background-image")?.scrollIntoView();
 			})
 			.create();
 	}
