@@ -3574,18 +3574,24 @@
 			"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js",
 			"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/languages/python.min.js",
 		];
-		for (let script of scripts) {
-			await new Promise((resolve) => {
-				fetch(script)
-					.then(response => response.text())
-					.then(scriptText => {
-						const scriptElement = document.createElement('script');
-						scriptElement.textContent = scriptText;
-						document.head.appendChild(scriptElement);
-						resolve();
-					})
-					.finally(() => resolve());
-			})
+
+		// fetch in parallel, load in order
+		const fetchRequests = scripts.map( async script => {
+			try {
+				const response = await fetch(script);
+				const scriptText = await response.text();
+				return scriptText;
+			} catch (error) {
+				const scriptName = script.split("/").at(-1);
+				sendErrorLog(`An error occurred while loading ${scriptName}, some features may break.`);
+				return null;
+			}
+		});
+
+		for (const fetchedScript of await Promise.all(fetchRequests)) {
+			if (!fetchedScript) continue;
+			const scriptComponent = new Component("script", { textContent: fetchedScript });
+			document.head.appendChild(scriptComponent.element);
 		}
 	}
 
