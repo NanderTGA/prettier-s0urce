@@ -345,8 +345,19 @@
 		}
 	}
 
+	/**
+	 * Very cool type here meant for autocomplete, just know that doing `WindowName | string` will kill the autocomplete.
+	 * Oh and don't use it when invalid window names should be allowed too.
+	 * @typedef {keyof typeof WindowManager.prototype.windows} WindowName
+	 */
+
 	class WindowManager {
-		#windows = {
+		/**
+		 * @private
+		 * Not intended to be used outside of this class' internals.
+		 * I had to make it public so I could declare the WindowName type above.
+		 */
+		windows = /** @type {const} */ ({
 			"computer": { className: "Computer", iconName: "computer" },
 			"inventory": { className: "Inventory", iconName: "inventory" },
 			"target_list": { className: "Target-List", iconName: "targetList" },
@@ -370,23 +381,41 @@
 			"agents": { className: "Agents", iconName: "agents" },
 			"mail": { className: "Mail", iconName: "mail" },
 			"settings": { iconName: "settings" },
-		}
+		});
 
-		getWindowsNames = () => Object.keys(this.#windows);
+		/** Returns the names of all known windows. */
+		getWindowsNames = () => Object.keys(this.windows);
 
+		/**
+		 * Returns whether a window is known to us.
+		 * @param {string} name The name of the window to check for.
+		 * @returns {boolean} Whether a window with that name is known to us.
+		 */
 		isValidWindow = (name) => {
-			return !!this.#windows[name];
+			return !!this.windows[name];
 		}
 
+		/**
+		 * Returns whether a window is open (requires it to be a known one).
+		 * @param {WindowName} name The name of the window to check for.
+		 * @returns {boolean} Whether the window is a known one and open.
+		 */
 		isWindowOpen = (name) => {
-			const data = this.#windows[name];
+			const data = this.windows[name];
 			if (!data) return false;
 
 			return !!document.querySelector(`.window-title > img[src='icons/${data.iconName}.svg']`)?.parentNode.parentNode;
 		}
 
-		openWindow = async (name, openInSilent = false) => {
-			const data = this.#windows[name];
+		/**
+		 * Opens a window and returns it.
+		 *! NOTE: there is no guarantee the window will be open by the time this function returns.
+		 * @param {WindowName} name The id of the window to open.
+		 * @param {boolean} openInSilent When you want to open this temporarily, set this to true here and in the call to {@link closeWindow}. This will close the window afterwards if it wasn't open before.
+		 * @returns {HTMLDivElement | null | undefined} The opened window
+		 */
+		async openWindow(name, openInSilent = false) {
+			const data = this.windows[name];
 			if (!data) return;
 			if (openInSilent && !player.configuration.openInSilent.includes(data))
 				player.configuration.openInSilent.push(data)
@@ -395,20 +424,33 @@
 			else
 				document.querySelector(`.${data.className}-Desktop-Icon`)?.click();
 
+			// super flawed, we should probably check in the windowOpenObserver for when to return
+			// because this approach does not guarantee the window will actually be open
 			await sleep(300);
 			const window = document.querySelector(`.window-title > img[src='icons/${data.iconName}.svg']`)?.parentNode.parentNode;
 			return window;
 		}
 
-		getWindow = (name) => {
-			const data = this.#windows[name];
+		/**
+		 * Gets a window's root element (if it exists).
+		 * @param {WindowName} name The id of the window to get.
+		 * @returns The window's contents, if it exists.
+		 */
+		getWindow(name) {
+			const data = this.windows[name];
 			if (!data) return;
 			const window = document.querySelector(`.window-title > img[src='icons/${data.iconName}.svg']`)?.parentNode.parentNode;
 			return window;
 		}
 
-		closeWindow = (name, onlyIfSilent = false) => {
-			const data = this.#windows[name];
+		/**
+		 * Closes a specified window.
+		 * @param {WindowName} name The id of the window to close.
+		 * @param {boolean} onlyIfSilent When you want to open a window temporarily, set this to true here and in the call to {@link openWindow}. This will open the window if needed and only close the window afterwards if it wasn't open before.
+		 * @returns {void}
+		 */
+		closeWindow(name, onlyIfSilent = false) {
+			const data = this.windows[name];
 			if (!data) return;
 			player.configuration.openInSilent = player.configuration.openInSilent.filter(e => e.name !== data.name);
 
