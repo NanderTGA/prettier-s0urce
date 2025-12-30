@@ -2082,8 +2082,9 @@
 		await sleep(100);
 
 		let dragSrcEl = null;
-		let insertIndicator = document.createElement('div');
-		insertIndicator.className = 'insert-indicator';
+		const { element: insertIndicator } = new Component("div", {
+			classList: [ "insert-indicator" ],
+		});
 		function dragStart(e) {
 			document.getElementById("desc")?.remove();
 			this.style.opacity = '0.5';
@@ -3472,10 +3473,11 @@
 		if (styleElement) {
 			styleElement.textContent = css;
 		} else {
-			const newStyleElement = document.createElement('style');
-			newStyleElement.id = 'customStyles';
-			newStyleElement.textContent = css;
-			document.head.appendChild(newStyleElement);
+			const newStyleComponent = new Component("style", {
+				id: "customStyles",
+				textContent: css,
+			});
+			document.head.appendChild(newStyleComponent.element);
 		}
 	}
 
@@ -3937,7 +3939,7 @@
 					maskImage: `url(${image.src})`, backgroundColor: player.configuration.desktopIconColor, marginLeft: "35%"
 				}
 			})
-			title.classList.add("desktop-title", image.alt.replace(/ /g, "-"));
+			title.classList.add("desktop-title", image.alt.replaceAll(" ", "-"));
 			title.style.color = player.configuration.desktopIconColor;
 			image?.remove();
 			container.append(mask.element);
@@ -4171,7 +4173,7 @@
 
 	const loadTargets = async () => {
 		await windowManager.openWindow("target_list", true);
-		targets.npcs = Array.from(document.querySelectorAll(".npc, .npc-premium")).map(e => e.querySelector(".timer") ? null : e.querySelector(".username").textContent.trim().replace(/ /g, "_")).filter(e => e !== null)
+		targets.npcs = Array.from(document.querySelectorAll(".npc, .npc-premium")).map(e => e.querySelector(".timer") ? null : e.querySelector(".username").textContent.trim().replaceAll(" ", "_")).filter(e => e !== null)
 		targets.players = Array.from(document.querySelectorAll("#list .wrapper:not(.npc):not(.npc-premium) .username:not(.username-noauth)")).slice(0, -1).map(e => e.textContent.trim())
 		targets.anons = Array.from(new Set(Array.from(document.querySelectorAll(".username-noauth")).map(e => e.textContent.trim())))
 		windowManager.closeWindow("target_list", true);
@@ -4349,9 +4351,14 @@ any of these keys!
 		const targetLocation = document.querySelector('body > div:nth-child(1) > main > div:nth-child(1) > div:nth-child(2)');
 		const observerTarget = document.querySelector('body > div > main > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1)');
 
-		const newDiv = document.createElement('div');
-		newDiv.classList.add('topbar-value', 'svelte-1azjldn');
-		newDiv.style.cssText = 'min-width: 220px; background-color:rgb(63 0 78); color: blue;';
+		const { element: newDiv } = new Component("div", {
+			classList: [ "topbar-value", "svelte-1azjldn" ],
+			style: {
+				"min-width": "220px",
+				"background-color": "rgb(63 0 78)",
+				"color": "blue",
+			},
+		});
 
 		const centerDiv = document.createElement('div');
 		centerDiv.style.cssText = 'text-align: center; color: mediumpurple;';
