@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         prettier-n0urce
-// @version      2025-10-21
+// @version      2025-12-30
 // @description  Nander's fork/branch/merge of prettier-s0urce and d0urce, aiming to provide you the best experience of both worlds, and more!
 // @author       Xen0o2, d0t3ki, NanderTGA
 // @license      GPL-3.0-or-later
@@ -861,6 +861,7 @@
 			windowSnapping: localStorage.getItem("prettier-windowSnapping") === "true",
 			domainsToLinkify: localStorage.getItem("prettier-domainsToLinkify")?.split(" ") || [ "padlet.com", "youtube.com", "youtu.be", "wiki.s0urce.io", "github.com", "discord.gg" ],
 			hideBtcCounterWhenTargetBtcUnknown: localStorage.getItem("prettier-hideBtcCounterWhenTargetBtcUnknown") !== "false",
+			enableChristmasEasterEgg: localStorage.getItem("prettier-enableChristmasEasterEgg") !== "false",
 		},
 		input: {
 			isShiftDown: false,
@@ -3210,6 +3211,7 @@
 			wrapper.insertBefore(itemManager.element, wrapper.querySelector("div:nth-child(1)"));
 			wrapper.insertBefore(createToggleSetting("hideBtcCounterWhenTargetBtcUnknown", "Hide BTC counter when the target's BTC is unknown"), wrapper.querySelector("div:nth-child(9)"));
 			wrapper.insertBefore(createToggleSetting("windowSnapping", "Window snapping"), wrapper.querySelector("div:nth-child(9)"));
+			wrapper.insertBefore(createToggleSetting("enableChristmasEasterEgg", "Enable Christmas Easter Egg"), wrapper.querySelector("div:nth-child(9)"));
 			// wrapper.insertBefore(autolootSetting.element, wrapper.querySelector("div:nth-child(2)"));
 		}
 
@@ -3312,8 +3314,8 @@
 			<a href="https://www.buymeacoffee.com/doteki">Like d0t's work? Buy him a <span style='color: chartreuse; text-shadow: 0 0 3px chartreuse'>dCoffee</span> 😉</a>
 		`)
 
-		function createDtiIcon(assetName) {
-			return /*html */`<img class="icon" src="${getAssetLink(`${assetName}.svg`)}" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">`
+		function createDtiIcon(assetName, color = "#52e7f7", filters = "invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%)") {
+			return /*html */`<img class="icon" src="${getAssetLink(`${assetName}.svg`)}" style="filter: drop-shadow(50px 0px 100px ${color}) ${filters};">`
 		}
 
 		sendLog(/* html */`
@@ -3325,27 +3327,19 @@
 			</div>
 		`)
 
+		if (isChristmas() && player.configuration.enableChristmasEasterEgg) sendLog(/* html */`
+			<div style="color: #f23f3f; text-shadow: 0 0 2px #f2a5a5, 0 0 3px #f23f3f; letter-spacing: 0.3px; font-weight: lighter">
+				${createDtiIcon("santa-hat", "#f23f3f", "invert(78%) sepia(95%) saturate(500%) hue-rotate(290deg) brightness(100%) contrast(94%)")} Ho, ho, ho! Merry Christmas! <br>
+			</div>
+		`)
+
 		sendLog(/* html */`
 			<div style="color: #52e7f7; text-shadow: 0 0 2px #0fa, 0 0 3px #52e7f7; letter-spacing: 0.3px; font-weight: lighter">
-				New In prettier-n0urce 2025-10-19: <br>
-					<details>
-					<summary>${createDtiIcon("rat")} <span style="color: #52e7f7">Merged d0urce v1.9.1 and v1.10.0, featuring the networth meter, dPS and dCPS improvements and a small alt-nav fix</span> <br></summary>
-						<div style="color: #52e7f7; padding-left: 11px">
-						${createDtiIcon("profile")}	Cosmetic Pricing (dCPS) <br>
-						${createDtiIcon("dollar")} other dPS Changes <br>
-						${createDtiIcon("networth")} Networth Meter <br>
-						${createDtiIcon("navigate")} Changed some alt-nav keybinds <br>
-						</span>
-					</details>
-					${createDtiIcon("tools")} Fix settings window's width glitching out while dragging it around <br>
-					${createDtiIcon("sparkle")}	Made the changelogs actually readable <br>
-					${createDtiIcon("bitcoin")} Use the correct suffix again in the percentile text (bug introduced in d0urce v1.10.0) <br>
-				<br>
-				New in prettier-n0urce 2025-10-20: <br>
-					${createDtiIcon("discount")} Merged mythic dPS adjustments from d0urce v1.10.1 <br>
-					${createDtiIcon("bitcoin")} BTC Total Added Below Meter (merged from d0urce v1.10.2) <br>
-					${createDtiIcon("plus")} Merged d0t's item swag (Upgraded Item Flair merged from d0urce v1.10.3) <br>
-					${createDtiIcon("spider-web")} Merged the last changes from d0urce. The merge is now complete. <br>
+				New in prettier-n0urce 2025-12-30: <br>
+					${createDtiIcon("rat")} Temporarily replaced the spinning rat with a Christmas easter egg and added a normal spinning cat GIF too. Happy holidays! <br>
+					<div style="color: #f23f3f; text-shadow: 0 0 2px #f2a5a5, 0 0 3px #f23f3f">
+						${createDtiIcon("santa-hat", "#f23f3f", "invert(78%) sepia(95%) saturate(500%) hue-rotate(290deg) brightness(100%) contrast(94%)")} Ho, ho, ho! Merry Christmas! (I also added an option to turn off the Christmas easter egg) <br>
+					</div>
 			</div>
 		`)
 	}
@@ -3439,9 +3433,89 @@
 		}
 	}
 
-	const loadingScreen = (action, text) => {
+	/** Shows an error when there's no Temporal support :( */
+	function noTemporalMessage() {
+		const uncoolBrowserText = "Uncool browsers that don't support Temporal don't get Christmas easter eggs. Get a real one like firefox.";
+		alert(uncoolBrowserText);
+		sendErrorLog(uncoolBrowserText);
+	}
+
+	/** Returns whether it's around the Christmas time of the year (22 december to 4 january, which makes 2 weeks). */
+	function isChristmasTime() {
+		if (!window.Temporal) {
+			noTemporalMessage();
+			return false;
+		}
+
+		// check if it's between 22 dec and 4 jan (that makes 2 weeks of easter egg trigger time)
+		// and it uses the hot new Temporal API 🔥 (wait chrome mobile doesn't support it yet? what a joke)
+		const date = Temporal.Now.plainDateISO();
+		return (date.month === 12 && date.day >= 22) || (date.month === 1 && date.day <= 4)
+	}
+
+	/** Returns true when it's Christmas Eve or Christmas Day. */
+	function isChristmas() {
+		if (!window.Temporal) {
+			noTemporalMessage();
+			return false;
+		}
+
+		const date = Temporal.Now.plainDateISO();
+		return date.month === 12 && [ 24, 25 ].includes(date.day);
+	}
+
+	function getLoadingScreenAction() {
+		const spinningRat = {
+			type: "image",
+			src: getAssetLink("spinning-rat.gif"),
+			alt: "Spinning rat",
+			// 0.5s to 2s
+			duration: Math.random() * 2000 + 500,
+		}
+
+		const spinningCat = {
+			type: "image",
+			src: getAssetLink("spinning-cat.gif"),
+			alt: "Spinning cat OIA UIA",
+			// gif is ~3.3s long + 250-750ms
+			duration: 3300 + 250 + Math.random() * 500,
+		}
+
+		const felizOIA = {
+			type: "video",
+			src: getAssetLink("feliz-oia.mp4"),
+			copyingLink: "https://github.com/NanderTGA/prettier-s0urce/blob/main/COPYING.md#feliz-oiamp4",
+			duration: 13500,
+		};
+
+		if (isChristmasTime() && player.configuration.enableChristmasEasterEgg) return felizOIA;
+		return Math.random() > 0.5 ? spinningRat : spinningCat;
+	}
+
+	/**
+	 * @param {"create" | "delete"} action
+	 * @param {string} text
+	 * @param {ReturnType<typeof getLoadingScreenAction>} loadingScreenAction
+	 */
+	const loadingScreen = (action, text, loadingScreenAction) => {
 		switch (action) {
 			case "create":
+				const movingPartComponents = loadingScreenAction.type === "image"
+					? [ new Component("img", {
+						src: loadingScreenAction.src,
+						alt: loadingScreenAction.alt,
+					}) ]
+					: [
+						new Component("a", {
+							href: loadingScreenAction.copyingLink,
+							innerText: "S0urce of this video",
+							style: { color: "var(--color-blue)", textDecoration: "underline", fontFamily: "var(--font-family-2)", fontWeight: "500", fontSize: "1rem", marginTop: "20px" }
+						}),
+						new Component("video", {
+							src: loadingScreenAction.src,
+						}),
+					];
+
 				const display = new Component("div", {
 					id: "display-delete",
 					style: { position: "absolute", zIndex: "100", top: "0", height: "100vh", width: "100vw", backgroundColor: "black", opacity: "0.8", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" },
@@ -3466,10 +3540,7 @@
 							innerText: "Running DTI Version " + DTI_VERSION,
 							style: { color: "var(--color-lightgrey)", fontFamily: "var(--font-family-2)", fontWeight: "500", fontSize: "2rem", marginTop: "20px" }
 						}),
-						new Component("img", {
-							src: getAssetLink("spinning-rat.gif"),
-							alt: "Spinning rat"
-						}),
+						...movingPartComponents,
 					]
 				})
 
@@ -4573,7 +4644,8 @@ any of these keys!
 		while (document.querySelector("#login-top") || window.location.href !== "https://s0urce.io/" || !document.querySelector("main"))
 			await sleep(500);
 
-		loadingScreen("create", "Prettier n0urce");
+		const loadingScreenAction = getLoadingScreenAction();
+		loadingScreen("create", "Prettier n0urce", loadingScreenAction);
 		editFilaments();
 		customTerminal();
 		createObserver();
@@ -4590,7 +4662,7 @@ any of these keys!
 		loadUserInputManager();
 		await loadTargets();
 		editInventoryWindow();
-		await sleep(Math.random()*2000+500);
+		await sleep(loadingScreenAction.duration);
 		loadNote();
 		loadingScreen("delete");
 	})();

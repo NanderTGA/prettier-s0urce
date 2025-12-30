@@ -70,6 +70,13 @@ except for those listed below with a different license.
 - Changes made: none
 - Author: [User:Nebuar](https://commons.wikimedia.org/w/index.php?title=User:Nebuar&action=edit&redlink=1)
 
+### `feliz-oia.mp4`
+
+- Source: <https://www.youtube.com/watch?v=DdbAfoac-AI>
+- License: unknown
+- Changes made: none
+- Author: [🦋Gatiluz🦋](https://www.youtube.com/@Gatiluz16)
+
 ### `firewall.svg`
 
 - Source: <https://www.svgrepo.com/svg/532313/firewall>
@@ -138,6 +145,13 @@ except for those listed below with a different license.
 - Uploader: Game-Icons.net ([SVG Repo](https://www.svgrepo.com/author/game-icons.net/), [Website](https://game-icons.net))
 - Author: [Delapouite](https://delapouite.com/)
 
+### `santa-hat.svg`
+
+- Source: <https://www.svgrepo.com/svg/133465/santa-hat>
+- License: [CC0 License](https://www.svgrepo.com/page/licensing/#CC0) (Public Domain); More information on the Creative Commons website: [About](https://creativecommons.org/public-domain/cc0/), [Deed (Summary)](https://creativecommons.org/publicdomain/zero/1.0/), [Legal Code (Actual License)](https://creativecommons.org/publicdomain/zero/1.0/legalcode)
+- Changes made: None
+- Uploader: [SVG Repo](https://www.svgrepo.com/)
+
 ### `sort.svg`
 
 - Source: <https://www.svgrepo.com/svg/2287/sort>
@@ -159,6 +173,13 @@ except for those listed below with a different license.
   - NOTE: the links above link to information on the CC BY 4.0 license, but we could not find which specific version of the CC-BY this work is licensed under.
 - Changes made: None
 - Author: WishForge Games([Svg Repo](https://www.svgrepo.com/author/wishforge.games/), [Website](https://wishforge.games/))
+
+### `spinning-cat.gif`
+
+- Source: <https://tenor.com/nl/view/oia-uia-oia-cat-uia-cat-catcultclassics-gif-12805916815008299407>
+- License: unknown
+- Changes made: None
+- Uploader: [catcultclassics](https://tenor.com/nl/users/catcultclassics)
 
 ### `spinning-rat.gif`
 
