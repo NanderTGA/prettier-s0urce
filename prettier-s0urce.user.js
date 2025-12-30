@@ -137,6 +137,7 @@
 
 	class PromptManager {
 		#currentInput = "";
+		/** @type {HTMLInputElement | null} */
 		#element = null;
 		#autocompleteElement = null;
 		#currentIndex = -1;
@@ -176,16 +177,19 @@
 		getValue = () => this.#currentInput;
 		getCommand = () => this.getValue().split(" ")[0];
 		getArgs = () => this.getValue().split(" ").slice(1).filter(e => e !== "");
-		setElement = (element) => this.#element = element;
-		getElement = () => this.#element;
 		setAutocompleteElement = (element) => this.#autocompleteElement = element;
 		getAutocompleteElement = () => this.#autocompleteElement;
-		setAutocompletePlaceholder = (value) => this.getAutocompleteElement().innerHTML = value.replace(/ /g, "<div style='width: 15px; height: 33px'></div>");
+		setAutocompletePlaceholder = (value) => this.getAutocompleteElement().innerHTML = value.replaceAll(" ", "<div style='width: 15px; height: 33px'></div>");
 		setPossibleWords = (possibilities) => { this.#possibleWords = possibilities; console.log(possibilities) };
 		getPossibleWords = () => this.#possibleWords;
-		setValue = (value) => {
-			this.onChange(value.replace(/  /g, " "));
-			this.#element.value = value.replace(/  /g, " ");
+		/**
+		 * Sets the text in the input prompt.
+		 * @param {string} value
+		 */
+		setValue(value) {
+			value = value.replaceAll("  ", " ");
+			this.onChange(value);
+			this.#element.value = value;
 		}
 
 		#manageAutocompletePlaceholder = () => {
@@ -305,10 +309,10 @@
 					})
 				]
 			})
-			this.setElement(input.element.querySelector(".command-input"));
+			this.#element = input.element.querySelector(".command-input");
 			this.setAutocompleteElement(input.element.querySelector(".command-autocomplete"));
 			document.body.append(input.element);
-			this.getElement().focus();
+			this.#element.focus();
 			this.setValue("");
 			this.setPossibleWords(commands.map(e => e.name));
 			await loadTargets();
